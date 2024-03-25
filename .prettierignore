@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+.eslintignore
+.gitignore
+package.json
+package-lock.json
+*.lock
+public
+.next

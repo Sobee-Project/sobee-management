@@ -1,3 +1,26 @@
 {
-  "extends": "next/core-web-vitals"
+    "root": true,
+    "extends": ["next/core-web-vitals", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "arrowParens": "always",
+                "semi": false,
+                "trailingComma": "none",
+                "tabWidth": 4,
+                "endOfLine": "auto",
+                "useTabs": false,
+                "singleQuote": false,
+                "printWidth": 120,
+                "jsxSingleQuote": true
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx", "*.js", ".jsx"],
+            "parser": "@typescript-eslint/parser"
+        }
+    ]
 }
