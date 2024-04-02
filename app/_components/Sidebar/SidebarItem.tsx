@@ -1,7 +1,7 @@
 /* eslint-disable tailwindcss/classnames-order */
 "use client"
-import { APP_COLORS } from "@/app/_constants"
-import { useSidebarContext } from "@/app/_context"
+import { APP_COLORS } from "@/_constants"
+import { useSidebarStore } from "@/_store"
 import { Tooltip } from "@nextui-org/react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronRight, Dot } from "lucide-react"
@@ -11,7 +11,7 @@ import React, { useCallback, useState } from "react"
 import { TSidebar } from "."
 
 const SidebarItem = ({ href = "#", icon: Icon = Dot, title, items = [], hasSeparator = false }: TSidebar) => {
-    const { expand: sidebarExpand } = useSidebarContext()
+    const { isOpen: sidebarExpand } = useSidebarStore()
 
     const hasItems = items.length > 0
 
@@ -44,7 +44,7 @@ const SidebarItem = ({ href = "#", icon: Icon = Dot, title, items = [], hasSepar
                 <Tooltip content={title} placement='right-start' isDisabled={sidebarExpand}>
                     <button
                         onClick={handleExpand}
-                        className={`hover:inner-border-small flex w-full items-center justify-between gap-2 rounded px-4 py-2 hover:bg-gray-100 ${sidebarExpand ? "flex-row" : "flex-col"}`}
+                        className={`flex w-full items-center justify-between gap-2 rounded px-4 py-2 hover:bg-gray-100 hover:inner-border-small ${sidebarExpand ? "flex-row" : "flex-col"}`}
                     >
                         <Icon size={20} color={isLinkActive ? APP_COLORS.primary : "#000"} />
                         {sidebarExpand && (

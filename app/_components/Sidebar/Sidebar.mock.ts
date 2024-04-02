@@ -1,4 +1,4 @@
-import { APP_ROUTES } from "@/app/_constants"
+import { APP_ROUTES } from "@/_constants"
 import {
     Bell,
     Earth,

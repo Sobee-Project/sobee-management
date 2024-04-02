@@ -1,6 +1,6 @@
 "use client"
-import { APP_ROUTES } from "@/app/_constants"
-import { useSidebarContext } from "@/app/_context"
+import { APP_ROUTES } from "@/_constants"
+import { useSidebarStore } from "@/_store"
 import { Button } from "@nextui-org/react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronRight, ChevronsRight } from "lucide-react"
@@ -10,13 +10,13 @@ import React, { useState } from "react"
 import { SidebarItem, SidebarProps, sidebarMock } from "."
 
 const Sidebar = ({}: SidebarProps) => {
-    const { expand, toggleExpand } = useSidebarContext()
+    const { isOpen: expand, toggleSidebar: toggleExpand } = useSidebarStore()
 
     return (
         <>
             <motion.div
                 className={`flex flex-col gap-4 shadow-md ${expand ? "p-8" : "p-4"}`}
-                initial={{ width: "20rem" }}
+                initial={{ width: expand ? "20rem" : "auto" }}
                 animate={{ width: expand ? "20rem" : "auto" }}
                 transition={{ duration: 0.2 }}
                 exit={{ width: "20rem" }}
