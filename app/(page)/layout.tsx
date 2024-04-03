@@ -5,7 +5,7 @@ const layout = ({ children }: PropsWithChildren) => {
     return (
         <div className='flex'>
             <Sidebar />
-            <div className='max-h-screen min-h-screen flex-1 p-8'>{children}</div>
+            <div className='h-screen max-h-screen min-h-screen flex-1 overflow-auto p-8'>{children}</div>
         </div>
     )
 }

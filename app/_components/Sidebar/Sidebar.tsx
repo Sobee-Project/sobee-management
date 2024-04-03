@@ -33,7 +33,13 @@ const Sidebar = ({}: SidebarProps) => {
                 </motion.button>
                 <div className='flex flex-col gap-4'>
                     <Link href={APP_ROUTES.DASHBOARD} className='self-center'>
-                        <Image src='/logo.png' width={expand ? 140 : 30} height={expand ? 140 : 30} alt='Logo' />
+                        <Image
+                            src='/logo.png'
+                            width={expand ? 140 : 30}
+                            height={expand ? 140 : 30}
+                            alt='Logo'
+                            priority
+                        />
                     </Link>
                     <div className='flex flex-col gap-4'>
                         {sidebarMock.map((item) => (
