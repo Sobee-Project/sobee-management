@@ -3,7 +3,9 @@
 import { NextUIProvider } from "@nextui-org/react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, use } from "react"
+import { Toaster } from "react-hot-toast"
+import { useAuthStore } from "./_store"
 
 function makeQueryClient() {
     return new QueryClient({
@@ -35,13 +37,17 @@ function getQueryClient() {
 
 const Provider = ({ children }: PropsWithChildren) => {
     const queryClient = getQueryClient()
+
     return (
-        <NextUIProvider>
-            <QueryClientProvider client={queryClient}>
-                {children}
-                <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-        </NextUIProvider>
+        <>
+            <NextUIProvider>
+                <QueryClientProvider client={queryClient}>
+                    {children}
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+            </NextUIProvider>
+            <Toaster />
+        </>
     )
 }
 

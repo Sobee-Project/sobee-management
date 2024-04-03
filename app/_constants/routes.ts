@@ -1,4 +1,5 @@
 export const APP_ROUTES = {
+    LOGIN: "/login",
     DASHBOARD: "/dashboard",
     PRODUCTS: {
         INDEX: "/product",

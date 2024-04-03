@@ -1,35 +1,57 @@
-import { LOCAL_STORAGE_KEYS } from "@/_constants"
+import { IUser } from "@/_lib/interfaces"
+import { clearCredentialsFromCookie, getCredentialsFromCookie } from "@/_utils/storage"
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 
 interface AuthState {
     isAuthenticated: boolean
-    accessToken: string
-    refreshToken: string
+    userInfo: IUser | null
+    isAuthenticating: boolean
 }
 
 export interface AuthStore extends AuthState {
-    setAuth: (auth: { accessToken: string; refreshToken: string }) => void
-    setIsAuthenticated: (args: AuthState["isAuthenticated"]) => void
-    logout: () => void
+    setUserInfo: (userInfo: IUser) => void
+    // setAuthenticated: (isAuthenticated: boolean) => void
+    setAuthenticating: (isAuthenticating: boolean) => void
+    reset: () => void
 }
 
 const initialState: Pick<AuthStore, keyof AuthState> = {
     isAuthenticated: false,
-    accessToken: "",
-    refreshToken: ""
+    isAuthenticating: true,
+    userInfo: {
+        _id: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        name: "",
+        avatar: "",
+        dateOfBirth: "",
+        role: ""
+    }
 }
 
-export const useAuthStore = create<AuthStore>()(
-    persist(
-        (set, get) => ({
-            ...initialState,
-            setAuth: ({ accessToken, refreshToken }) => set({ accessToken, refreshToken }),
-            setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-            logout: () => set(initialState)
-        }),
-        {
-            name: LOCAL_STORAGE_KEYS.AUTH_STATE
+export const useAuthStore = create<AuthStore>()((set, get) => ({
+    ...initialState,
+    setUserInfo: (userInfo) => {
+        set({ userInfo })
+        if (userInfo) {
+            set({ isAuthenticated: true, isAuthenticating: false })
         }
-    )
-)
+    },
+    setAuthenticating: (isAuthenticating) => {
+        set({ isAuthenticating })
+    },
+    // setAuthenticated: () => {
+    //     const { accessToken, refreshToken, user_id } = getCredentialsFromCookie()
+
+    //     set({ isAuthenticated: !!(accessToken && refreshToken && user_id) })
+
+    //     if (!accessToken || !refreshToken || !user_id) {
+    //         clearCredentialsFromCookie()
+    //     }
+    // },
+
+    reset: () => {
+        set(initialState)
+    }
+}))
