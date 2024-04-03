@@ -15,7 +15,7 @@ const Sidebar = ({}: SidebarProps) => {
     return (
         <>
             <motion.div
-                className={`flex flex-col gap-4 shadow-md ${expand ? "p-8" : "p-4"}`}
+                className={`flex flex-col gap-4 overflow-y-auto shadow-md ${expand ? "p-8" : "p-4"}`}
                 initial={{ width: expand ? "20rem" : "auto" }}
                 animate={{ width: expand ? "20rem" : "auto" }}
                 transition={{ duration: 0.2 }}
