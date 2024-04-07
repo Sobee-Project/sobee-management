@@ -1,6 +1,6 @@
 import { QUERY_KEY } from "@/_constants"
+import { authApi } from "@/_services/apis"
 import { useQuery } from "@tanstack/react-query"
-import authApi from "../apis/auth.service"
 
 export const useGetMeQuery = () =>
     useQuery({

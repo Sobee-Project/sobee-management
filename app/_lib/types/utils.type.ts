@@ -1,13 +1,13 @@
-export interface SucccessResponse<Data> {
+export interface BaseResponse<Data> {
     success: boolean
     statusCode: number
     message: string
+}
+
+export interface SucccessResponse<Data> extends BaseResponse<Data> {
     data: Data
 }
 
-export interface ErrorResponse<Data = any> {
-    success: boolean
-    statusCode: number
-    message: string
+export interface ErrorResponse<Data = any> extends BaseResponse<Data> {
     data?: Data
 }

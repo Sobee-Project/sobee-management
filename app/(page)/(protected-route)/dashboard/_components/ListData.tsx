@@ -1,14 +1,10 @@
-"use client"
-import { useAuthStore } from "@/_store"
-import React, { useEffect } from "react"
+import { getUserInfoFromCookie } from "@/_utils/storage"
+import { cookies } from "next/headers"
 
 const ListData = () => {
-    const { userInfo } = useAuthStore()
-    useEffect(() => {
-        console.log(userInfo)
-    }, [userInfo])
-
-    return <div className=''></div>
+    const userInfo = getUserInfoFromCookie(cookies)
+    if (!userInfo) return <div>Not found</div>
+    return <div className=''>{userInfo.name}</div>
 }
 
 export default ListData

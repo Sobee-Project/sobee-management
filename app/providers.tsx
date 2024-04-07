@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PropsWithChildren, use } from "react"
 import { Toaster } from "react-hot-toast"
-import { useAuthStore } from "./_store"
 
 function makeQueryClient() {
     return new QueryClient({

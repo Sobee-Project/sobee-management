@@ -11,3 +11,5 @@ export type RefreshTokenResponse = SucccessResponse<{
     accessToken: string
     refreshToken: string
 }>
+
+export type GetMeResponse = SucccessResponse<{ user: IUser }>

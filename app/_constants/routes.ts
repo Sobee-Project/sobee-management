@@ -17,5 +17,6 @@ export const APP_ROUTES = {
     CUSTOMERS: "/customer",
     CHAT: "/chat",
     NOTIFICATIONS: "/notification",
-    SETTINGS: "/setting"
+    SETTINGS: "/setting",
+    PROFILE: "/profile"
 }

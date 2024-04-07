@@ -1,160 +1,112 @@
 "use client"
 
+import { PasswordInput } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
-import authApi from "@/_services/apis/auth.service"
-import { useAuthStore } from "@/_store"
+import { authApi } from "@/_services"
+import { clearCredentialsFromCookie, setCredentialsToCookie, setUserInfoToCookie } from "@/_utils/storage"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button, Input } from "@nextui-org/react"
 
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
+import { z } from "zod"
+
+const formSchema = z.object({
+    emailOrPhone: z
+        .string()
+        .min(10, "Email or phone number must be at least 10 characters long")
+        .max(255, "Email or phone number must be at most 255 characters long"),
+    password: z.string().min(6, "Password must be at least 6 characters long")
+})
+
+type FormSchema = z.infer<typeof formSchema>
 
 const LoginPage = () => {
     const router = useRouter()
-    const [emailOrPhone, setMail] = useState("")
-    const [password, setPassword] = useState("")
-    const [isSuccess, setIsSuccess] = useState(false)
+    const {
+        register,
+        watch,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<FormSchema>({
+        resolver: zodResolver(formSchema)
+    })
 
-    const { setUserInfo, reset } = useAuthStore()
+    const _emailOrPhone = watch("emailOrPhone") || ""
+    const _password = watch("password") || ""
 
     const loginMutation = useMutation({
         mutationFn: (body: { emailOrPhone: string; password: string }) => authApi.login(body)
     })
 
-    const getMeMutation = useMutation({
-        mutationFn: () => authApi.getMe()
-    })
-
-    const logoutMutation = useMutation({
-        mutationFn: () => authApi.logout()
-    })
-
-    const handleClickLogin = () => {
+    const handleClickLogin = ({ emailOrPhone, password }: FormSchema) => {
         loginMutation.mutate(
             { emailOrPhone, password },
             {
                 onSuccess: (response) => {
-                    const { user } = response.data.data
-                    setUserInfo(user)
+                    const { user, accessToken, refreshToken } = response.data.data
+                    setCredentialsToCookie({ accessToken, refreshToken, user_id: user._id! })
+                    setUserInfoToCookie(user)
+                    toast.success("Login successfully!")
                     router.replace(APP_ROUTES.DASHBOARD)
+                    // need to reload to sync between cookie and session
+                    location.reload()
                 },
-                onError: (error) => {
-                    console.log(error)
+                onError: (error: any) => {
+                    toast.error(error?.response?.data?.message || "Login failed!")
                 }
             }
         )
     }
 
-    const handleClickGetMe = () => {
-        getMeMutation.mutate(undefined, {
-            onSuccess: (response) => {
-                const user = response.data.data
-                console.log(user)
-            },
-            onError: (error) => {}
-        })
-    }
-
-    const handleLogout = () => {
-        logoutMutation.mutate(undefined, {
-            onSuccess: () => {
-                reset()
-            }
-        })
-    }
     return (
-        <div className='flex min-h-screen w-full items-center justify-center dark:bg-gray-950'>
-            <div className='max-w-md rounded-lg bg-white px-8 py-6 shadow-md dark:bg-gray-900'>
-                <h1 className='mb-4 text-center text-2xl font-bold dark:text-gray-200'>Welcome Back!</h1>
-                <div>
-                    <div className='mb-4'>
-                        <label
-                            htmlFor='email'
-                            className='mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300'
-                        >
-                            Email Address
-                        </label>
-                        <input
-                            type='email'
-                            id='email'
-                            value={emailOrPhone}
-                            onChange={(e) => setMail(e.target.value)}
-                            className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
-                            placeholder='your@email.com'
-                            required
-                        />
-                    </div>
-                    <div className='mb-4'>
-                        <label
-                            htmlFor='password'
-                            className='mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300'
-                        >
-                            Password
-                        </label>
-                        <input
-                            type='password'
-                            id='password'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
-                            placeholder='Enter your password'
-                            required
-                        />
-                        <a
-                            href='#'
-                            className='text-xs text-gray-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                        >
-                            Forgot Password?
-                        </a>
-                    </div>
-                    <div className='mb-4 flex items-center justify-between'>
-                        <div className='flex items-center'>
-                            <input
-                                type='checkbox'
-                                id='remember'
-                                className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:outline-none focus:ring-indigo-500'
-                            />
-                            <label htmlFor='remember' className='ml-2 block text-sm text-gray-700 dark:text-gray-300'>
-                                Remember me
-                            </label>
-                        </div>
-                        <a
-                            href='#'
-                            className='text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                        >
-                            Create Account
-                        </a>
-                    </div>
-                    <button
-                        onClick={handleClickLogin}
-                        className='flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                    >
-                        Login
-                    </button>
-                    <p className='mt-4'>{isSuccess && "Login succcessfully"}</p>
+        <motion.div
+            className='flex max-h-screen min-h-screen w-full items-center justify-center overflow-hidden dark:bg-gray-950'
+            animate={{ opacity: 1, transform: "translateY(0)" }}
+            initial={{ opacity: 0, transform: "translateY(40px)" }}
+        >
+            <form
+                onSubmit={handleSubmit(handleClickLogin)}
+                className='max-w-96 space-y-8 rounded-lg border bg-white px-8 py-6 shadow-lg dark:bg-gray-900'
+            >
+                <div className='space-y-4'>
+                    <h1 className='text-center text-2xl font-bold dark:text-gray-200'>Welcome Back!</h1>
+                    <p className='max-w-80 text-center'>Login to your account to access all the features of the app.</p>
                 </div>
-            </div>
-            <div className='ml-20'>
-                <div>
-                    <button
-                        onClick={handleClickGetMe}
-                        className='flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                <div className='space-y-4'>
+                    <Input
+                        {...register("emailOrPhone")}
+                        label='Email/Phone number'
+                        type='text'
+                        placeholder='example@host.com'
+                        variant='bordered'
+                        autoFocus
+                        errorMessage={errors.emailOrPhone?.message}
+                    />
+                    <PasswordInput
+                        {...register("password")}
+                        label='Password'
+                        placeholder='Enter your secret password'
+                        variant='bordered'
+                        errorMessage={errors.password?.message}
+                    />
+                    <Button
+                        type='submit'
+                        fullWidth
+                        variant='solid'
+                        color='primary'
+                        size='lg'
+                        isDisabled={_emailOrPhone.length === 0 || _password.length === 0 || loginMutation.isPending}
                     >
-                        Get Me
-                    </button>
-                    <p>{"aaaaa"}</p>
+                        {loginMutation.isPending ? "Logging in" : "Login"}
+                    </Button>
                 </div>
-
-                <div>
-                    <button
-                        onClick={handleLogout}
-                        className='flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                    >
-                        Logout
-                    </button>
-                    <p>{"aaaaa"}</p>
-                </div>
-            </div>
-        </div>
+            </form>
+        </motion.div>
     )
 }
 export default LoginPage

@@ -1,5 +1,7 @@
 import { COOKIES_KEY } from "@/_constants"
+import { IUser } from "@/_lib/interfaces"
 import { deleteCookie, getCookie, setCookie } from "cookies-next"
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
 
 export const setDataToCookie = (key: string, value: any) => {
     setCookie(key, value, {
@@ -20,11 +22,20 @@ export const setCredentialsToCookie = (auth: { accessToken: string; refreshToken
     setDataToCookie(COOKIES_KEY.USER_ID_KEY, auth.user_id)
 }
 
-export const getCredentialsFromCookie = () => {
+export const getCredentialsFromCookie = (cookies?: () => ReadonlyRequestCookies) => {
     return {
-        accessToken: getCookie(COOKIES_KEY.ACCESS_TOKEN_KEY),
-        refreshToken: getCookie(COOKIES_KEY.REFRESH_TOKEN_KEY),
-        user_id: getCookie(COOKIES_KEY.USER_ID_KEY)
+        accessToken: getCookie(COOKIES_KEY.ACCESS_TOKEN_KEY, {
+            cookies
+        }),
+        refreshToken: getCookie(COOKIES_KEY.REFRESH_TOKEN_KEY, {
+            cookies
+        }),
+        user_id: getCookie(COOKIES_KEY.USER_ID_KEY, {
+            cookies
+        }),
+        userInfo: getCookie(COOKIES_KEY.USER_INFO, {
+            cookies
+        })
     }
 }
 
@@ -32,8 +43,20 @@ export const clearCredentialsFromCookie = () => {
     deleteCookie(COOKIES_KEY.ACCESS_TOKEN_KEY)
     deleteCookie(COOKIES_KEY.REFRESH_TOKEN_KEY)
     deleteCookie(COOKIES_KEY.USER_ID_KEY)
+    deleteCookie(COOKIES_KEY.USER_INFO)
 }
 
 export const removeDataFromCookie = (key: string) => {
     deleteCookie(key)
+}
+
+export const getUserInfoFromCookie = (cookies?: () => ReadonlyRequestCookies) => {
+    const userInfo = getCookie(COOKIES_KEY.USER_INFO, {
+        cookies
+    })
+    return userInfo ? (JSON.parse(userInfo) as IUser) : null
+}
+
+export const setUserInfoToCookie = (user: IUser) => {
+    setDataToCookie(COOKIES_KEY.USER_INFO, JSON.stringify(user))
 }

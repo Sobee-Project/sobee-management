@@ -1,27 +1,19 @@
+import { API_ROUTES } from "@/_constants"
 import { IUser } from "@/_lib/interfaces/IUser"
 import { AuthResponse, SucccessResponse } from "@/_lib/types"
-import { AxiosResponse } from "axios"
 import { apiClient } from ".."
 
-export const URL_LOGIN = "/auth/login"
-export const URL_REGISTER = "/auth/register"
-export const URL_REFRESH_TOKEN = "/auth/refresh-token"
-export const URL_LOGOUT = "/auth/logout"
-export const URL_GET_ME = "/auth/me"
-
-const authApi = {
+export const authApi = {
     login(body: { emailOrPhone: string; password: string }) {
-        return apiClient.post<AuthResponse>(URL_LOGIN, body)
+        return apiClient.post<AuthResponse>(API_ROUTES.AUTH.LOGIN, body)
     },
     refreshToken(body: { refreshToken: string }) {
-        return apiClient.post(URL_REFRESH_TOKEN, body)
+        return apiClient.post(API_ROUTES.AUTH.REFRESH_TOKEN, body)
     },
     getMe() {
-        return apiClient.get<SucccessResponse<{ user: IUser }>>(URL_GET_ME)
+        return apiClient.get<SucccessResponse<{ user: IUser }>>(API_ROUTES.AUTH.GET_ME)
     },
     logout() {
-        return apiClient.post(URL_LOGOUT)
+        return apiClient.post(API_ROUTES.AUTH.LOGOUT)
     }
 }
-
-export default authApi
