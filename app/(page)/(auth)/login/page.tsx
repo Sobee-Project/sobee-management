@@ -3,7 +3,8 @@
 import { PasswordInput } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
 import { authApi } from "@/_services"
-import { clearCredentialsFromCookie, setCredentialsToCookie, setUserInfoToCookie } from "@/_utils/storage"
+import { useUserStore } from "@/_store"
+import { clearCredentialsFromCookie, setCredentialsToCookie } from "@/_utils/storage"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 
@@ -36,6 +37,8 @@ const LoginPage = () => {
         resolver: zodResolver(formSchema)
     })
 
+    const { setUserInfo } = useUserStore()
+
     const _emailOrPhone = watch("emailOrPhone") || ""
     const _password = watch("password") || ""
 
@@ -50,7 +53,7 @@ const LoginPage = () => {
                 onSuccess: (response) => {
                     const { user, accessToken, refreshToken } = response.data.data
                     setCredentialsToCookie({ accessToken, refreshToken, user_id: user._id! })
-                    setUserInfoToCookie(user)
+                    setUserInfo(user)
                     toast.success("Login successfully!")
                     router.replace(APP_ROUTES.DASHBOARD)
                     // need to reload to sync between cookie and session
@@ -86,6 +89,7 @@ const LoginPage = () => {
                         variant='bordered'
                         autoFocus
                         errorMessage={errors.emailOrPhone?.message}
+                        isInvalid={!!errors.emailOrPhone}
                     />
                     <PasswordInput
                         {...register("password")}
@@ -93,6 +97,7 @@ const LoginPage = () => {
                         placeholder='Enter your secret password'
                         variant='bordered'
                         errorMessage={errors.password?.message}
+                        isInvalid={!!errors.password}
                     />
                     <Button
                         type='submit'

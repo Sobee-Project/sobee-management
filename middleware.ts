@@ -1,6 +1,6 @@
-import { API_ROUTES, APP_ROUTES, COOKIES_KEY, HttpStatusCode } from "@/_constants"
-import { ErrorResponse, GetMeResponse, RefreshTokenResponse } from "@/_lib/types"
-import { JSON_FETCH, apiClient } from "@/_services"
+import { API_ROUTES, APP_ROUTES, COOKIES_KEY } from "@/_constants"
+import { RefreshTokenResponse } from "@/_lib/types"
+import { JSON_FETCH } from "@/_services"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function middleware(request: NextRequest) {
@@ -14,7 +14,6 @@ export async function middleware(request: NextRequest) {
         response.cookies.delete(COOKIES_KEY.ACCESS_TOKEN_KEY)
         response.cookies.delete(COOKIES_KEY.REFRESH_TOKEN_KEY)
         response.cookies.delete(COOKIES_KEY.USER_ID_KEY)
-        response.cookies.delete(COOKIES_KEY.USER_INFO)
         return response
     }
 
@@ -30,28 +29,6 @@ export async function middleware(request: NextRequest) {
         const { exp: accessExp } = decodedAccessToken
         const currentTime = Math.floor(Date.now() / 1000)
         const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
-
-        const getAndSetUserInfo = async () => {
-            return JSON_FETCH.get<GetMeResponse>(API_ROUTES.AUTH.GET_ME, {
-                headers: {
-                    "x-client-id": userId.value,
-                    Authorization: `Bearer ${accessToken.value}`
-                }
-            })
-                .then((res) => {
-                    if (!res.success) {
-                        return redirectToLogin()
-                    }
-                    const response = NextResponse.next()
-                    response.cookies.set(COOKIES_KEY.USER_INFO, JSON.stringify(res.data.user), {
-                        expires
-                    })
-                    return response
-                })
-                .catch((error) => {
-                    return redirectToLogin()
-                })
-        }
 
         if (currentTime > accessExp) {
             // Refresh the token
@@ -82,23 +59,16 @@ export async function middleware(request: NextRequest) {
                         expires
                     })
 
-                    getAndSetUserInfo()
-
                     return response
                 })
                 .catch((error) => {
                     return redirectToLogin()
                 })
         } else {
-            const userInfo = cookies.get(COOKIES_KEY.USER_INFO)
-            if (userInfo) {
-                if (request.url.includes(APP_ROUTES.LOGIN)) {
-                    return NextResponse.redirect(new URL(APP_ROUTES.DASHBOARD, request.url))
-                }
-                return NextResponse.next()
+            if (request.url.includes(APP_ROUTES.LOGIN)) {
+                return NextResponse.redirect(new URL(APP_ROUTES.DASHBOARD, request.url))
             }
-            // Check if the user is still valid
-            return getAndSetUserInfo()
+            return NextResponse.next()
         }
     }
 

@@ -7,6 +7,13 @@ export const API_ROUTES = {
         GET_ME: "/auth/me"
     },
 
+    ROLE: {
+        GET_ROLES: "/role",
+        CREATE_ROLE: "/role",
+        UPDATE_ROLE: "/role",
+        DELETE_ROLE: "/role/:id"
+    },
+
     PRODUCT: {
         GET_PRODUCTS: "/product"
     }

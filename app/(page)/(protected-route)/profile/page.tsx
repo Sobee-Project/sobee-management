@@ -1,7 +1,10 @@
+"use client"
+import { useUserStore } from "@/_store"
 import React from "react"
 
-const page = () => {
-    return <div>page</div>
+const Page = () => {
+    const { userInfo } = useUserStore()
+    return <div>{JSON.stringify(userInfo)}</div>
 }
 
-export default page
+export default Page

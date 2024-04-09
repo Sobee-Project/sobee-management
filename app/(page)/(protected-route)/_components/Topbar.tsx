@@ -1,18 +1,17 @@
 "use client"
 import { APP_ROUTES } from "@/_constants"
 import { useLogoutMutation } from "@/_services"
-import { clearCredentialsFromCookie, getUserInfoFromCookie } from "@/_utils/storage"
-import { Button, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react"
-import { LogOut, SearchIcon, SunIcon, User, User2 } from "lucide-react"
-import Link from "next/link"
+import { useUserStore } from "@/_store"
+import { clearCredentialsFromCookie } from "@/_utils/storage"
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react"
+import { LogOut, SearchIcon, SunIcon, User2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import React from "react"
 import toast from "react-hot-toast"
 
 const Topbar = () => {
     const logoutMutation = useLogoutMutation()
     const router = useRouter()
-    const userInfo = getUserInfoFromCookie()
+    const { userInfo, setUserInfo } = useUserStore()
 
     const onClickProfile = () => {
         router.push(APP_ROUTES.PROFILE)
@@ -22,6 +21,7 @@ const Topbar = () => {
         logoutMutation.mutate(undefined, {
             onSuccess: () => {
                 clearCredentialsFromCookie()
+                setUserInfo(null)
                 toast.success("Logged out successfully")
                 router.replace(APP_ROUTES.LOGIN)
             },

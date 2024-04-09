@@ -1,7 +1,7 @@
-import { API_ROUTES, ENV_CONFIG } from "@/_constants"
-import { AuthResponse, ErrorResponse, RefreshTokenResponse } from "@/_lib/types"
-import { clearCredentialsFromCookie, getCredentialsFromCookie, setCredentialsToCookie } from "@/_utils/storage"
-import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios"
+import { APP_ROUTES, ENV_CONFIG } from "@/_constants"
+import { ErrorResponse } from "@/_lib/types"
+import { clearCredentialsFromCookie, getCredentialsFromCookie } from "@/_utils/storage"
+import axios, { AxiosError, AxiosInstance, HttpStatusCode } from "axios"
 
 class ApiClient {
     instance: AxiosInstance
@@ -34,6 +34,19 @@ class ApiClient {
                 return config
             },
             (error) => {
+                return Promise.reject(error)
+            }
+        )
+
+        this.instance.interceptors.response.use(
+            (response) => {
+                return response
+            },
+            (error: AxiosError<ErrorResponse>) => {
+                if (error.response?.status === HttpStatusCode.Unauthorized) {
+                    clearCredentialsFromCookie()
+                    location.href = APP_ROUTES.LOGIN
+                }
                 return Promise.reject(error)
             }
         )
