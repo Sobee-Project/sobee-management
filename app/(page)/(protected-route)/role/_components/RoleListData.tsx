@@ -20,15 +20,11 @@ const RoleListData = ({ isLoading }: Props) => {
     const { roleList } = useRoleStore()
 
     const [showCreateModal, setShowCreateModal] = useState(false)
-    const [showPopover, setShowPopover] = useState(false)
 
     const onClickCreate = () => {
         setShowCreateModal(true)
     }
 
-    const onDelete = () => {
-        setShowPopover(true)
-    }
     return (
         <div>
             <CustomTable

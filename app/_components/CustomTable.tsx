@@ -165,7 +165,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
                         </Button>
                     )
                 ) : (
-                    <Popover placement='right' isOpen={showPopover} onOpenChange={setShowPopover}>
+                    <Popover placement='right' isOpen={showPopover} onOpenChange={setShowPopover} showArrow>
                         <PopoverTrigger>
                             <Button color='danger' startContent={<Trash2 size={14} />}>
                                 Delete

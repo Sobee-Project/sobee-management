@@ -54,11 +54,11 @@ const CreateNewRoleModal = ({
         setValue,
         getValues
     } = useForm<FormSchema>({
-        resolver: zodResolver(formSchema)
-        // defaultValues: {
-        //     role_name: role?.role_name || "",
-        //     role_slug: role?.role_slug || ""
-        // }
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            role_name: role?.role_name || "",
+            role_slug: role?.role_slug || ""
+        }
     })
 
     useEffect(() => {
@@ -251,13 +251,13 @@ const CreateNewRoleModal = ({
     const renderSubmitButton = useCallback(() => {
         switch (type) {
             case "create":
-                return "Create"
+                return createNewRoleMutation.isPending ? "Creating..." : "Create"
             case "edit":
-                return "Update"
+                return updateRoleMutation.isPending ? "Updating..." : "Update"
             case "view":
                 return "Close"
         }
-    }, [type])
+    }, [createNewRoleMutation.isPending, type, updateRoleMutation.isPending])
 
     return (
         <Modal {...props} onClose={_onClose} size='2xl' isDismissable={type === "view"}>
@@ -276,7 +276,7 @@ const CreateNewRoleModal = ({
                                     isInvalid={!!errors.role_name}
                                     autoFocus={type !== "view"}
                                     onValueChange={(v) => {
-                                        setValue("role_slug", v)
+                                        setValue("role_slug", v?.trim().toLowerCase().replace(/\s/g, "-"))
                                     }}
                                     isReadOnly={type !== "create"}
                                     value={type === "view" ? role?.role_name : watch("role_name")}
@@ -306,8 +306,8 @@ const CreateNewRoleModal = ({
                                     </Button>
                                     {type !== "view" && (
                                         <Button
-                                            isLoading={createNewRoleMutation.isPending}
-                                            isDisabled={createNewRoleMutation.isPending}
+                                            isLoading={createNewRoleMutation.isPending || updateRoleMutation.isPending}
+                                            isDisabled={createNewRoleMutation.isPending || updateRoleMutation.isPending}
                                             color='primary'
                                             type='submit'
                                         >

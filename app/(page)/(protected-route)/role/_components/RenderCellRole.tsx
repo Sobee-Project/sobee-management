@@ -72,7 +72,7 @@ const RenderCellRole = ({ role, columnKey }: Props) => {
                     <Button isIconOnly variant='light' size='sm' color='primary' onClick={() => setShowModal("edit")}>
                         <SquarePen size={20} />
                     </Button>
-                    <Popover placement='right' isOpen={showPopover} onOpenChange={setShowPopover}>
+                    <Popover placement='right' isOpen={showPopover} onOpenChange={setShowPopover} showArrow>
                         <PopoverTrigger>
                             <Button
                                 isIconOnly
@@ -91,7 +91,13 @@ const RenderCellRole = ({ role, columnKey }: Props) => {
                                     Are you sure you want to delete <b>{role.role_name}</b> role?
                                 </p>
                                 <div className='flex justify-end space-x-2'>
-                                    <Button color='danger' onClick={onDelete} size='sm'>
+                                    <Button
+                                        color='danger'
+                                        onClick={onDelete}
+                                        size='sm'
+                                        isLoading={deleteRoleMutation.isPending}
+                                        isDisabled={deleteRoleMutation.isPending}
+                                    >
                                         {deleteRoleMutation.isPending ? "Deleting role..." : "Confirm"}
                                     </Button>
                                     <Button color='default' onClick={() => setShowPopover(false)} size='sm'>
