@@ -3,5 +3,8 @@ export const QUERY_KEY = {
         INDEX: "auth",
         GETME: "auth/me"
     },
-    USER: "user"
+    USER: "user",
+    ROLE: {
+        GET_ROLE_LIST: "roleList"
+    }
 }

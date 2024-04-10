@@ -1,10 +1,5 @@
-import { getUserInfoFromCookie } from "@/_utils/storage"
-import { cookies } from "next/headers"
-
 const ListData = () => {
-    const userInfo = getUserInfoFromCookie(cookies)
-    if (!userInfo) return <div>Not found</div>
-    return <div className=''>{userInfo.name}</div>
+    return <div className=''></div>
 }
 
 export default ListData
