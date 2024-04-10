@@ -2,16 +2,14 @@
 
 import { PasswordInput } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
-import { authApi } from "@/_services"
+import { useLoginMutation } from "@/_services"
 import { useUserStore } from "@/_store"
-import { clearCredentialsFromCookie, setCredentialsToCookie } from "@/_utils/storage"
+import { setCredentialsToCookie } from "@/_utils/storage"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { z } from "zod"
@@ -42,9 +40,7 @@ const LoginPage = () => {
     const _emailOrPhone = watch("emailOrPhone") || ""
     const _password = watch("password") || ""
 
-    const loginMutation = useMutation({
-        mutationFn: (body: { emailOrPhone: string; password: string }) => authApi.login(body)
-    })
+    const loginMutation = useLoginMutation()
 
     const handleClickLogin = ({ emailOrPhone, password }: FormSchema) => {
         loginMutation.mutate(
