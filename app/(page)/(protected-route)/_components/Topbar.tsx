@@ -1,10 +1,12 @@
 "use client"
 import { APP_ROUTES } from "@/_constants"
+import { getImageFromServer } from "@/_lib/utils"
 import { useLogoutMutation } from "@/_services"
 import { useUserStore } from "@/_store"
 import { clearCredentialsFromCookie } from "@/_utils/storage"
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react"
 import { LogOut, SearchIcon, SunIcon, User2 } from "lucide-react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
@@ -44,8 +46,18 @@ const Topbar = () => {
             </button>
             <Dropdown>
                 <DropdownTrigger>
-                    <button className='rounded-full bg-primary-50 p-2'>
-                        <User2 size={20} />
+                    <button className='grid size-10 place-items-center rounded-full bg-primary-50 p-1'>
+                        {userInfo?.avatar ? (
+                            <Image
+                                src={getImageFromServer(userInfo.avatar)}
+                                alt={userInfo.name}
+                                width={40}
+                                height={40}
+                                className='w-full rounded-full object-cover'
+                            />
+                        ) : (
+                            <User2 size={20} />
+                        )}
                     </button>
                 </DropdownTrigger>
                 <DropdownMenu

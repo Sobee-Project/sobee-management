@@ -15,3 +15,10 @@ export const useLogoutMutation = () => {
         mutationFn: authApi.logout
     })
 }
+
+export const useChangePasswordMutation = () => {
+    return useMutation({
+        mutationKey: [MUTATION_KEY.AUTH.CHANGE_PASSWORD],
+        mutationFn: authApi.changePassword
+    })
+}

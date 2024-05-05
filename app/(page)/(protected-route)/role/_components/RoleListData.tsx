@@ -1,9 +1,8 @@
-import { CustomTable } from "@/_components"
+import { CustomTable, ScreenLoader } from "@/_components"
 import { useRoleStore } from "@/_store"
 import { Spinner } from "@nextui-org/react"
 import dynamic from "next/dynamic"
 import { useState } from "react"
-import { ScreenLoader } from "../../_components"
 import { roleColumns } from "../_mock"
 import RenderCellRole from "./RenderCellRole"
 

@@ -11,3 +11,10 @@ export type LoginResponseDTO = AuthResponse
 export type RefreshTokenResponseDTO = RefreshTokenResponse
 
 export type GetMeResponseDto = GetMeResponse
+
+export type ChangePasswordRequestDTO = {
+    oldPassword: string
+    newPassword: string
+}
+
+export type ChangePasswordResponseDTO = SucccessResponse<null>
