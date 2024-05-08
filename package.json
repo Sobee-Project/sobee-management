@@ -22,11 +22,13 @@
         "jwt-decode": "^4.0.0",
         "lucide-react": "^0.366.0",
         "next": "^14.1.4",
+        "next-safe-action": "^6.2.0",
         "react": "^18",
         "react-csv": "^2.2.2",
         "react-dom": "^18",
         "react-hook-form": "^7.51.2",
         "react-hot-toast": "^2.4.1",
+        "sharp": "^0.33.3",
         "tailwind-merge": "^2.2.2",
         "zod": "^3.22.4",
         "zustand": "^4.5.2"
@@ -47,6 +49,7 @@
         "prettier": "^3.2.5",
         "prettier-plugin-organize-imports": "^3.2.4",
         "prettier-plugin-tailwindcss": "^0.5.12",
+        "tailwind-scrollbar": "^3.1.0",
         "tailwindcss": "^3.3.0",
         "tailwindcss-inner-border": "^0.2.0",
         "typescript": "^5"

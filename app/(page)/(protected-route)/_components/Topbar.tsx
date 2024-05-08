@@ -1,11 +1,12 @@
 "use client"
 import { APP_ROUTES } from "@/_constants"
-import { getImageFromServer } from "@/_lib/utils"
+import { cn, getImageFromServer } from "@/_lib/utils"
 import { useLogoutMutation } from "@/_services"
-import { useUserStore } from "@/_store"
+import { useSidebarStore, useUserStore } from "@/_store"
 import { clearCredentialsFromCookie } from "@/_utils/storage"
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react"
-import { LogOut, SearchIcon, SunIcon, User2 } from "lucide-react"
+import { motion } from "framer-motion"
+import { LogOut, PanelTopClose, SearchIcon, SunIcon, User2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
@@ -14,6 +15,7 @@ const Topbar = () => {
     const logoutMutation = useLogoutMutation()
     const router = useRouter()
     const { userInfo, setUserInfo } = useUserStore()
+    const { isOpen, toggleSidebar } = useSidebarStore()
 
     const onClickProfile = () => {
         router.push(APP_ROUTES.PROFILE)
@@ -34,7 +36,16 @@ const Topbar = () => {
     }
 
     return (
-        <div className='flex items-center gap-4'>
+        <div className='flex h-20 items-center gap-4 border-b-1 border-l-1 bg-white p-4'>
+            <motion.button
+                onClick={toggleSidebar}
+                initial={{ rotate: 90 }}
+                animate={{ rotate: isOpen ? -90 : 90 }}
+                transition={{ duration: 0.2 }}
+                exit={{ rotate: 0 }}
+            >
+                <PanelTopClose className='hover:text-primary' />
+            </motion.button>
             <Input
                 variant='bordered'
                 className='flex-1 cursor-pointer'

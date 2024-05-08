@@ -1,9 +1,12 @@
 import type { Metadata } from "next"
-import { Inter, Nunito } from "next/font/google"
+import { Poppins } from "next/font/google"
 import "./globals.css"
 import Providers from "./providers"
 
-const inter = Nunito({ subsets: ["latin", "vietnamese"] })
+const inter = Poppins({
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700", "800", "900"]
+})
 
 export const metadata: Metadata = {
     title: "Sobee Admin Panel",
