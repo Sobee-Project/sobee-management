@@ -1,7 +1,7 @@
+"use client"
 import { EResourcePermissions, ERolePermissions } from "@/_lib/enums"
 import { IGrantListItem, IRole } from "@/_lib/interfaces"
 import { CreateRoleRequestDTO, useCreateRoleMutation, useUpdateRoleMutation } from "@/_services"
-import { useRoleStore } from "@/_store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
     Button,
@@ -68,7 +68,6 @@ const CreateNewRoleModal = ({
 
     const createNewRoleMutation = useCreateRoleMutation()
     const updateRoleMutation = useUpdateRoleMutation()
-    const { addRole, updateRole } = useRoleStore()
 
     const rolePermissions = useMemo(() => Object.values(ERolePermissions), [])
     const resourcePermissions = useMemo(() => Object.values(EResourcePermissions), [])
@@ -136,7 +135,6 @@ const CreateNewRoleModal = ({
             case "create":
                 return createNewRoleMutation.mutate(body, {
                     onSuccess: (response) => {
-                        addRole(response.data.data)
                         toast.success("Create role successfully!")
                         _onClose()
                     },
@@ -147,7 +145,6 @@ const CreateNewRoleModal = ({
             case "edit":
                 return updateRoleMutation.mutate(body, {
                     onSuccess: (response) => {
-                        updateRole(response.data.data)
                         toast.success("Update role successfully!")
                         _onClose()
                     },

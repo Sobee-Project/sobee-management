@@ -1,5 +1,6 @@
+"use client"
 import { CustomTable, ScreenLoader } from "@/_components"
-import { useRoleStore } from "@/_store"
+import { useGetRoleListQuery } from "@/_services"
 import { Spinner } from "@nextui-org/react"
 import dynamic from "next/dynamic"
 import { useState } from "react"
@@ -11,12 +12,8 @@ const CreateNewRoleModal = dynamic(() => import("./RoleModal"), {
     loading: () => <ScreenLoader />
 })
 
-type Props = {
-    isLoading: boolean
-}
-
-const RoleListData = ({ isLoading }: Props) => {
-    const { roleList } = useRoleStore()
+const RoleListData = () => {
+    const { isLoading, data: roleList } = useGetRoleListQuery()
 
     const [showCreateModal, setShowCreateModal] = useState(false)
 
@@ -27,11 +24,11 @@ const RoleListData = ({ isLoading }: Props) => {
     return (
         <div>
             <CustomTable
-                dataSource={roleList}
+                dataSource={roleList || []}
                 columns={roleColumns}
                 RenderCell={(role, columnKey) => <RenderCellRole role={role} columnKey={columnKey} />}
                 searchKeys={["role_name"]}
-                csvData={roleList.map((role) => ({
+                csvData={roleList?.map((role) => ({
                     ...role,
                     grant_lists: role.grant_lists.map((grant) => `${grant.resource} (${grant.actions.join(", ")})`)
                 }))}
