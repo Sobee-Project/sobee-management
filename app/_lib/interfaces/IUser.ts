@@ -10,6 +10,7 @@ export interface IUser<T = ICustomer | IAdmin | IStaff> {
     dateOfBirth: Date | string
     role: string
     _user?: T | string
+    createdAt?: Date | string
 }
 
 export interface ICustomer {

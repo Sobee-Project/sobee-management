@@ -1,6 +1,12 @@
 import { API_ROUTES } from "@/_constants"
 import { apiClient } from "../.."
-import { GetMeResponseDto, LoginRequestDTO, LoginResponseDTO } from "./auth.dto"
+import {
+    ChangePasswordRequestDTO,
+    ChangePasswordResponseDTO,
+    GetMeResponseDto,
+    LoginRequestDTO,
+    LoginResponseDTO
+} from "./auth.dto"
 
 export const authApi = {
     login(body: LoginRequestDTO) {
@@ -14,5 +20,8 @@ export const authApi = {
     },
     logout() {
         return apiClient.post(API_ROUTES.AUTH.LOGOUT)
+    },
+    changePassword: (body: ChangePasswordRequestDTO) => {
+        return apiClient.put<ChangePasswordResponseDTO>(API_ROUTES.AUTH.CHANGE_PASSWORD, body)
     }
 }

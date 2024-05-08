@@ -1,6 +1,6 @@
+"use client"
 import { IRole } from "@/_lib/interfaces"
 import { useDeleteRoleMutation } from "@/_services"
-import { useRoleStore } from "@/_store"
 import { Button, Popover, PopoverContent, PopoverTrigger, Spinner } from "@nextui-org/react"
 import { Eye, SquarePen, Trash2 } from "lucide-react"
 import dynamic from "next/dynamic"
@@ -20,7 +20,6 @@ type Props = {
 
 const RenderCellRole = ({ role, columnKey }: Props) => {
     const cellValue = role[columnKey as keyof IRole]
-    const { deleteRole } = useRoleStore()
     const deleteRoleMutation = useDeleteRoleMutation()
     const [showPopover, setShowPopover] = useState(false)
     const [showModal, setShowModal] = useState<"edit" | "view" | null>(null)
@@ -28,7 +27,6 @@ const RenderCellRole = ({ role, columnKey }: Props) => {
     const onDelete = () => {
         deleteRoleMutation.mutate(role._id!, {
             onSuccess: (response) => {
-                deleteRole(role._id!)
                 setShowPopover(false)
                 toast.success(response.data.message)
             },

@@ -12,4 +12,5 @@ export interface IRole {
     role_name: string
     role_slug: string
     grant_lists: IGrantListItem[]
+    __v?: number
 }
