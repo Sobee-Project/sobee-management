@@ -1,4 +1,6 @@
-import { IAddress } from "./IAdrress"
+import { IAdmin } from "./IAdmin"
+import { ICustomer } from "./ICustomer"
+import { IStaff } from "./IStaff"
 
 export interface IUser<T = ICustomer | IAdmin | IStaff> {
     _id?: string
@@ -11,19 +13,4 @@ export interface IUser<T = ICustomer | IAdmin | IStaff> {
     role: string
     _user?: T | string
     createdAt?: Date | string
-}
-
-export interface ICustomer {
-    isPhoneNumberVerified?: boolean
-    phoneNumberVerifiedAt?: Date
-    isEmailVerified?: boolean
-    emailVerifiedAt?: Date
-    addresses: string[] | IAddress[]
-}
-
-export interface IAdmin {}
-
-export interface IStaff {
-    identityCard: string
-    staffRole: string
 }

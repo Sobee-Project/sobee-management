@@ -1,4 +1,4 @@
-import { ICustomer } from "./IUser"
+import { IUser } from "./IUser"
 
 export interface IAddress {
     country: string
@@ -9,5 +9,7 @@ export interface IAddress {
     street: string
     specificAddress: string
     isDefault: boolean
-    customer: string | ICustomer
+    customer?: string | IUser
+    createdAt?: Date | string
+    updatedAt?: Date | string
 }
