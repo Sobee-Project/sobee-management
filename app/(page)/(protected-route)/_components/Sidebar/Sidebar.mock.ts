@@ -231,7 +231,17 @@ export const sidebarMock: TSidebarGroup[] = [
             {
                 title: "Roles",
                 icon: LockKeyhole,
-                href: APP_ROUTES.ROLES.INDEX
+                href: APP_ROUTES.ROLES.INDEX,
+                items: [
+                    {
+                        title: "All roles",
+                        href: APP_ROUTES.ROLES.INDEX
+                    },
+                    {
+                        title: "Add new role",
+                        href: APP_ROUTES.ROLES.NEW
+                    }
+                ]
             },
             {
                 title: "Admin",

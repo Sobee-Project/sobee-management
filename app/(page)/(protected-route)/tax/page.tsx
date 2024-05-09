@@ -5,12 +5,9 @@ import { TaxListData } from "./_components"
 
 const page = async () => {
     const res = await fetchAllTaxes()
-    if (!res.success || !res.data) {
-        redirect("/" + res.statusCode.toString())
-    }
     return (
         <div>
-            <TaxListData data={res.data} />
+            <TaxListData data={res.data!} />
         </div>
     )
 }

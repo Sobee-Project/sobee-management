@@ -16,6 +16,7 @@ export const fetchAllTaxes = async () => {
         },
         cookies
     })
+    if (!res.success) redirect("/" + res.statusCode)
     return res
 }
 
@@ -26,37 +27,53 @@ export const fetchTaxById = async (id: string) => {
         },
         cookies
     })
+    if (!res.success) redirect("/" + res.statusCode)
     return res
 }
 
-export const createTax = safeAction.schema(createTaxFormSchema).action(async ({ parsedInput }) => {
-    const res = await FETCH.post<ITax>(API_ROUTES.TAX.CREATE_TAX, parsedInput, {
-        cookies
+export const createTax = safeAction
+    .metadata({
+        actionName: "Create Tax"
     })
-    if (res.success) {
-        revalidateTag(CACHE_KEY.TAX.GET_ALL)
+    .schema(createTaxFormSchema)
+    .action(async ({ parsedInput }) => {
+        const res = await FETCH.post<ITax>(API_ROUTES.TAX.CREATE_TAX, parsedInput, {
+            cookies
+        })
+        if (res.success) {
+            revalidateTag(CACHE_KEY.TAX.GET_ALL)
+            return res
+        }
         return res
-    }
-    return res
-})
-
-export const updateTax = safeAction.schema(updateTaxFormSchema).action(async ({ parsedInput }) => {
-    const res = await FETCH.put<ITax>(API_ROUTES.TAX.UPDATE_TAX.replace(":id", parsedInput._id!), parsedInput, {
-        cookies
     })
-    if (res.success) {
-        revalidateTag([CACHE_KEY.TAX.GET_BY_ID, parsedInput._id!].join(", "))
-    }
-    return res
-})
 
-export const deleteTax = safeAction.schema(deleteTaxFormSchema).action(async ({ parsedInput }) => {
-    const res = await FETCH.delete<ITax>(API_ROUTES.TAX.DELETE_TAX.replace(":id", parsedInput), {
-        cookies
+export const updateTax = safeAction
+    .metadata({
+        actionName: "Update Tax"
     })
-    if (res.success) {
-        revalidateTag(CACHE_KEY.TAX.GET_ALL)
+    .schema(updateTaxFormSchema)
+    .action(async ({ parsedInput }) => {
+        const res = await FETCH.put<ITax>(API_ROUTES.TAX.UPDATE_TAX.replace(":id", parsedInput._id!), parsedInput, {
+            cookies
+        })
+        if (res.success) {
+            revalidateTag([CACHE_KEY.TAX.GET_BY_ID, parsedInput._id!].join(", "))
+        }
         return res
-    }
-    return res
-})
+    })
+
+export const deleteTax = safeAction
+    .metadata({
+        actionName: "Delete Tax"
+    })
+    .schema(deleteTaxFormSchema)
+    .action(async ({ parsedInput }) => {
+        const res = await FETCH.delete<ITax>(API_ROUTES.TAX.DELETE_TAX.replace(":id", parsedInput), {
+            cookies
+        })
+        if (res.success) {
+            revalidateTag(CACHE_KEY.TAX.GET_ALL)
+            return res
+        }
+        return res
+    })

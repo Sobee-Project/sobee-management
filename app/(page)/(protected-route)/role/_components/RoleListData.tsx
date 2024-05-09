@@ -1,24 +1,20 @@
 "use client"
-import { CustomTable, ScreenLoader } from "@/_components"
-import { useGetRoleListQuery } from "@/_services"
-import { Spinner } from "@nextui-org/react"
-import dynamic from "next/dynamic"
-import { useState } from "react"
+import { CustomTable } from "@/_components"
+import { APP_ROUTES } from "@/_constants"
+import { IRole } from "@/_lib/interfaces"
+import { useRouter } from "next/navigation"
 import { roleColumns } from "../_mock"
 import RenderCellRole from "./RenderCellRole"
 
-const CreateNewRoleModal = dynamic(() => import("./RoleModal"), {
-    ssr: false,
-    loading: () => <ScreenLoader />
-})
+type Props = {
+    data: IRole[]
+}
 
-const RoleListData = () => {
-    const { isLoading, data: roleList } = useGetRoleListQuery()
-
-    const [showCreateModal, setShowCreateModal] = useState(false)
+const RoleListData = ({ data: roleList }: Props) => {
+    const router = useRouter()
 
     const onClickCreate = () => {
-        setShowCreateModal(true)
+        router.push(APP_ROUTES.ROLES.NEW)
     }
 
     return (
@@ -34,20 +30,11 @@ const RoleListData = () => {
                 }))}
                 searchPlaceholder='Search roles...'
                 bodyProps={{
-                    isLoading,
-                    loadingContent: <Spinner />,
-                    emptyContent: isLoading ? <p></p> : "No roles found"
+                    emptyContent: "No roles found"
                 }}
                 onClickCreate={onClickCreate}
+                createText='Create new role'
             />
-            {showCreateModal && (
-                <CreateNewRoleModal
-                    modalProps={{
-                        isOpen: showCreateModal,
-                        onClose: () => setShowCreateModal(false)
-                    }}
-                />
-            )}
         </div>
     )
 }
