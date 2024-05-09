@@ -10,6 +10,7 @@ export const API_ROUTES = {
 
     ROLE: {
         GET_ROLES: "/role",
+        GET_ROLE: "/role/:id",
         CREATE_ROLE: "/role",
         UPDATE_ROLE: "/role",
         DELETE_ROLE: "/role/:id"

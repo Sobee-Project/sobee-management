@@ -1,9 +1,12 @@
+import { fetchAllRoles } from "@/_actions"
 import { RoleListData } from "./_components"
 
-const Page = () => {
+const Page = async () => {
+    const res = await fetchAllRoles()
+
     return (
         <div>
-            <RoleListData />
+            <RoleListData data={res.data!} />
         </div>
     )
 }

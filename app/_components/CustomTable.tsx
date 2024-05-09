@@ -205,6 +205,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
             </div>
         )
     }, [
+        createText,
         csvData,
         csvFileName,
         dataSource,

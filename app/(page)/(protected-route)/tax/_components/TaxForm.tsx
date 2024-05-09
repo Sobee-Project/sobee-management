@@ -133,14 +133,6 @@ const TaxForm = ({ type = "new", data }: Props) => {
                         >
                             {isLoading ? "Saving..." : "Save"}
                         </Button>
-                        <Button
-                            type='button'
-                            variant='light'
-                            isDisabled={isLoading}
-                            onClick={() => router.push(APP_ROUTES.TAXES.INDEX)}
-                        >
-                            Go back
-                        </Button>
                     </div>
                 </form>
             </div>

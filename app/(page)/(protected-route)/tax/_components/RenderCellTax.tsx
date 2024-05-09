@@ -3,10 +3,9 @@ import { deleteTax } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
 import { ITax } from "@/_lib/interfaces"
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
-import { Eye, SquarePen, Trash2 } from "lucide-react"
+import { SquarePen, Trash2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Key, useState } from "react"
 import toast from "react-hot-toast"
 import { TaxColumnKey } from "../_mock"
@@ -19,7 +18,6 @@ type Props = {
 const RenderCellTax = ({ tax, columnKey }: Props) => {
     const cellValue = tax[columnKey as keyof ITax]
     const [showPopover, setShowPopover] = useState(false)
-    const router = useRouter()
 
     const { execute, status } = useAction(deleteTax, {
         onSuccess: ({ data }) => {
@@ -28,9 +26,6 @@ const RenderCellTax = ({ tax, columnKey }: Props) => {
             } else {
                 toast.error(data.message)
             }
-        },
-        onError: ({ error }) => {
-            toast.error(error.serverError?.toString() || "An error occurred")
         }
     })
     const isLoading = status === "executing"
@@ -60,7 +55,8 @@ const RenderCellTax = ({ tax, columnKey }: Props) => {
                         variant='light'
                         size='sm'
                         color='primary'
-                        onClick={() => router.push(APP_ROUTES.TAXES.EDIT.replace(":id", tax?._id!))}
+                        as={Link}
+                        href={APP_ROUTES.TAXES.EDIT.replace(":id", tax?._id!)}
                     >
                         <SquarePen size={20} />
                     </Button>

@@ -1,17 +1,14 @@
 "use client"
+import { deleteRole } from "@/_actions"
+import { APP_ROUTES } from "@/_constants"
 import { IRole } from "@/_lib/interfaces"
-import { useDeleteRoleMutation } from "@/_services"
-import { Button, Popover, PopoverContent, PopoverTrigger, Spinner } from "@nextui-org/react"
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { Eye, SquarePen, Trash2 } from "lucide-react"
-import dynamic from "next/dynamic"
+import { useAction } from "next-safe-action/hooks"
+import Link from "next/link"
 import { Key, useState } from "react"
 import toast from "react-hot-toast"
 import { RoleColumnKey } from "../_mock"
-
-const ViewRoleModal = dynamic(() => import("./RoleModal"), {
-    ssr: false,
-    loading: () => <Spinner size='sm' />
-})
 
 type Props = {
     role: IRole
@@ -20,20 +17,23 @@ type Props = {
 
 const RenderCellRole = ({ role, columnKey }: Props) => {
     const cellValue = role[columnKey as keyof IRole]
-    const deleteRoleMutation = useDeleteRoleMutation()
     const [showPopover, setShowPopover] = useState(false)
-    const [showModal, setShowModal] = useState<"edit" | "view" | null>(null)
+
+    const { execute, status } = useAction(deleteRole, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                setShowPopover(false)
+                toast.success(data.message)
+            } else {
+                toast.error(data.message)
+            }
+        }
+    })
+
+    const isLoading = status === "executing"
 
     const onDelete = () => {
-        deleteRoleMutation.mutate(role._id!, {
-            onSuccess: (response) => {
-                setShowPopover(false)
-                toast.success(response.data.message)
-            },
-            onError: (error: any) => {
-                toast.error(error?.response?.data?.message || "Failed to delete role")
-            }
-        })
+        execute(role._id!)
     }
 
     switch (columnKey as RoleColumnKey) {
@@ -54,31 +54,30 @@ const RenderCellRole = ({ role, columnKey }: Props) => {
         case "actions":
             return (
                 <div className='flex items-center gap-1'>
-                    <Button isIconOnly variant='light' size='sm' color='success' onClick={() => setShowModal("view")}>
+                    <Button
+                        isIconOnly
+                        variant='light'
+                        size='sm'
+                        color='success'
+                        as={Link}
+                        href={APP_ROUTES.ROLES.ID.replace(":id", role._id!)}
+                    >
                         <Eye size={20} />
                     </Button>
-                    {showModal && (
-                        <ViewRoleModal
-                            type={showModal}
-                            role={role}
-                            modalProps={{
-                                isOpen: !!showModal,
-                                onClose: () => setShowModal(null)
-                            }}
-                        />
-                    )}
-                    <Button isIconOnly variant='light' size='sm' color='primary' onClick={() => setShowModal("edit")}>
+
+                    <Button
+                        isIconOnly
+                        variant='light'
+                        size='sm'
+                        color='primary'
+                        as={Link}
+                        href={APP_ROUTES.ROLES.EDIT.replace(":id", role._id!)}
+                    >
                         <SquarePen size={20} />
                     </Button>
                     <Popover placement='right' isOpen={showPopover} onOpenChange={setShowPopover} showArrow>
                         <PopoverTrigger>
-                            <Button
-                                isIconOnly
-                                variant='light'
-                                color='danger'
-                                size='sm'
-                                onClick={() => console.log("delete")}
-                            >
+                            <Button isIconOnly variant='light' color='danger' size='sm'>
                                 <Trash2 size={20} />
                             </Button>
                         </PopoverTrigger>
@@ -93,10 +92,10 @@ const RenderCellRole = ({ role, columnKey }: Props) => {
                                         color='danger'
                                         onClick={onDelete}
                                         size='sm'
-                                        isLoading={deleteRoleMutation.isPending}
-                                        isDisabled={deleteRoleMutation.isPending}
+                                        isLoading={isLoading}
+                                        isDisabled={isLoading}
                                     >
-                                        {deleteRoleMutation.isPending ? "Deleting role..." : "Confirm"}
+                                        {isLoading ? "Deleting role..." : "Confirm"}
                                     </Button>
                                     <Button color='default' onClick={() => setShowPopover(false)} size='sm'>
                                         No
