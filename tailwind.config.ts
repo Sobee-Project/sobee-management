@@ -21,6 +21,6 @@ const config: Config = {
         }
     },
     darkMode: "class",
-    plugins: [nextui(), require("tailwindcss-inner-border"), require("tailwind-scrollbar")]
+    plugins: [nextui(), require("tailwindcss-inner-border"), require("tailwind-scrollbar")({ nocompatible: true })]
 }
 export default config

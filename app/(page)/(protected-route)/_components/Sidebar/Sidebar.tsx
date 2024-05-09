@@ -33,7 +33,7 @@ const Sidebar = ({}: SidebarProps) => {
             </div>
             <motion.div
                 className={cn(
-                    `scrollbar-thin flex h-screen max-h-screen flex-col gap-4 overflow-y-auto border-r-1`,
+                    `flex h-screen max-h-screen flex-col gap-4 overflow-y-auto border-r-1 scrollbar-thin`,
                     expand ? "p-6" : "p-2"
                 )}
                 initial={{ width: expand ? "20rem" : "auto" }}
@@ -41,7 +41,7 @@ const Sidebar = ({}: SidebarProps) => {
                 transition={{ duration: 0.2 }}
                 exit={{ width: "20rem" }}
             >
-                <div className={cn("flex flex-col", expand ? "gap-4" : "gap-2")}>
+                <div className={cn("flex flex-col", expand ? "gap-6" : "gap-4")}>
                     {sidebarMock.map((item) => (
                         <SidebarGroupItem {...item} key={item.title} />
                     ))}

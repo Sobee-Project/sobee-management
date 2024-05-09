@@ -29,5 +29,13 @@ export const API_ROUTES = {
         GET_ASSETS: "/asset",
         DELETE_ASSET: "/asset/:id",
         GET_ASSET_RESOUREC: "/asset/resource" //?resourcePath={asset.urlPath}
+    },
+
+    TAX: {
+        GET_TAXES: "/tax",
+        CREATE_TAX: "/tax",
+        GET_TAX: "/tax/:id",
+        UPDATE_TAX: "/tax/:id",
+        DELETE_TAX: "/tax/:id"
     }
 }

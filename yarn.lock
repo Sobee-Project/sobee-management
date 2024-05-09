@@ -26,11 +26,6 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@decs/typeschema@^0.12.2":
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/@decs/typeschema/-/typeschema-0.12.2.tgz#d170bef9ac84a2104bd277f9a2b831fc26c2b76a"
-  integrity sha512-PA8uAH/Xfsa5X2UNNSnb5i6vB8qWZywp4+d2U8kNMCO7qwirYRPbFCHwIfWBJyURh4rULn3Ey+VBADLcK2xxaQ==
-
 "@emnapi/runtime@^1.1.0":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@emnapi/runtime/-/runtime-1.1.1.tgz#697d02276ca6f49bafe6fd01c9df0034818afa98"
@@ -2849,6 +2844,25 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.8.tgz#ce5ace04cfeabe7ef87c0091e50752e36707deff"
   integrity sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==
 
+"@typeschema/core@0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@typeschema/core/-/core-0.13.2.tgz#c9bb572a67918a8a3f615023d37e0bdb9705097a"
+  integrity sha512-pAt0MK249/9szYaoPuvzhSfOd3smrLhhwCCpUNB4onX32mRx5F3lzDIveIYGQkLYRq58xOX5sjoW+n72f/MLLw==
+
+"@typeschema/main@^0.13.9":
+  version "0.13.9"
+  resolved "https://registry.yarnpkg.com/@typeschema/main/-/main-0.13.9.tgz#3dc075c305a35c27c384845ab8c0b6e92078fec7"
+  integrity sha512-Z6yFaf2dLoqvuSNIeUelek9XI8T5Rog/NXHBMwV6KLhQCT0lQPBtmZSXAdW6EzFaqn1najhQEcirBqjWiFXiig==
+  dependencies:
+    "@typeschema/core" "0.13.2"
+
+"@typeschema/zod@^0.13.3":
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/@typeschema/zod/-/zod-0.13.3.tgz#6dc975074a246188e07a630bded95d7f765cd042"
+  integrity sha512-p5Hs22WIKkM/vZTAvw5QOLSA0EJ6QBUsQMGUrXlYnTAE2LSR/F5MLsDUb18O6S5VxGjrzU7x3VIznD5qOafJRw==
+  dependencies:
+    "@typeschema/core" "0.13.2"
+
 "@typescript-eslint/parser@^5.4.2 || ^6.0.0":
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-6.21.0.tgz#af8fcf66feee2edc86bc5d1cf45e33b0630bf35b"
@@ -4669,14 +4683,12 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-safe-action@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/next-safe-action/-/next-safe-action-6.2.0.tgz#3961c4e14502c2e492184d4d3359ea0f03498c3e"
-  integrity sha512-gssUs3OLoNjLXZalrQaly38s/mUtXsIcKWGIK3jFkW8GHl0/Xhq+3G8yEEyObET2YlYqUj79K+mH3iTNBLDcMw==
+next-safe-action@^7.0.0-next.39:
+  version "7.0.0-next.39"
+  resolved "https://registry.yarnpkg.com/next-safe-action/-/next-safe-action-7.0.0-next.39.tgz#81aba4f238730e9713be7b54183840d954891d61"
+  integrity sha512-ATE/+6F4ArNnfo6Gud1PWwzEV9HZZjpO7Ph9bXCRXomrbkyaqJ2WZ5sZZ+RA41CXkCngO8ZULx5bMZI9VaaUzA==
   dependencies:
-    "@decs/typeschema" "^0.12.2"
-  optionalDependencies:
-    zod "^3.22.4"
+    "@typeschema/main" "^0.13.9"
 
 next@^14.1.4:
   version "14.1.4"
@@ -5797,10 +5809,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zod@^3.22.4:
-  version "3.22.4"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
-  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+zod@^3.23.8:
+  version "3.23.8"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
+  integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
 zustand@^4.5.2:
   version "4.5.2"
