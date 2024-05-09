@@ -31,6 +31,7 @@ type ActionMeta = {
 
 type Settings = {
     showCreate?: boolean
+    createText?: string
     showCheckbox?: boolean
     rowKeyPattern?: string
     searchPlaceholder?: string
@@ -68,7 +69,8 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
         rowKeyPattern = "_id",
         RenderCell,
         csvData,
-        searchPlaceholder = "Search..."
+        searchPlaceholder = "Search...",
+        createText = "Create"
     } = props
     const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([])
     const [dataSourceState, setDataSourceState] = useState<T[]>(dataSource)
@@ -161,7 +163,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
                 {selectedRowKeys.length === 0 ? (
                     showCreate && (
                         <Button color='primary' startContent={<Plus size={18} />} onClick={onCreate}>
-                            Create new role
+                            {createText}
                         </Button>
                     )
                 ) : (
