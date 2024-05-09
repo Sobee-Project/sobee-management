@@ -7,7 +7,7 @@ const SidebarGroupItem = ({ items, title, hasSeparator }: TSidebarGroup) => {
     const { isOpen } = useSidebarStore()
     return (
         <div key={title} className='space-y-2'>
-            {isOpen && <p className='font-medium uppercase text-slate-600'>{title}</p>}
+            {isOpen && <p className='select-none text-sm font-medium uppercase text-slate-500/50'>{title}</p>}
             <div className='space-y-1'>
                 {items.map((subItem) => (
                     <SidebarItem {...subItem} key={subItem.title} />

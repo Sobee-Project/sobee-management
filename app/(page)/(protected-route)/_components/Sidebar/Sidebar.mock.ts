@@ -3,6 +3,7 @@ import {
     ArrowLeftRight,
     Asterisk,
     Bell,
+    BriefcaseBusiness,
     CircleHelp,
     Component,
     CreditCard,
@@ -184,7 +185,7 @@ export const sidebarMock: TSidebarGroup[] = [
             {
                 title: "Orders",
                 icon: ShoppingCart,
-                href: APP_ROUTES.ORDERS
+                href: APP_ROUTES.ORDERS.INDEX
             },
             {
                 title: "Transactions",
@@ -194,7 +195,7 @@ export const sidebarMock: TSidebarGroup[] = [
             {
                 title: "Order Contact",
                 icon: MessagesSquare,
-                href: APP_ROUTES.CONTACT
+                href: APP_ROUTES.CONTACT.INDEX
             },
             {
                 title: "Refunds",
@@ -230,7 +231,7 @@ export const sidebarMock: TSidebarGroup[] = [
             {
                 title: "Roles",
                 icon: LockKeyhole,
-                href: APP_ROUTES.ROLES
+                href: APP_ROUTES.ROLES.INDEX
             },
             {
                 title: "Admin",
@@ -270,6 +271,21 @@ export const sidebarMock: TSidebarGroup[] = [
                         href: APP_ROUTES.CUSTOMERS.NEW
                     }
                 ]
+            },
+            {
+                title: "Vendors",
+                icon: Package,
+                href: APP_ROUTES.VENDORS.INDEX,
+                items: [
+                    {
+                        title: "All vendors",
+                        href: APP_ROUTES.VENDORS.INDEX
+                    },
+                    {
+                        title: "Add new vendor",
+                        href: APP_ROUTES.VENDORS.NEW
+                    }
+                ]
             }
         ]
     },
@@ -279,12 +295,12 @@ export const sidebarMock: TSidebarGroup[] = [
             {
                 title: "Reviews",
                 icon: StarHalf,
-                href: APP_ROUTES.REVIEWS
+                href: APP_ROUTES.REVIEWS.INDEX
             },
             {
                 title: "Questions",
                 icon: CircleHelp,
-                href: APP_ROUTES.QUESTIONS
+                href: APP_ROUTES.QUESTIONS.INDEX
             }
         ]
     },
