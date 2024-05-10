@@ -1,6 +1,5 @@
 "use client"
 import { APP_ROUTES } from "@/_constants"
-import { cn, getImageFromServer } from "@/_lib/utils"
 import { useLogoutMutation } from "@/_services"
 import { useSidebarStore, useUserStore } from "@/_store"
 import { clearCredentialsFromCookie } from "@/_utils/storage"
@@ -60,7 +59,7 @@ const Topbar = () => {
                     <button className='grid size-10 place-items-center rounded-full bg-primary-50 p-1'>
                         {userInfo?.avatar ? (
                             <Image
-                                src={getImageFromServer(userInfo.avatar)}
+                                src={userInfo.avatar}
                                 alt={userInfo.name}
                                 width={40}
                                 height={40}

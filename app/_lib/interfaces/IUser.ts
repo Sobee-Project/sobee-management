@@ -9,8 +9,8 @@ export interface IUser<T = ICustomer | IAdmin | IStaff> {
     password?: string
     name: string
     avatar: string
-    dateOfBirth: Date | string
+    dateOfBirth?: string
     role: string
     _user?: T | string
-    createdAt?: Date | string
+    createdAt?: string
 }
