@@ -83,6 +83,7 @@ export const APP_ROUTES = {
         INDEX: "/staff",
         NEW: "/staff/new",
         ID: "/staff/:id",
+        EDIT: "/staff/:id/edit",
         DAY_OFF_REQUESTS: "/staff/day-off-request",
         DAY_OFF_REQUESTS_ID: "/staff/day-off-request/:id"
     },

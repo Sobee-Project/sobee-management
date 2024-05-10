@@ -115,6 +115,10 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
         setDataSourceState(dataSource)
     }, [dataSource])
 
+    function fromDotKeyToObjectValue(obj: any, key: string) {
+        return key.split(".").reduce((o, i) => o[i], obj)
+    }
+
     const onSearch = useCallback(
         (value: string) => {
             setSearchKeyword(value)
@@ -124,7 +128,8 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
             }
             const res = dataSource.filter((item: any) => {
                 return searchKeys?.some((key) => {
-                    return item[key]?.toLowerCase()?.includes(value.toLowerCase())
+                    const val = key.includes(".") ? fromDotKeyToObjectValue(item, key) : item[key]
+                    return val?.toLowerCase()?.includes(value.toLowerCase())
                 })
             })
             setDataSourceState(res)
@@ -162,9 +167,19 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
                 />
                 {selectedRowKeys.length === 0 ? (
                     showCreate && (
-                        <Button color='primary' startContent={<Plus size={18} />} onClick={onCreate}>
-                            {createText}
-                        </Button>
+                        <>
+                            <Button
+                                color='primary'
+                                startContent={<Plus size={18} />}
+                                onClick={onCreate}
+                                className='hidden md:inline-flex'
+                            >
+                                {createText}
+                            </Button>
+                            <Button color='primary' isIconOnly onClick={onCreate} className='inline-flex md:hidden'>
+                                <Plus size={18} />
+                            </Button>
+                        </>
                     )
                 ) : (
                     <Popover placement='right' isOpen={showPopover} onOpenChange={setShowPopover} showArrow>
@@ -197,8 +212,15 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
                         filename={csvFileName?.includes(".csv") ? csvFileName : csvFileName + ".csv"}
                         data={(csvData ?? dataSource) as any}
                     >
-                        <Button startContent={<Download size={14} />} onClick={onClickExport}>
+                        <Button
+                            startContent={<Download size={14} />}
+                            onClick={onClickExport}
+                            className='hidden md:inline-flex'
+                        >
                             Export
+                        </Button>
+                        <Button isIconOnly onClick={onClickExport} className='inline-flex md:hidden'>
+                            <Download size={14} />
                         </Button>
                     </CSVLink>
                 )}
@@ -224,6 +246,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
             {...props}
             selectionMode={showCheckbox ? "multiple" : "none"}
             topContent={renderTopContent()}
+            topContentPlacement='outside'
             onSelectionChange={onSelectChange}
             //@ts-ignore
             selectedKeys={selectedRowKeys}

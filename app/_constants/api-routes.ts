@@ -38,5 +38,21 @@ export const API_ROUTES = {
         GET_TAX: "/tax/:id",
         UPDATE_TAX: "/tax/:id",
         DELETE_TAX: "/tax/:id"
+    },
+
+    STAFF: {
+        GET_STAFF: "/staff",
+        GET_ONE_STAFF: "/staff/:id",
+        CREATE_STAFF: "/staff",
+        UPDATE_STAFF: "/staff/:id",
+        DELETE_STAFF: "/staff/:id"
+    },
+
+    DAY_OFF: {
+        GET_DAY_OFFS: "/day-off",
+        CREATE_DAY_OFF: "/day-off",
+        GET_DAY_OFF: "/day-off/:id",
+        UPDATE_DAY_OFF: "/day-off/:id",
+        DELETE_DAY_OFF: "/day-off/:id"
     }
 }

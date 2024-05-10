@@ -31,7 +31,7 @@ const _FETCH = async <T extends any>(
         return {
             success: false,
             message: error?.response?.data?.message ?? error?.message,
-            statusCode: error?.status
+            statusCode: error?.response?.data?.statusCode ?? error?.status ?? 500
         } as ErrorResponse<T>
     }
 }

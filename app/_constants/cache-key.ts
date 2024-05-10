@@ -6,5 +6,13 @@ export const CACHE_KEY = {
     ROLE: {
         GET_ALL: "ROLE_GET_ALL",
         GET_BY_ID: "ROLE_GET_BY_ID"
+    },
+    STAFF: {
+        GET_ALL: "STAFF_GET_ALL",
+        GET_BY_ID: "STAFF_GET_BY_ID"
+    },
+    DAY_OFF: {
+        GET_ALL: "DAY_OFF_GET_ALL",
+        GET_BY_ID: "DAY_OFF_GET_BY_ID"
     }
 }

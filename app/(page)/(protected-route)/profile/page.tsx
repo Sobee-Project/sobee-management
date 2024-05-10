@@ -9,7 +9,7 @@ const Page = () => {
             <div className='flex flex-col gap-4'>
                 <SimpleInfoSection />
                 <UserInfoSection />
-                <div className='shadow-custom-light grid flex-1 place-items-center rounded-md bg-white'>
+                <div className='grid flex-1 place-items-center rounded-md bg-white shadow-custom-light'>
                     <Image src={"/logo.png"} alt='logo' width={140} height={140} className='object-cover' />
                 </div>
             </div>
