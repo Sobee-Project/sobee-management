@@ -54,5 +54,13 @@ export const API_ROUTES = {
         GET_DAY_OFF: "/day-off/:id",
         UPDATE_DAY_OFF: "/day-off/:id",
         DELETE_DAY_OFF: "/day-off/:id"
+    },
+
+    REVIEW: {
+        GET_REVIEWS: "/review",
+        CREATE_REVIEW: "/review",
+        GET_REVIEW: "/review/:id",
+        UPDATE_REVIEW: "/review/:id",
+        DELETE_REVIEW: "/review/:id"
     }
 }

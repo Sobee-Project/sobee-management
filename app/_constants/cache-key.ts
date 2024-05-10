@@ -14,5 +14,9 @@ export const CACHE_KEY = {
     DAY_OFF: {
         GET_ALL: "DAY_OFF_GET_ALL",
         GET_BY_ID: "DAY_OFF_GET_BY_ID"
+    },
+    REVIEW: {
+        GET_ALL: "REVIEW_GET_ALL",
+        GET_BY_ID: "REVIEW_GET_BY_ID"
     }
 }
