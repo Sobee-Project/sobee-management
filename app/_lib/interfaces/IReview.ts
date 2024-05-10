@@ -9,4 +9,6 @@ export interface IReview {
     title: string
     content: string
     assets: string[]
+    createdAt?: string
+    updatedAt?: string
 }

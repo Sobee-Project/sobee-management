@@ -38,5 +38,13 @@ export const API_ROUTES = {
         GET_TAX: "/tax/:id",
         UPDATE_TAX: "/tax/:id",
         DELETE_TAX: "/tax/:id"
+    },
+
+    REVIEW: {
+        GET_REVIEWS: "/review",
+        CREATE_REVIEW: "/review",
+        GET_REVIEW: "/review/:id",
+        UPDATE_REVIEW: "/review/:id",
+        DELETE_REVIEW: "/review/:id"
     }
 }
