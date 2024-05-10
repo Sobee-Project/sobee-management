@@ -1,12 +1,11 @@
-import { IUser } from "@/_lib/interfaces"
 import { create } from "zustand"
 
 interface UserStore {
-    userInfo: IUser | undefined | null
-    setUserInfo: (userInfo: IUser | null) => void
+    isRefetch: boolean
+    refetch: () => void
 }
 
 export const useUserStore = create<UserStore>((set, get) => ({
-    userInfo: undefined,
-    setUserInfo: (userInfo: IUser | null) => set({ userInfo })
+    isRefetch: false,
+    refetch: () => set({ isRefetch: !get().isRefetch })
 }))

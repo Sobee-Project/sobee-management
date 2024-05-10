@@ -6,12 +6,9 @@ import { ITax } from "@/_lib/interfaces"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
-import Link from "next/link"
-import { redirect, useParams, useRouter } from "next/navigation"
-import React from "react"
+import { useParams, useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { z } from "zod"
 
 type Props = {
     type?: "new" | "edit"

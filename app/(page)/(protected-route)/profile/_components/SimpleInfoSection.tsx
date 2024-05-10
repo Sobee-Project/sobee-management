@@ -1,16 +1,33 @@
-import { getImageFromServer } from "@/_lib/utils"
-import { useChangeUserAvatarMutation } from "@/_services"
+"use client"
+import { changeAvatar } from "@/_actions"
+import { IUser } from "@/_lib/interfaces"
 import { useUserStore } from "@/_store"
 import { Button, Chip } from "@nextui-org/react"
 import { Camera } from "lucide-react"
+import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
 import React from "react"
 import toast from "react-hot-toast"
 
-const SimpleInfoSection = () => {
-    const { userInfo, setUserInfo } = useUserStore()
+type Props = {
+    userInfo: IUser
+}
 
-    const changeAvatarMutation = useChangeUserAvatarMutation()
+const SimpleInfoSection = ({ userInfo }: Props) => {
+    const { refetch } = useUserStore()
+
+    const { execute, status } = useAction(changeAvatar, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                toast.success(data.message)
+                refetch()
+            } else {
+                toast.error(data.message || "Failed to change avatar")
+            }
+        }
+    })
+
+    const isLoading = status === "executing"
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -19,22 +36,13 @@ const SimpleInfoSection = () => {
         const formData = new FormData()
         formData.append("upload_file", file)
 
-        changeAvatarMutation.mutate(formData, {
-            onSuccess: (data) => {
-                setUserInfo(data.data.data)
-                toast.success("Avatar changed successfully")
-            },
-            onError: (error: any) => {
-                toast.error(error?.response?.data?.message || "Failed to change avatar")
-            }
-        })
+        execute(formData)
     }
     return (
-        // eslint-disable-next-line tailwindcss/classnames-order
-        <div className='shadow-custom-light flex flex-col items-center justify-center gap-4 rounded-md bg-white p-8'>
+        <div className='flex flex-col items-center justify-center gap-4 rounded-md bg-white p-8 shadow-custom-light'>
             <div className='relative size-24 rounded-full'>
                 <Image
-                    src={getImageFromServer(userInfo?.avatar!)}
+                    src={userInfo?.avatar!}
                     alt='profile'
                     width={100}
                     height={100}
@@ -47,6 +55,8 @@ const SimpleInfoSection = () => {
                     isIconOnly
                     className='absolute bottom-0 right-0 border-2 border-white'
                     color='primary'
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                 >
                     <label
                         htmlFor='file-zone'

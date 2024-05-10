@@ -1,38 +1,40 @@
 "use client"
+import { getCurrentUser, logout } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
-import { cn, getImageFromServer } from "@/_lib/utils"
-import { useLogoutMutation } from "@/_services"
 import { useSidebarStore, useUserStore } from "@/_store"
-import { clearCredentialsFromCookie } from "@/_utils/storage"
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react"
 import { motion } from "framer-motion"
 import { LogOut, PanelTopClose, SearchIcon, SunIcon, User2 } from "lucide-react"
+import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { useEffect } from "react"
 import toast from "react-hot-toast"
 
 const Topbar = () => {
-    const logoutMutation = useLogoutMutation()
-    const router = useRouter()
-    const { userInfo, setUserInfo } = useUserStore()
     const { isOpen, toggleSidebar } = useSidebarStore()
+    const { isRefetch } = useUserStore()
 
-    const onClickProfile = () => {
-        router.push(APP_ROUTES.PROFILE)
-    }
+    const { execute: executeUser, result } = useAction(getCurrentUser)
+
+    useEffect(() => {
+        executeUser()
+    }, [executeUser, isRefetch])
+
+    const userInfo = result.data?.data?.user
+
+    const { execute } = useAction(logout, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                toast.success("Logged out successfully")
+            } else {
+                toast.error(data.message || "Failed to logout")
+            }
+        }
+    })
 
     const onClickLogout = () => {
-        logoutMutation.mutate(undefined, {
-            onSuccess: () => {
-                clearCredentialsFromCookie()
-                setUserInfo(null)
-                toast.success("Logged out successfully")
-                router.replace(APP_ROUTES.LOGIN)
-            },
-            onError: () => {
-                toast.error("Failed to logout")
-            }
-        })
+        execute()
     }
 
     return (
@@ -60,7 +62,7 @@ const Topbar = () => {
                     <button className='grid size-10 place-items-center rounded-full bg-primary-50 p-1'>
                         {userInfo?.avatar ? (
                             <Image
-                                src={getImageFromServer(userInfo.avatar)}
+                                src={userInfo.avatar}
                                 alt={userInfo.name}
                                 width={40}
                                 height={40}
@@ -79,7 +81,7 @@ const Topbar = () => {
                         </p>
                     }
                 >
-                    <DropdownItem key='new' endContent={<User2 size={14} />} onClick={onClickProfile}>
+                    <DropdownItem as={Link} href={APP_ROUTES.PROFILE} key='new' endContent={<User2 size={14} />}>
                         Profile
                     </DropdownItem>
                     <DropdownItem

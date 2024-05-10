@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["localhost"]
-    }
+        remotePatterns: ["localhost", "avatar.iran.liara.run"]
+    },
+    reactStrictMode: false
 }
 
 export default nextConfig
