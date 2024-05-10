@@ -1,32 +1,32 @@
-import { APP_ROUTES } from "@/_constants"
-import { useLogoutMutation } from "@/_services"
-import { useUserStore } from "@/_store"
-import { clearCredentialsFromCookie } from "@/_utils/storage"
+"use client"
+import { logout } from "@/_actions"
+import { IUser } from "@/_lib/interfaces"
 import { Button } from "@nextui-org/react"
 import { format } from "date-fns"
 import { AtSign, Baby, Calendar, Download, LogOut, LucideIcon, Phone } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useAction } from "next-safe-action/hooks"
 import { useCallback } from "react"
 import toast from "react-hot-toast"
 
-const UserInfoSection = () => {
-    const { userInfo, setUserInfo } = useUserStore()
+type Props = {
+    userInfo: IUser
+}
 
-    const logoutMutation = useLogoutMutation()
-    const router = useRouter()
+const UserInfoSection = ({ userInfo }: Props) => {
+    const { execute, status } = useAction(logout, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                toast.success("Logged out successfully")
+            } else {
+                toast.error(data.message || "Failed to logout")
+            }
+        }
+    })
+
+    const isLoading = status === "executing"
 
     const handleLogout = () => {
-        logoutMutation.mutate(undefined, {
-            onSuccess: () => {
-                clearCredentialsFromCookie()
-                setUserInfo(null)
-                toast.success("Logged out successfully")
-                router.replace(APP_ROUTES.LOGIN)
-            },
-            onError: (error: any) => {
-                toast.error(error?.response?.data?.message || "Failed to logout")
-            }
-        })
+        execute()
     }
 
     const renderItem = useCallback((Icon: LucideIcon, value: string) => {
@@ -39,8 +39,7 @@ const UserInfoSection = () => {
     }, [])
 
     return (
-        // eslint-disable-next-line tailwindcss/classnames-order
-        <div className='shadow-custom-light space-y-2 rounded-md bg-white p-4'>
+        <div className='space-y-2 rounded-md bg-white p-4 shadow-custom-light'>
             {renderItem(AtSign, userInfo?.email || "")}
             {renderItem(Phone, userInfo?.phoneNumber || "")}
             {renderItem(Baby, format(userInfo?.dateOfBirth || new Date(), "dd/MM/yyyy"))}

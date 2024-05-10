@@ -1,25 +1,21 @@
-import { useUpdateUserInfoMutation } from "@/_services"
+"use client"
+import { updateUser } from "@/_actions"
+import { UpdateUserFormSchema, updateUserFormSchema } from "@/_lib/form-schema"
+import { IUser } from "@/_lib/interfaces"
 import { useUserStore } from "@/_store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 import { format } from "date-fns"
 import { Check, RotateCcw } from "lucide-react"
-import React, { useEffect } from "react"
+import { useAction } from "next-safe-action/hooks"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { z } from "zod"
 
-const formSchema = z.object({
-    name: z.string().min(3, "Name must be at least 3 characters long"),
-    email: z.string().email("Invalid email address"),
-    phoneNumber: z.string().min(10, "Phone number must be at least 10 characters long"),
-    dateOfBirth: z.date().max(new Date(), "Date of birth must be in the past")
-})
+type Props = {
+    userInfo: IUser
+}
 
-type FormSchema = z.infer<typeof formSchema>
-
-const UpdateUserInfoForm = () => {
-    const { userInfo } = useUserStore()
+const UpdateUserInfoForm = ({ userInfo }: Props) => {
     const {
         register,
         watch,
@@ -27,38 +23,45 @@ const UpdateUserInfoForm = () => {
         setValue,
         handleSubmit,
         reset
-    } = useForm<FormSchema>({
-        resolver: zodResolver(formSchema)
+    } = useForm<UpdateUserFormSchema>({
+        resolver: zodResolver(updateUserFormSchema),
+        defaultValues: {
+            dateOfBirth: userInfo?.dateOfBirth,
+            email: userInfo?.email || "",
+            name: userInfo?.name || "",
+            phoneNumber: userInfo?.phoneNumber || ""
+        }
     })
 
-    const updateUserInfoMutation = useUpdateUserInfoMutation()
+    const { refetch } = useUserStore()
 
-    useEffect(() => {
-        setValue("name", userInfo?.name || "")
-        setValue("email", userInfo?.email || "")
-        setValue("phoneNumber", userInfo?.phoneNumber || "")
-        setValue("dateOfBirth", new Date(userInfo?.dateOfBirth || new Date()))
-    }, [setValue, userInfo])
+    const { execute, status } = useAction(updateUser, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                toast.success(data.message)
+                refetch()
+            } else {
+                toast.error(data.message || "Failed to update user information")
+            }
+        }
+    })
+
+    const isLoading = status === "executing"
 
     const onReset = () => {
         reset({
-            dateOfBirth: new Date(userInfo?.dateOfBirth || new Date()),
+            dateOfBirth: userInfo?.dateOfBirth,
             email: userInfo?.email || "",
             name: userInfo?.name || "",
             phoneNumber: userInfo?.phoneNumber || ""
         })
     }
-    const onUpdate = (data: FormSchema) => {
-        updateUserInfoMutation.mutate(data, {
-            onSuccess: (response) => {
-                toast.success(response.data.message)
-            }
-        })
+    const onUpdate = (data: UpdateUserFormSchema) => {
+        execute(data)
     }
 
     return (
-        // eslint-disable-next-line tailwindcss/classnames-order
-        <div className='shadow-custom-light h-fit space-y-2 rounded-md bg-white p-4'>
+        <div className='h-fit space-y-2 rounded-md bg-white p-4 shadow-custom-light'>
             <h2 className='text-2xl font-bold'>Update user information</h2>
             <form className='space-y-3' onSubmit={handleSubmit(onUpdate)}>
                 <Input
@@ -98,7 +101,14 @@ const UpdateUserInfoForm = () => {
                     value={format(watch("dateOfBirth") || new Date(), "yyyy-MM-dd")}
                 />
                 <div className='flex gap-2'>
-                    <Button variant='solid' color='primary' startContent={<Check size={18} />} type='submit'>
+                    <Button
+                        variant='solid'
+                        color='primary'
+                        startContent={<Check size={18} />}
+                        type='submit'
+                        isLoading={isLoading}
+                        isDisabled={isLoading}
+                    >
                         Update
                     </Button>
                     <Button

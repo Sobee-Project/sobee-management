@@ -18,5 +18,8 @@ export const CACHE_KEY = {
     REVIEW: {
         GET_ALL: "REVIEW_GET_ALL",
         GET_BY_ID: "REVIEW_GET_BY_ID"
+    },
+    AUTH: {
+        GET_ME: "AUTH_GET_ME"
     }
 }

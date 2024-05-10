@@ -11,7 +11,7 @@ import {
 } from "@/_lib/form-schema"
 import { IRole, IStaff, IUser } from "@/_lib/interfaces"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, DatePicker, Divider, Input, Select, SelectItem } from "@nextui-org/react"
+import { Button, Divider, Input, Select, SelectItem } from "@nextui-org/react"
 import { format } from "date-fns"
 import { useAction } from "next-safe-action/hooks"
 import { useParams, useRouter } from "next/navigation"
@@ -78,7 +78,7 @@ const StaffForm = ({ staff, type = "create", roles }: Props) => {
 
         const _data = isEdit ? ({ ...body, _id: params.id } as UpdateStaffFormSchema) : (body as CreateStaffFormSchema)
 
-        execute(_data)
+        execute(_data as any)
     }
 
     return (
@@ -202,7 +202,9 @@ const StaffForm = ({ staff, type = "create", roles }: Props) => {
                                     labelPlacement='outside'
                                     placeholder='********'
                                     variant='bordered'
+                                    //@ts-ignore
                                     errorMessage={errors.oldPassword?.message}
+                                    //@ts-ignore
                                     isInvalid={!!errors.oldPassword}
                                 />
                                 <PasswordInput
@@ -211,7 +213,9 @@ const StaffForm = ({ staff, type = "create", roles }: Props) => {
                                     labelPlacement='outside'
                                     placeholder='********'
                                     variant='bordered'
+                                    //@ts-ignore
                                     errorMessage={errors.newPassword?.message}
+                                    //@ts-ignore
                                     isInvalid={!!errors.newPassword}
                                 />
                                 <PasswordInput
@@ -220,7 +224,9 @@ const StaffForm = ({ staff, type = "create", roles }: Props) => {
                                     labelPlacement='outside'
                                     placeholder='********'
                                     variant='bordered'
+                                    //@ts-ignore
                                     errorMessage={errors.confirmPassword?.message}
+                                    //@ts-ignore
                                     isInvalid={!!errors.confirmPassword}
                                 />
                             </>

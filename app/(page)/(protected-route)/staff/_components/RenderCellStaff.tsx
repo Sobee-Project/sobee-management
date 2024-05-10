@@ -2,7 +2,7 @@
 import { deleteStaff } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
 import { IRole, IStaff, IUser } from "@/_lib/interfaces"
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { format } from "date-fns"
 import { Eye, SquarePen, Trash2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
@@ -40,15 +40,7 @@ const RenderCellStaff = ({ staff, columnKey }: Props) => {
 
     switch (columnKey as StaffColumnKey) {
         case "avatar":
-            return (
-                <Image
-                    src={staff.avatar}
-                    alt={staff.name}
-                    width={50}
-                    height={50}
-                    className='rounded-full object-contain'
-                />
-            )
+            return <Avatar src={staff.avatar} alt={staff.name} />
         case "email":
         case "name":
         case "phoneNumber":

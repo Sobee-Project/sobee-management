@@ -1,28 +1,16 @@
 "use client"
 
+import { login } from "@/_actions"
 import { PasswordInput } from "@/_components"
-import { APP_ROUTES } from "@/_constants"
-import { useLoginMutation } from "@/_services"
-import { useUserStore } from "@/_store"
-import { setCredentialsToCookie } from "@/_utils/storage"
+import { LoginFormSchema, loginFormSchema } from "@/_lib/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 
 import { motion } from "framer-motion"
+import { useAction } from "next-safe-action/hooks"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { z } from "zod"
-
-const formSchema = z.object({
-    emailOrPhone: z
-        .string()
-        .min(10, "Email or phone number must be at least 10 characters long")
-        .max(255, "Email or phone number must be at most 255 characters long"),
-    password: z.string().min(6, "Password must be at least 6 characters long")
-})
-
-type FormSchema = z.infer<typeof formSchema>
 
 const LoginPage = () => {
     const router = useRouter()
@@ -31,35 +19,24 @@ const LoginPage = () => {
         watch,
         handleSubmit,
         formState: { errors }
-    } = useForm<FormSchema>({
-        resolver: zodResolver(formSchema)
+    } = useForm<LoginFormSchema>({
+        resolver: zodResolver(loginFormSchema)
     })
 
-    const { setUserInfo } = useUserStore()
-
-    const _emailOrPhone = watch("emailOrPhone") || ""
-    const _password = watch("password") || ""
-
-    const loginMutation = useLoginMutation()
-
-    const handleClickLogin = ({ emailOrPhone, password }: FormSchema) => {
-        loginMutation.mutate(
-            { emailOrPhone, password },
-            {
-                onSuccess: (response) => {
-                    const { user, accessToken, refreshToken } = response.data.data
-                    setCredentialsToCookie({ accessToken, refreshToken, user_id: user._id! })
-                    setUserInfo(user)
-                    toast.success("Login successfully!")
-                    router.replace(APP_ROUTES.DASHBOARD)
-                    // need to reload to sync between cookie and session
-                    location.reload()
-                },
-                onError: (error: any) => {
-                    toast.error(error?.response?.data?.message || "Login failed!")
-                }
+    const { execute, status } = useAction(login, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                toast.success("Login successfully!")
+            } else {
+                toast.error(data.message || "Login failed!")
             }
-        )
+        }
+    })
+
+    const isLoading = status === "executing"
+
+    const handleClickLogin = (data: LoginFormSchema) => {
+        execute(data)
     }
 
     return (
@@ -101,9 +78,10 @@ const LoginPage = () => {
                         variant='solid'
                         color='primary'
                         size='lg'
-                        isDisabled={_emailOrPhone.length === 0 || _password.length === 0 || loginMutation.isPending}
+                        isDisabled={isLoading}
+                        isLoading={isLoading}
                     >
-                        {loginMutation.isPending ? "Logging in" : "Login"}
+                        {isLoading ? "Logging in" : "Login"}
                     </Button>
                 </div>
             </form>

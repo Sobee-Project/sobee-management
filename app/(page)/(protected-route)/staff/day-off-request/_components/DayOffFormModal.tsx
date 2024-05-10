@@ -14,11 +14,10 @@ import {
     ModalHeader,
     Select,
     SelectItem,
-    Textarea,
-    useDisclosure
+    Textarea
 } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 

@@ -1,15 +1,13 @@
 import { SucccessResponse } from "."
 import { IUser } from "../interfaces/IUser"
 
-export type AuthResponse = SucccessResponse<{
+export type AuthResponse = {
     accessToken: string
     refreshToken: string
     user: IUser
-}>
+}
 
-export type RefreshTokenResponse = SucccessResponse<{
+export type RefreshTokenResponse = {
     accessToken: string
     refreshToken: string
-}>
-
-export type GetMeResponse = SucccessResponse<{ user: IUser }>
+}

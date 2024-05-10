@@ -1,24 +1,12 @@
-import { useChangePasswordMutation } from "@/_services"
+"use client"
+import { changePassword } from "@/_actions"
+import { ChangePasswordFormSchema, changePasswordFormSchema } from "@/_lib/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 import { Check, X } from "lucide-react"
-import React from "react"
+import { useAction } from "next-safe-action/hooks"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { z } from "zod"
-
-const formSchema = z
-    .object({
-        oldPassword: z.string().min(6, "Password must be at least 6 characters"),
-        newPassword: z.string().min(6, "New password must be at least 6 characters"),
-        confirmPassword: z.string().min(6, "Confirm password must be at least 6 characters")
-    })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-        message: "Passwords do not match",
-        path: ["confirmPassword"]
-    })
-
-type FormSchema = z.infer<typeof formSchema>
 
 const ChangePasswordForm = () => {
     const {
@@ -26,22 +14,23 @@ const ChangePasswordForm = () => {
         handleSubmit,
         formState: { errors },
         reset
-    } = useForm<FormSchema>({
-        resolver: zodResolver(formSchema)
+    } = useForm<ChangePasswordFormSchema>({
+        resolver: zodResolver(changePasswordFormSchema)
     })
 
-    const changePasswordMutation = useChangePasswordMutation()
-
-    const onUpdate = (data: FormSchema) => {
-        changePasswordMutation.mutate(data, {
-            onSuccess: (response) => {
+    const { execute } = useAction(changePassword, {
+        onSuccess: ({ data }) => {
+            if (data.success) {
+                toast.success(data.message)
                 reset()
-                toast.success(response.data.message)
-            },
-            onError: (error: any) => {
-                toast.error(error?.response?.data?.message || "Failed to change password")
+            } else {
+                toast.error(data.message || "Failed to change password")
             }
-        })
+        }
+    })
+
+    const onUpdate = (data: ChangePasswordFormSchema) => {
+        execute(data)
     }
 
     const onReset = () => {
@@ -50,7 +39,7 @@ const ChangePasswordForm = () => {
 
     return (
         // eslint-disable-next-line tailwindcss/classnames-order
-        <div className='shadow-custom-light h-fit space-y-2 rounded-md bg-white p-4'>
+        <div className='h-fit space-y-2 rounded-md bg-white p-4 shadow-custom-light'>
             <h2 className='text-2xl font-bold'>Change password</h2>
             <form className='space-y-3' onSubmit={handleSubmit(onUpdate)}>
                 <Input

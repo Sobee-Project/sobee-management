@@ -51,10 +51,10 @@ const FETCH_WITH_TOKEN = async <T extends any>(url: string, options?: Options) =
 export const FETCH = {
     get: <T extends any>(url: string, options?: Options) =>
         FETCH_WITH_TOKEN<T>(url, { ...options, method: "GET", cookies: options?.cookies }),
-    post: <T extends any>(url: string, data: T, options?: Options) =>
-        FETCH_WITH_TOKEN<T>(url, { ...options, body: data as any, method: "POST", cookies: options?.cookies }),
-    put: <T extends any>(url: string, data: T, options?: Options) =>
-        FETCH_WITH_TOKEN<T>(url, { ...options, body: data as any, method: "PUT", cookies: options?.cookies }),
+    post: <T extends any, Y = {}>(url: string, data?: T, options?: Options) =>
+        FETCH_WITH_TOKEN<Y>(url, { ...options, body: data as any, method: "POST", cookies: options?.cookies }),
+    put: <T extends any, Y = {}>(url: string, data: T, options?: Options) =>
+        FETCH_WITH_TOKEN<Y>(url, { ...options, body: data as any, method: "PUT", cookies: options?.cookies }),
     delete: <T extends any>(url: string, options?: Options) =>
         FETCH_WITH_TOKEN<T>(url, { ...options, method: "DELETE", cookies: options?.cookies })
 }

@@ -1,6 +1,6 @@
 import { API_ROUTES, APP_ROUTES, COOKIES_KEY } from "@/_constants"
 import { RefreshTokenResponse } from "@/_lib/types"
-import { JSON_FETCH } from "@/_services"
+import { FETCH } from "@/_services"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function middleware(request: NextRequest) {
@@ -32,7 +32,12 @@ export async function middleware(request: NextRequest) {
 
         if (currentTime > accessExp) {
             // Refresh the token
-            return JSON_FETCH.post<RefreshTokenResponse>(
+            return FETCH.post<
+                {
+                    refreshToken: string
+                },
+                RefreshTokenResponse
+            >(
                 API_ROUTES.AUTH.REFRESH_TOKEN,
                 {
                     refreshToken: refreshToken.value
@@ -48,7 +53,7 @@ export async function middleware(request: NextRequest) {
                     if (!res.success) {
                         return redirectToLogin()
                     }
-                    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = res.data
+                    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = res.data!
                     const response = NextResponse.next()
 
                     response.cookies.set(COOKIES_KEY.ACCESS_TOKEN_KEY, newAccessToken, {

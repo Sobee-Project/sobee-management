@@ -26,7 +26,7 @@ import {
 import { PlusIcon, Trash2Icon } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import { useParams, useRouter } from "next/navigation"
-import React, { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
@@ -70,7 +70,7 @@ const RoleForm = ({ role, type = "create" }: Props) => {
     const rolePermissions = useMemo(() => Object.values(ERolePermissions), [])
     const resourcePermissions = useMemo(() => Object.values(EResourcePermissions), [])
 
-    const [grantList, setGrantList] = React.useState<IGrantListItem[]>([])
+    const [grantList, setGrantList] = useState<IGrantListItem[]>([])
 
     useEffect(() => {
         if (role) {
