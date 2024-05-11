@@ -13,7 +13,7 @@ interface Props {
 const InfoBox = ({ Icon, label = "All", value, suffix = "" }: Props) => {
     return (
         <div className='flex flex-col justify-center bg-white p-6 shadow-medium md:items-center'>
-            <div className={`badge-icon badge-icon--sm bg-white`}>
+            <div>
                 <Icon size={24} />
             </div>
             <div className='mb-4 mt-3'>

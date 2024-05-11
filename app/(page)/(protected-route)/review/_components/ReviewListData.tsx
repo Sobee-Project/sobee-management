@@ -19,7 +19,7 @@ const ReviewListData = ({ data: reviewList }: Props) => {
                 searchKeys={["product", "customer", "title", "content"]}
                 searchPlaceholder='Search reviews...'
                 bodyProps={{
-                    emptyContent: "No taxes found"
+                    emptyContent: "No data found"
                 }}
                 csvData={reviewList}
                 showCreate={false}

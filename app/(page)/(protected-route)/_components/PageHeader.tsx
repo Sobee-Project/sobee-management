@@ -33,7 +33,7 @@ const PageHeader = ({ title, keyCache }: PageHeaderProps) => {
         >
             <h1 className='flex-1 text-center text-4xl font-bold lg:text-left'>{title}</h1>
             <button
-                className='font-heading text-header group hidden w-fit items-center gap-2 text-sm
+                className='group hidden w-fit items-center gap-2 text-sm
            font-semibold xl:flex'
                 onClick={() => {
                     keyCache && execute(keyCache)

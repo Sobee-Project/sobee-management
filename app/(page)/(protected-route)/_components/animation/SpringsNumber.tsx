@@ -42,7 +42,7 @@ const SpringsNumber = ({ from = 0, to, speed = 0.02, duration = 1, className, su
         }
 
         requestAnimationFrame(countUp)
-    }, [from, to])
+    }, [from, to, speed])
 
     return (
         <motion.p

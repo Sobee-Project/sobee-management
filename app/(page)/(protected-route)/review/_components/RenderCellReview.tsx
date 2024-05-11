@@ -35,7 +35,7 @@ const RenderCellReview = ({ columnKey, review }: Props) => {
             return (
                 <div className='inline-flex shrink-0 items-center rounded-full border border-yellow-500 px-3 py-0.5 text-base text-yellow-500'>
                     {review.rating}
-                    <StarIcon className='ms-1 h-3 w-3' />
+                    <StarIcon className='ms-1 size-3' />
                 </div>
             )
         case "customer":
