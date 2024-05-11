@@ -78,7 +78,7 @@ const StaffForm = ({ staff, type = "create", roles }: Props) => {
 
         const _data = isEdit ? ({ ...body, _id: params.id } as UpdateStaffFormSchema) : (body as CreateStaffFormSchema)
 
-        execute(_data as any)
+        execute(_data)
     }
 
     return (

@@ -10,7 +10,7 @@ export const createStaffFormSchema = z
 
 export const updateStaffFormSchema = z
     .object({
-        _id: z.string(),
+        _id: z.string().optional(),
         oldPassword: z.string().optional(),
         newPassword: z.string().optional(),
         confirmPassword: z.string().optional()
