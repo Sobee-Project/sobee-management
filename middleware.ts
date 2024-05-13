@@ -4,6 +4,10 @@ import { FETCH } from "@/_services"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function middleware(request: NextRequest) {
+    if (request.nextUrl.pathname === "/favicon.ico") {
+        return NextResponse.next()
+    }
+
     const cookies = request.cookies
     const accessToken = cookies.get(COOKIES_KEY.ACCESS_TOKEN_KEY)
     const refreshToken = cookies.get(COOKIES_KEY.REFRESH_TOKEN_KEY)

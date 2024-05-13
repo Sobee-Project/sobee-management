@@ -25,7 +25,7 @@ export const getCurrentUser = safeAction.metadata({ actionName: "Get current use
         }
     })
     if (!res.success) {
-        clearCredentialsFromCookie(cookies)
+        clearCredentialsFromCookie()
         redirect(APP_ROUTES.LOGIN)
     }
     return res
