@@ -78,5 +78,13 @@ export const API_ROUTES = {
         CREATE_ATTRIBUTE: "/attribute",
         UPDATE_ATTRIBUTE: "/attribute/:id",
         DELETE_ATTRIBUTE: "/attribute/:id"
+    },
+
+    SHIPPING: {
+        GET_SHIPPINGS: "/shipping",
+        GET_SHIPPING: "/shipping/:id",
+        CREATE_SHIPPING: "/shipping",
+        UPDATE_SHIPPING: "/shipping/:id",
+        DELETE_SHIPPING: "/shipping/:id"
     }
 }
