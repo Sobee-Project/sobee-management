@@ -70,5 +70,13 @@ export const API_ROUTES = {
         CREATE_CATEGORY: "/category",
         UPDATE_CATEGORY: "/category/:id",
         DELETE_CATEGORY: "/category/:id"
+    },
+
+    ATTRIBUTE: {
+        GET_ATTRIBUTES: "/attribute",
+        GET_ATTRIBUTE: "/attribute/:id",
+        CREATE_ATTRIBUTE: "/attribute",
+        UPDATE_ATTRIBUTE: "/attribute/:id",
+        DELETE_ATTRIBUTE: "/attribute/:id"
     }
 }

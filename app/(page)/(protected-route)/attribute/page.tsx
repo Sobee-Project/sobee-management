@@ -1,7 +1,13 @@
-import React from "react"
+import { fetchAllAttributes } from "@/_actions"
+import { AttributeListData } from "./_components"
 
-const page = () => {
-    return <div>page</div>
+const page = async () => {
+    const res = await fetchAllAttributes()
+    return (
+        <div>
+            <AttributeListData data={res.data!} />
+        </div>
+    )
 }
 
 export default page

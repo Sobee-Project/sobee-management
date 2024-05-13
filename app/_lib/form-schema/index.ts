@@ -1,3 +1,4 @@
+export * from "./attribute-form"
 export * from "./auth-form"
 export * from "./category-form"
 export * from "./day-off-form"
