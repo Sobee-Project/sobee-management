@@ -4,5 +4,5 @@ export interface IShipping {
     _id?: string
     name: string
     amount: number
-    type?: EShippingType
+    type?: EShippingType | string
 }
