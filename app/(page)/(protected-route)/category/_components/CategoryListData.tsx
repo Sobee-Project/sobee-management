@@ -25,7 +25,7 @@ const CategoryListData = ({ data: categoryList }: Props) => {
                 dataSource={categoryList || []}
                 columns={categoryColumns}
                 RenderCell={(category, columnKey) => <RenderCellCategory category={category} columnKey={columnKey} />}
-                searchKeys={["name", "country", "city", "state", "zip"]}
+                searchKeys={["name", "slug"] as (keyof ICategory)[]}
                 searchPlaceholder='Search categoryes...'
                 bodyProps={{
                     emptyContent: "No categoryes found"

@@ -1,3 +1,10 @@
+export {
+    createAttribute,
+    deleteAttribute,
+    fetchAllAttributes,
+    fetchAttributeById,
+    updateAttribute
+} from "./attribute-action"
 export { changePassword, getCurrentUser, login, logout } from "./auth-action"
 export {
     createCategory,
