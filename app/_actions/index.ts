@@ -21,6 +21,13 @@ export {
     updateDayOff,
     updateDayOffStatus
 } from "./day-off-action"
+export {
+    createPaymentMethod,
+    deletePaymentMethod,
+    fetchAllPaymentMethods,
+    fetchPaymentMethodById,
+    updatePaymentMethod
+} from "./payment-method-action"
 export { deleteReview, fetchAllReviews, fetchReviewById } from "./review-action"
 export { createRole, deleteRole, fetchAllRoles, fetchRoleById, updateRole } from "./role-action"
 export { createShipping, deleteShipping, fetchAllShippings, fetchShippingById, updateShipping } from "./shipping-action"

@@ -33,5 +33,9 @@ export const CACHE_KEY = {
     SHIPPING: {
         GET_ALL: "SHIPPING_GET_ALL",
         GET_BY_ID: "SHIPPING"
+    },
+    PAYMENT_METHOD: {
+        GET_ALL: "PAYMENT_METHOD_GET_ALL",
+        GET_BY_ID: "PAYMENT_METHOD_GET_BY_ID"
     }
 }

@@ -86,5 +86,13 @@ export const API_ROUTES = {
         CREATE_SHIPPING: "/shipping",
         UPDATE_SHIPPING: "/shipping/:id",
         DELETE_SHIPPING: "/shipping/:id"
+    },
+
+    PAYMENT_METHOD: {
+        GET_PAYMENT_METHODS: "/payment-method",
+        GET_PAYMENT_METHOD: "/payment-method/:id",
+        CREATE_PAYMENT_METHOD: "/payment-method",
+        UPDATE_PAYMENT_METHOD: "/payment-method/:id",
+        DELETE_PAYMENT_METHOD: "/payment-method/:id"
     }
 }

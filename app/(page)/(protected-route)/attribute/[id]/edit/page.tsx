@@ -4,7 +4,6 @@ import { ParamsProps } from "@/_lib/params"
 import { Divider } from "@nextui-org/react"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 import { AttributeForm } from "../../_components"
 
 const page = async ({ params }: ParamsProps) => {
@@ -15,7 +14,7 @@ const page = async ({ params }: ParamsProps) => {
     return (
         <div className='space-y-6'>
             <div className='mt-4 flex items-center gap-8'>
-                <Link href={APP_ROUTES.CATEGORIES.INDEX} className='p-2'>
+                <Link href={APP_ROUTES.ATTRIBUTES.INDEX} className='p-2'>
                     <ChevronLeft className='text-slate-500' />
                 </Link>
                 <h1 className='text-2xl font-semibold'>

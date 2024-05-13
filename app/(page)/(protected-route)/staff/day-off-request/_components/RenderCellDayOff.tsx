@@ -45,11 +45,11 @@ const RenderCellDayOff = ({ dayOff, columnKey }: Props) => {
         case "reason":
             return dayOff.reason
         case "startDate":
-            return format(new Date(dayOff.startDate), "dd/MM/yyyy")
+            return format(new Date(dayOff.startDate), "dd/MM/yyyy 'at' HH:mm")
         case "endDate":
-            return format(new Date(dayOff.endDate), "dd/MM/yyyy")
+            return format(new Date(dayOff.endDate), "dd/MM/yyyy 'at' HH:mm")
         case "createdAt":
-            return format(new Date(dayOff.createdAt || new Date()), "dd/MM/yyyy HH:mm")
+            return format(new Date(dayOff.createdAt || new Date()), "dd/MM/yyyy 'at' HH:mm")
         case "status":
             return <span className={colorizeStatus}>{dayOff.status}</span>
         case "actions":
