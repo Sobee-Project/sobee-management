@@ -63,7 +63,37 @@ export const API_ROUTES = {
         UPDATE_REVIEW: "/review/:id",
         DELETE_REVIEW: "/review/:id"
     },
+    CATEGORY: {
+        GET_CATEGORIES: "/category",
+        GET_CATEGORY: "/category/:id",
+        CREATE_CATEGORY: "/category",
+        UPDATE_CATEGORY: "/category/:id",
+        DELETE_CATEGORY: "/category/:id"
+    },
 
+    ATTRIBUTE: {
+        GET_ATTRIBUTES: "/attribute",
+        GET_ATTRIBUTE: "/attribute/:id",
+        CREATE_ATTRIBUTE: "/attribute",
+        UPDATE_ATTRIBUTE: "/attribute/:id",
+        DELETE_ATTRIBUTE: "/attribute/:id"
+    },
+
+    SHIPPING: {
+        GET_SHIPPINGS: "/shipping",
+        GET_SHIPPING: "/shipping/:id",
+        CREATE_SHIPPING: "/shipping",
+        UPDATE_SHIPPING: "/shipping/:id",
+        DELETE_SHIPPING: "/shipping/:id"
+    },
+
+    PAYMENT_METHOD: {
+        GET_PAYMENT_METHODS: "/payment-method",
+        GET_PAYMENT_METHOD: "/payment-method/:id",
+        CREATE_PAYMENT_METHOD: "/payment-method",
+        UPDATE_PAYMENT_METHOD: "/payment-method/:id",
+        DELETE_PAYMENT_METHOD: "/payment-method/:id"
+    },
     BRAND: {
         GET_BRANDS: "/brand",
         CREATE_BRAND: "/brand",
