@@ -12,7 +12,7 @@ const page = () => {
                 <Link href={APP_ROUTES.TAXES.INDEX} className='p-2'>
                     <ChevronLeft className='text-slate-500' />
                 </Link>
-                <h1 className='text-2xl font-semibold'>Add Tax</h1>
+                <h1 className='text-2xl font-semibold'>Add Category</h1>
             </div>
             <Divider />
             <CategoryForm />

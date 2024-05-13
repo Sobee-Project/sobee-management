@@ -29,5 +29,9 @@ export const CACHE_KEY = {
     ATTRIBUTE: {
         GET_ALL: "ATTRIBUTE_GET_ALL",
         GET_BY_ID: "ATTRIBUTE_GET_BY_ID"
+    },
+    SHIPPING: {
+        GET_ALL: "SHIPPING_GET_ALL",
+        GET_BY_ID: "SHIPPING"
     }
 }
