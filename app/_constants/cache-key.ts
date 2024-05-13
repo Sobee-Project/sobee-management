@@ -37,5 +37,10 @@ export const CACHE_KEY = {
     PAYMENT_METHOD: {
         GET_ALL: "PAYMENT_METHOD_GET_ALL",
         GET_BY_ID: "PAYMENT_METHOD_GET_BY_ID"
+    },
+
+    BRAND: {
+        GET_ALL: "BRAND_GET_ALL",
+        GET_BY_ID: "BRAND_GET_BY_ID"
     }
 }

@@ -6,6 +6,7 @@ export {
     updateAttribute
 } from "./attribute-action"
 export { changePassword, getCurrentUser, login, logout } from "./auth-action"
+export { createBrand, deleteBrand, fetchAllBrands, fetchBrandById, updateBrand } from "./brand-action"
 export {
     createCategory,
     deleteCategory,
