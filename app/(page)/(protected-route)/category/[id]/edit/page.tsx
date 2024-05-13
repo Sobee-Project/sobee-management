@@ -4,7 +4,6 @@ import { ParamsProps } from "@/_lib/params"
 import { Divider } from "@nextui-org/react"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 import { CategoryForm } from "../../_components"
 
 const page = async ({ params }: ParamsProps) => {

@@ -1,6 +1,5 @@
 "use client"
 import { Calendar, CalendarProps } from "react-big-calendar"
-import "react-big-calendar/lib/css/react-big-calendar.css"
 import { formats, localizer, messages, views } from "./BigCalendar.config"
 
 const BigCalendar = (props: Partial<CalendarProps>) => {

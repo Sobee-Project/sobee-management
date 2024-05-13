@@ -7,6 +7,9 @@ const nextConfig = {
             },
             {
                 hostname: "avatar.iran.liara.run"
+            },
+            {
+                hostname: "res.cloudinary.com"
             }
         ]
     },
