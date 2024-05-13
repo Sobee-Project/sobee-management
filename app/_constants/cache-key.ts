@@ -21,5 +21,9 @@ export const CACHE_KEY = {
     },
     AUTH: {
         GET_ME: "AUTH_GET_ME"
+    },
+    CATEGORY: {
+        GET_ALL: "CATEGORY_GET_ALL",
+        GET_BY_ID: "CATEGORY_GET_BY_ID"
     }
 }

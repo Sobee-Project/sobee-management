@@ -1,5 +1,12 @@
 export { changePassword, getCurrentUser, login, logout } from "./auth-action"
 export {
+    createCategory,
+    deleteCategory,
+    fetchAllCategories,
+    fetchCategoryById,
+    updateCategory
+} from "./category-action"
+export {
     createDayOff,
     deleteDayOff,
     fetchAllDayOffs,
