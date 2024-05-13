@@ -62,5 +62,13 @@ export const API_ROUTES = {
         GET_REVIEW: "/review/:id",
         UPDATE_REVIEW: "/review/:id",
         DELETE_REVIEW: "/review/:id"
+    },
+
+    CATEGORY: {
+        GET_CATEGORIES: "/category",
+        GET_CATEGORY: "/category/:id",
+        CREATE_CATEGORY: "/category",
+        UPDATE_CATEGORY: "/category/:id",
+        DELETE_CATEGORY: "/category/:id"
     }
 }
