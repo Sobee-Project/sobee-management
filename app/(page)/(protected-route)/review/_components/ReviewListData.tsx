@@ -16,7 +16,7 @@ const ReviewListData = ({ data: reviewList }: Props) => {
                 dataSource={reviewList || []}
                 columns={reviewColumn}
                 RenderCell={(review, columnKey) => <RenderCellReview review={review} columnKey={columnKey} />}
-                searchKeys={["product", "customer", "title", "content"]}
+                searchKeys={["customer.name", "title", "content"]}
                 searchPlaceholder='Search reviews...'
                 bodyProps={{
                     emptyContent: "No data found"

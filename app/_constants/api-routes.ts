@@ -105,5 +105,20 @@ export const API_ROUTES = {
     UPLOAD: {
         UPLOAD_FILE: "/upload",
         UPLOAD_URL: "/upload/url"
+    },
+
+    FAQ: {
+        GET_FAQS: "/faq",
+        CREATE_FAQ: "/faq",
+        GET_FAQ: "/faq/:id",
+        UPDATE_FAQ: "/faq/:id",
+        DELETE_FAQ: "/faq/:id"
+    },
+    TERM: {
+        GET_TERMS: "/term",
+        GET_TERM: "/term/:id",
+        CREATE_TERM: "/term",
+        UPDATE_TERM: "/term/:id",
+        DELETE_TERM: "/term/:id"
     }
 }

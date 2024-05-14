@@ -1,7 +1,7 @@
 "use client"
 import { CustomTable } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
-import { IBrand } from "@/_lib/interfaces/IBrand"
+import { IBrand } from "@/_lib/interfaces"
 import { useRouter } from "next/navigation"
 import { brandColumns } from "../_mock"
 import RenderCellBrand from "./RenderCellBrand"

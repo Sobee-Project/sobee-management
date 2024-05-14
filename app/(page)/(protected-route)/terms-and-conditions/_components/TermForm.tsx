@@ -1,16 +1,16 @@
 "use client"
-import { createBrand, updateBrand } from "@/_actions"
+import { createTerm, updateTerm } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
 import {
-    CreateBrandFormSchema,
-    UpdateBrandFormSchema,
-    createBrandFormSchema,
-    updateBrandFormSchema
+    CreateTermFormSchema,
+    UpdateTermFormSchema,
+    createTermFormSchema,
+    updateTermFormSchema
 } from "@/_lib/form-schema"
-import { IBrand } from "@/_lib/interfaces"
+import { ITerm } from "@/_lib/interfaces"
 import { cn } from "@/_lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Input, Switch } from "@nextui-org/react"
+import { Button, Input, Switch, Textarea } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
 import { useParams, useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
@@ -18,10 +18,10 @@ import toast from "react-hot-toast"
 
 type Props = {
     type?: "new" | "edit"
-    data?: IBrand
+    data?: ITerm
 }
 
-const BrandForm = ({ type = "new", data }: Props) => {
+const TermForm = ({ type = "new", data }: Props) => {
     const isEdit = type === "edit"
     const router = useRouter()
     const params = useParams()
@@ -32,16 +32,16 @@ const BrandForm = ({ type = "new", data }: Props) => {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<CreateBrandFormSchema | UpdateBrandFormSchema>({
-        resolver: zodResolver(isEdit ? updateBrandFormSchema : createBrandFormSchema),
-        defaultValues: isEdit ? data : { isActive: true }
+    } = useForm<CreateTermFormSchema | UpdateTermFormSchema>({
+        resolver: zodResolver(isEdit ? updateTermFormSchema : createTermFormSchema),
+        defaultValues: isEdit ? data : { title: "", description: "", type: "" }
     })
 
-    const { execute, status } = useAction(isEdit ? updateBrand : createBrand, {
+    const { execute, status } = useAction(isEdit ? updateTerm : createTerm, {
         onSuccess: ({ data }) => {
             if (data.success) {
                 toast.success(data.message)
-                router.push(APP_ROUTES.BRANDS.INDEX)
+                router.push(APP_ROUTES.TERMS_AND_CONDITIONS.INDEX)
             } else {
                 toast.error(data.message)
             }
@@ -50,8 +50,8 @@ const BrandForm = ({ type = "new", data }: Props) => {
 
     const isLoading = status === "executing"
 
-    const onSubmit = (data: CreateBrandFormSchema | UpdateBrandFormSchema) => {
-        const _data = isEdit ? ({ ...data, _id: params.id } as UpdateBrandFormSchema) : (data as CreateBrandFormSchema)
+    const onSubmit = (data: CreateTermFormSchema | UpdateTermFormSchema) => {
+        const _data = isEdit ? ({ ...data, _id: params.id } as UpdateTermFormSchema) : (data as CreateTermFormSchema)
         execute(_data)
     }
 
@@ -59,53 +59,52 @@ const BrandForm = ({ type = "new", data }: Props) => {
         <div className='flex flex-wrap gap-8'>
             <div className='space-y-1'>
                 <h3 className='font-semibold'>Information</h3>
-                <p className='text-sm text-slate-500'>{isEdit ? "Update" : "Add"} your brand information from here</p>
+                <p className='text-sm text-slate-500'>{isEdit ? "Update" : "Add"} your Term information from here</p>
             </div>
             <div className='flex-1 rounded-md border bg-white p-8 shadow-lg'>
                 <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
                     <Input
-                        {...register("name")}
+                        {...register("title")}
                         label='Name'
                         labelPlacement='outside'
-                        placeholder='Global'
+                        placeholder='Term title'
                         variant='bordered'
-                        errorMessage={errors.name?.message}
-                        isInvalid={!!errors.name}
+                        errorMessage={errors.title?.message}
+                        isInvalid={!!errors.title}
+                        isDisabled={isLoading}
+                    />
+                    <Textarea
+                        {...register("description")}
+                        label='Description'
+                        labelPlacement='outside'
+                        placeholder='Term description'
+                        variant='bordered'
+                        errorMessage={errors.description?.message}
+                        isInvalid={!!errors.description}
                         isDisabled={isLoading}
                     />
                     <Input
-                        {...register("website")}
-                        label='Website'
+                        {...register("type")}
+                        label='Type'
                         labelPlacement='outside'
-                        placeholder='https://example.com'
+                        placeholder='Term type'
                         variant='bordered'
-                        errorMessage={errors.website?.message}
-                        isInvalid={!!errors.website}
-                        isDisabled={isLoading}
-                    />
-                    <Input
-                        {...register("logo")}
-                        label='Logo'
-                        labelPlacement='outside'
-                        placeholder='https://example.com/logo.png'
-                        variant='bordered'
-                        errorMessage={errors.logo?.message}
-                        isInvalid={!!errors.logo}
+                        errorMessage={errors.type?.message}
+                        isInvalid={!!errors.type}
                         isDisabled={isLoading}
                     />
                     <Switch
-                        {...(register("isActive"),
+                        {...(register("isApproved"),
                         {
-                            isSelected: watch("isActive"),
+                            isSelected: watch("isApproved"),
                             onValueChange: (value) => {
-                                setValue("isActive", value)
+                                setValue("isApproved", value)
                             }
                         })}
                         classNames={{
                             base: cn(
                                 "inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center",
                                 "justify-between cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent"
-                                // "data-[selected=true]:border-primary"
                             ),
                             wrapper: "p-0 h-4 overflow-visible",
                             thumb: cn(
@@ -120,13 +119,12 @@ const BrandForm = ({ type = "new", data }: Props) => {
                         }}
                     >
                         <div className='flex flex-col gap-1'>
-                            <p className='text-medium'>Active brand</p>
+                            <p className='text-medium'>Aprrove Term</p>
                             <p className='text-tiny text-default-400'>
-                                {errors.isActive?.message || "Toggle to activate or deactivate the brand"}
+                                {errors.isApproved?.message || "Toggle to approve or disapprove the term"}
                             </p>
                         </div>
                     </Switch>
-
                     <div className='flex flex-wrap gap-2'>
                         <Button
                             type='submit'
@@ -143,4 +141,4 @@ const BrandForm = ({ type = "new", data }: Props) => {
         </div>
     )
 }
-export default BrandForm
+export default TermForm
