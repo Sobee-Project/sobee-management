@@ -35,5 +35,6 @@ export { createRole, deleteRole, fetchAllRoles, fetchRoleById, updateRole } from
 export { createShipping, deleteShipping, fetchAllShippings, fetchShippingById, updateShipping } from "./shipping-action"
 export { createStaff, deleteStaff, fetchAllStaff, fetchStaffById, updateStaff } from "./staff-action"
 export { createTax, deleteTax, fetchAllTaxes, fetchTaxById, updateTax } from "./tax-action"
+export { createTerm, deleteTerm, fetchAllTerms, fetchTermById, updateTerm } from "./term-action"
 export { changeAvatar, updateUser } from "./user-action"
 export { revalidateTagAction } from "./utils-action"

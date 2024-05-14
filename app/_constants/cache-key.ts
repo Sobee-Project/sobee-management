@@ -45,5 +45,9 @@ export const CACHE_KEY = {
     FAQ: {
         GET_ALL: "FAQ_GET_ALL",
         GET_BY_ID: "FAQ_GET_BY_ID"
+    },
+    TERM: {
+        GET_ALL: "TERM_GET_ALL",
+        GET_BY_ID: "TERM_GET_BY_ID"
     }
 }

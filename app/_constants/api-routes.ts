@@ -107,5 +107,12 @@ export const API_ROUTES = {
         GET_FAQ: "/faq/:id",
         UPDATE_FAQ: "/faq/:id",
         DELETE_FAQ: "/faq/:id"
+    },
+    TERM: {
+        GET_TERMS: "/term",
+        GET_TERM: "/term/:id",
+        CREATE_TERM: "/term",
+        UPDATE_TERM: "/term/:id",
+        DELETE_TERM: "/term/:id"
     }
 }
