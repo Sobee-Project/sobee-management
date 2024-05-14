@@ -17,7 +17,9 @@ export const updateUserFormSchema = z.object({
     dateOfBirth: z.string().optional()
 })
 
-export const changeAvatarFormSchema = z.any()
+export const changeAvatarFormSchema = z.object({
+    avatar: z.string().url("Invalid URL. Please provide a valid URL.")
+})
 
 export type UserFormSchema = z.infer<typeof userFormSchema>
 export type UpdateUserFormSchema = z.infer<typeof updateUserFormSchema>

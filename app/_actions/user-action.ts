@@ -24,7 +24,12 @@ export const changeAvatar = safeAction
     .metadata({ actionName: "Change Avatar" })
     .schema(changeAvatarFormSchema)
     .action(async ({ parsedInput }) => {
-        const res = await FETCH.put<unknown, IUser>(API_ROUTES.USER.CHANGE_AVATAR, parsedInput, {
+        const res = await FETCH.put<
+            {
+                avatar: string
+            },
+            IUser
+        >(API_ROUTES.USER.CHANGE_AVATAR, parsedInput, {
             cookies
         })
         if (res.success) {
