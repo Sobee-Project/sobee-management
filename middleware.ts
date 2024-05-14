@@ -54,6 +54,7 @@ export async function middleware(request: NextRequest) {
                 }
             )
                 .then((res) => {
+                    console.log(res)
                     if (!res.success) {
                         return redirectToLogin()
                     }

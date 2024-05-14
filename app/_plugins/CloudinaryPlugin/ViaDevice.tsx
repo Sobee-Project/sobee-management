@@ -11,10 +11,11 @@ import { AssetType } from "."
 type Props = {
     files: File[] | FileList | null
     setFiles: (files: File[] | FileList | null) => void
-    types?: AssetType[] | "*"
+    type?: AssetType
+    isLoading?: boolean
 }
 
-const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
+const ViaDevice = ({ files, setFiles, type = "*", isLoading = false }: Props) => {
     const uploadRef = React.useRef<HTMLInputElement>(null)
     const [isDragging, setIsDragging] = useState(false)
 
@@ -94,12 +95,18 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                                             alt={file.name}
                                             width={100}
                                             height={100}
-                                            className='w-12 object-contain'
+                                            className={cn(
+                                                "w-12 object-contain",
+                                                isLoading && "pointer-events-none opacity-20"
+                                            )}
                                         />
                                     )
                                 default:
                                     return (
-                                        <div className='h-auto w-8' key={key}>
+                                        <div
+                                            className={cn("h-auto w-8", isLoading && "pointer-events-none opacity-20")}
+                                            key={key}
+                                        >
                                             <FileIcon extension={ext} type={type} {...defaultStyles[ext]} />
                                         </div>
                                     )
@@ -108,7 +115,10 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                         return (
                             <motion.div
                                 key={key}
-                                className='group flex h-fit cursor-pointer items-center gap-2 rounded-lg border p-2 shadow-sm transition-all hover:border-primary sm:hover:shadow-md'
+                                className={cn(
+                                    "group flex h-fit cursor-pointer items-center gap-2 rounded-lg border p-2 shadow-sm transition-all hover:border-primary sm:hover:shadow-md",
+                                    isLoading && "pointer-events-none select-none opacity-20"
+                                )}
                                 transition={{ duration: 1 }}
                                 initial='hidden'
                                 animate='visible'
@@ -119,7 +129,9 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                                 }}
                             >
                                 {renderFileType()}
-                                <div className='flex-1'>
+                                <div
+                                    className={cn("flex-1", isLoading && "pointer-events-none select-none opacity-20")}
+                                >
                                     <span className='line-clamp-1 text-sm group-hover:text-primary'>{fileName}</span>
                                     <span className='text-xs text-gray-500 group-hover:text-primary'>
                                         .{ext} - {fromFileSizeToReadable(file.size)}
@@ -135,6 +147,7 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                                         variant='light'
                                         color='primary'
                                         size='sm'
+                                        isDisabled={isLoading}
                                     />
                                     <Button
                                         isIconOnly
@@ -142,6 +155,7 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                                         color='danger'
                                         size='sm'
                                         onPress={() => onRemove(index)}
+                                        isDisabled={isLoading}
                                     >
                                         <Trash2Icon size={14} />
                                     </Button>
@@ -154,33 +168,29 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                         startContent={<PlusIcon size={16} />}
                         className='h-full min-h-14 self-start'
                         onClick={onBrowse}
+                        isDisabled={isLoading}
                     >
                         Add more
                     </Button>
                 </div>
             )
         )
-    }, [files, onRemove])
+    }, [files, isLoading, onRemove])
 
     const acceptType = useMemo(() => {
-        if (types === "*") return "*"
-        const _types = types.map((type) => {
-            switch (type) {
-                case "image":
-                    return "image/*"
-                case "video":
-                    return "video/*"
-                case "audio":
-                    return "audio/*"
-                case "raw":
-                    return "application/*, text/*"
-                default:
-                    return "*"
-            }
-        })
-
-        return _types.join(", ")
-    }, [types])
+        switch (type) {
+            case "image":
+                return "image/*"
+            case "video":
+                return "video/*"
+            case "audio":
+                return "audio/*"
+            case "raw":
+                return "application/*, text/*"
+            default:
+                return "*"
+        }
+    }, [type])
 
     return (
         <div
@@ -240,6 +250,7 @@ const ViaDevice = ({ files, setFiles, types = "*" }: Props) => {
                             startContent={<Trash2Icon size={16} />}
                             className='self-start'
                             onClick={onClear}
+                            isDisabled={isLoading}
                         >
                             Clear
                         </Button>

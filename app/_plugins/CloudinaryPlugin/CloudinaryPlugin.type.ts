@@ -1,12 +1,12 @@
 import { ClassValue } from "clsx"
 
-export type AssetType = "image" | "video" | "audio" | "raw"
+export type AssetType = "image" | "video" | "audio" | "raw" | "*"
 
 export type CloudinaryPluginProps = {
     className?: ClassValue
-    onUploadError?: (error: Error) => void
-    onUploadSuccess?: (response: any) => void
+    onUploadError?: () => void
+    onUploadSuccess?: (response: { urls: string[] }) => void
     visible?: boolean
     onClose?: () => void
-    assetTypes?: AssetType[] | "*"
+    assetType?: AssetType
 }

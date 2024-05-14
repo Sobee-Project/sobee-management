@@ -14,14 +14,13 @@
         "@nextui-org/react": "^2.3.6",
         "@typeschema/zod": "^0.13.3",
         "axios": "^1.6.8",
-        "cloudinary": "^2.2.0",
         "clsx": "^2.1.0",
         "cookies-next": "^4.1.1",
         "date-fns": "^3.6.0",
         "framer-motion": "^11.0.8",
         "jwt-decode": "^4.0.0",
         "lucide-react": "^0.366.0",
-        "next": "^14.3.0-canary.61",
+        "next": "14.3.0-canary.40",
         "next-safe-action": "^7.0.0-next.39",
         "react": "^18",
         "react-big-calendar": "^1.12.1",
@@ -33,6 +32,7 @@
         "sharp": "^0.33.3",
         "tailwind-merge": "^2.2.2",
         "zod": "^3.23.8",
+        "zod-form-data": "^2.0.2",
         "zustand": "^4.5.2"
     },
     "devDependencies": {

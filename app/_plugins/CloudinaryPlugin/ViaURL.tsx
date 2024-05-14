@@ -1,22 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Image, Input } from "@nextui-org/react"
-import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-const urlSchema = z.object({
-    url: z.string().url("Invalid URL")
-})
-type URLSchema = z.infer<typeof urlSchema>
+import { Button, Input } from "@nextui-org/react"
+import { useEffect, useState } from "react"
 
 type Props = {
     url: string
     setUrl: (url: string) => void
+    isLoading?: boolean
 }
 
-const ViaURL = ({ url, setUrl }: Props) => {
+const ViaURL = ({ url, setUrl, isLoading = false }: Props) => {
     const [preview, setPreview] = useState<string | null>(null)
     const [imageState, setImageState] = useState<"idle" | "loading" | "error">("idle")
 
@@ -45,7 +38,7 @@ const ViaURL = ({ url, setUrl }: Props) => {
                 placeholder='https://example.com/image.jpg'
                 label='Image URL'
                 autoFocus
-                isDisabled={!!preview}
+                isDisabled={!!preview || isLoading}
                 onValueChange={(v) => setUrl(v)}
                 type='url'
                 value={url}
@@ -67,11 +60,22 @@ const ViaURL = ({ url, setUrl }: Props) => {
             )}
             <div className='flex items-center gap-2'>
                 {!preview ? (
-                    <Button color='primary' className='self-start' onPress={onSubmit} isDisabled={url === ""}>
+                    <Button
+                        color='primary'
+                        className='self-start'
+                        onPress={onSubmit}
+                        isDisabled={url === "" || isLoading}
+                    >
                         Preview
                     </Button>
                 ) : (
-                    <Button variant='flat' className='self-start' type='button' onPress={onReset}>
+                    <Button
+                        variant='flat'
+                        className='self-start'
+                        type='button'
+                        onPress={onReset}
+                        isDisabled={isLoading}
+                    >
                         Reset
                     </Button>
                 )}

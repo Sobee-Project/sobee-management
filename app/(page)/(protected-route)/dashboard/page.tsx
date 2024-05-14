@@ -1,20 +1,7 @@
-"use client"
-import { CloudinaryPlugin } from "@/_plugins"
-import { Button } from "@nextui-org/react"
-import React, { useState } from "react"
+import React from "react"
 
-const Page = () => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <div className='min-h-screen rounded p-4 shadow'>
-            <Button onPress={() => setVisible(true)}>Open Modal</Button>
-            <CloudinaryPlugin
-                visible={visible}
-                onClose={() => setVisible(false)}
-                assetTypes={["image", "video", "raw"]}
-            />
-        </div>
-    )
+const page = () => {
+    return <div>page</div>
 }
 
-export default Page
+export default page
