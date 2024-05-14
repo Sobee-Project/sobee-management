@@ -101,6 +101,12 @@ export const API_ROUTES = {
         UPDATE_BRAND: "/brand/:id",
         DELETE_BRAND: "/brand/:id"
     },
+
+    UPLOAD: {
+        UPLOAD_FILE: "/upload",
+        UPLOAD_URL: "/upload/url"
+    },
+
     FAQ: {
         GET_FAQS: "/faq",
         CREATE_FAQ: "/faq",

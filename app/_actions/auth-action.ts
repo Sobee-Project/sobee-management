@@ -19,13 +19,13 @@ export const getCurrentUser = safeAction.metadata({ actionName: "Get current use
         user: IUser
     }>(API_ROUTES.AUTH.GET_ME, {
         cookies,
-        cache: "force-cache",
+        cache: "reload",
         next: {
             tags: [CACHE_KEY.AUTH.GET_ME]
         }
     })
     if (!res.success) {
-        clearCredentialsFromCookie()
+        clearCredentialsFromCookie(cookies)
         redirect(APP_ROUTES.LOGIN)
     }
     return res

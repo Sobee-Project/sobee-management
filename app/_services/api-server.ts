@@ -2,6 +2,7 @@ import { ENV_CONFIG } from "@/_constants"
 import { BaseResponse, ErrorResponse, SucccessResponse } from "@/_lib/types"
 import { getCredentialsFromCookie } from "@/_utils"
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
+import { redirect } from "next/navigation"
 
 type Options = {
     params?: Record<string, any>
@@ -13,18 +14,24 @@ const _FETCH = async <T extends any>(
     url: string,
     options?: Options
 ): Promise<SucccessResponse<T> | ErrorResponse<T>> => {
+    const isFormData = options?.body instanceof FormData
     const opts = {
         ...options,
-        body: JSON.stringify(options?.body),
+        body: isFormData ? options?.body : JSON.stringify(options?.body),
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             ...options?.headers
         }
     } as Options
+
+    //@ts-ignore
+    isFormData && opts.headers && delete opts.headers["Content-Type"]
+
     try {
         const params = new URLSearchParams(opts.params)
-        const res = await fetch(`${ENV_CONFIG.BASE_API_URL}${url}?${params.toString()}`, opts)
+        const apiUrl = url.startsWith("http") ? url : `${ENV_CONFIG.BASE_API_URL}${url}`
+        const res = await fetch(`${apiUrl}?${params.toString()}`, opts)
         const data = await res.json()
         return data as SucccessResponse<T>
     } catch (error: any) {
