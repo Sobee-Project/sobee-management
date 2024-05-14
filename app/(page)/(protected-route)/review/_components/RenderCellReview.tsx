@@ -38,14 +38,14 @@ const RenderCellReview = ({ columnKey, review }: Props) => {
                     <StarIcon className='ms-1 size-3' />
                 </div>
             )
-        case "customer":
+        case "customer.name":
             return (
                 <p>
                     <span>By </span>
                     <span className='font-semibold'>{(review.customer as IUser).name}</span>
                 </p>
             )
-        case "product":
+        case "product.name":
             return (review.product as IProduct).name
         case "assets":
             return review.assets.length + " images"

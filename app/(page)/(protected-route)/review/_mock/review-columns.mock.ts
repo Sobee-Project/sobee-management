@@ -1,8 +1,8 @@
 import { ColumnType } from "@/_components"
 
 export type ReviewColumnKey =
-    | "product"
-    | "customer"
+    | "product.name"
+    | "customer.name"
     | "rating"
     | "title"
     | "content"
@@ -26,12 +26,12 @@ export const reviewColumn: ColumnType<ReviewColumnKey>[] = [
     },
     {
         label: "Customer",
-        key: "customer",
+        key: "customer.name",
         allowSorting: true
     },
     {
         label: "Product",
-        key: "product",
+        key: "product.name",
         allowSorting: true
     },
     {

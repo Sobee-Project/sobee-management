@@ -1,27 +1,28 @@
 "use client"
-
-import { deleteBrand } from "@/_actions"
+import { deleteFaq } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
-import { IBrand } from "@/_lib/interfaces"
-import { Button, Chip, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { IUser } from "@/_lib/interfaces"
+import { IFaq } from "@/_lib/interfaces/IFaq"
+import { Button, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { format } from "date-fns"
-import { CheckIcon, SquarePen, Trash2, X } from "lucide-react"
+import { Eye, SquarePen, Trash2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
-import Image from "next/image"
 import { Key, useState } from "react"
 import toast from "react-hot-toast"
-import { BrandColumnKey } from "../_mock"
+import { FaqColumnKey } from "../_mock"
+import ViewFaqModal from "./ViewFaqModal"
 
 type Props = {
-    brand: IBrand
+    faq: IFaq
     columnKey: Key
 }
 
-const RenderCellBrand = ({ brand, columnKey }: Props) => {
-    const cellValue = brand[columnKey as keyof IBrand]
+const RenderCellFaq = ({ faq, columnKey }: Props) => {
+    const cellValue = faq[columnKey as keyof IFaq]
     const [showPopover, setShowPopover] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
-    const { execute, status } = useAction(deleteBrand, {
+    const { execute, status } = useAction(deleteFaq, {
         onSuccess: ({ data }) => {
             if (data.success) {
                 toast.success(data.message)
@@ -33,51 +34,29 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
     const isLoading = status === "executing"
 
     const onDelete = () => {
-        execute(brand._id!)
+        execute(faq._id!)
         setShowPopover(false)
     }
 
-    switch (columnKey as BrandColumnKey) {
-        case "name":
-            return <p className='text-lg'>{brand.name}</p>
-        case "logo":
+    switch (columnKey as FaqColumnKey) {
+        case "title":
+            return <p>{faq.title}</p>
+        case "description":
+            return <p className='line-clamp-2 max-w-80'>{faq.description}</p>
+        case "type":
+            return <p>{faq.type}</p>
+        case "issued_by.name":
             return (
-                <Image
-                    src={brand.logo}
-                    alt={brand.name}
-                    width={72}
-                    height={72}
-                    objectFit='cover'
-                    onError={(e) => {
-                        e.currentTarget.src =
-                            "https://res.cloudinary.com/dtfkou1of/image/upload/v1715627220/sobee-storage/image/default_image.jpg"
-                    }}
-                    className='inline-flex rounded-md bg-gray-200'
-                />
+                <p>
+                    <span>By </span>
+                    <span className='font-semibold'>{(faq.issued_by as IUser).name}</span>
+                </p>
             )
-        case "isActive":
-            return brand.isActive ? (
-                <Chip color='success' variant='bordered' startContent={<CheckIcon size={18} />}>
-                    Active
-                </Chip>
-            ) : (
-                <Chip color='warning' variant='bordered' startContent={<X size={18} />}>
-                    Inactive
-                </Chip>
-            )
-        case "website":
-            return (
-                <Link href={brand.website} isExternal showAnchorIcon color='primary'>
-                    {brand.website}
-                </Link>
-            )
-        case "products":
-            return brand.products?.length || 0
         case "createdAt":
             return (
                 <div className='flex flex-col gap-0.5'>
-                    <p className='text-sm font-semibold'>{`${format(new Date(brand.createdAt as string), "dd/MM/yyyy ")}`}</p>
-                    <p className='text-sm '>{`${format(new Date(brand.createdAt as string), "'At' h:mm a")}`}</p>
+                    <p className='text-sm font-semibold'>{`${format(new Date(faq.createdAt as string), "dd/MM/yyyy ")}`}</p>
+                    <p className='text-sm '>{`${format(new Date(faq.createdAt as string), "'At' h:mm a")}`}</p>
                 </div>
             )
         case "actions":
@@ -87,9 +66,29 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
                         isIconOnly
                         variant='light'
                         size='sm'
+                        color='success'
+                        onClick={() => {
+                            setShowModal(true)
+                        }}
+                    >
+                        <Eye size={20} />
+                    </Button>
+                    {showModal && (
+                        <ViewFaqModal
+                            faq={faq}
+                            modalProps={{
+                                onClose: () => setShowModal(false),
+                                isOpen: showModal
+                            }}
+                        />
+                    )}
+                    <Button
+                        isIconOnly
+                        variant='light'
+                        size='sm'
                         color='primary'
                         as={Link}
-                        href={APP_ROUTES.BRANDS.EDIT.replace(":id", brand?._id!)}
+                        href={APP_ROUTES.FAQS.EDIT.replace(":id", faq?._id!)}
                     >
                         <SquarePen size={20} />
                     </Button>
@@ -128,4 +127,4 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
             return <>{cellValue}</>
     }
 }
-export default RenderCellBrand
+export default RenderCellFaq
