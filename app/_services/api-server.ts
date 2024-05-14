@@ -24,7 +24,8 @@ const _FETCH = async <T extends any>(
     } as Options
     try {
         const params = new URLSearchParams(opts.params)
-        const res = await fetch(`${ENV_CONFIG.BASE_API_URL}${url}?${params.toString()}`, opts)
+        const apiUrl = url.startsWith("http") ? url : `${ENV_CONFIG.BASE_API_URL}${url}`
+        const res = await fetch(`${apiUrl}?${params.toString()}`, opts)
         const data = await res.json()
         return data as SucccessResponse<T>
     } catch (error: any) {

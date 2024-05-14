@@ -14,6 +14,7 @@ export {
     fetchCategoryById,
     updateCategory
 } from "./category-action"
+export { uploadFile } from "./cloudinary-action"
 export {
     createDayOff,
     deleteDayOff,

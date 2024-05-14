@@ -1,6 +1,7 @@
 export * from "./attribute-form"
 export * from "./auth-form"
 export * from "./category-form"
+export * from "./cloudinary-form"
 export * from "./day-off-form"
 export * from "./payment-method-form"
 export * from "./role-form"
