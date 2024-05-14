@@ -1,7 +1,7 @@
 "use client"
 import { CustomTable } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
-import { IFaq } from "@/_lib/interfaces/IFaq"
+import { IFaq } from "@/_lib/interfaces"
 import { useRouter } from "next/navigation"
 import { faqColumns } from "../_mock"
 import RenderCellFaq from "./RenderCellFaq"

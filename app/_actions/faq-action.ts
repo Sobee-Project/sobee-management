@@ -56,6 +56,7 @@ export const updateFaq = safeAction
         })
         if (res.success) {
             revalidateTag(CACHE_KEY.FAQ.GET_ALL)
+            revalidateTag([CACHE_KEY.FAQ.GET_BY_ID, parsedInput._id!].join(", "))
         }
         return res
     })
@@ -71,6 +72,7 @@ export const deleteFaq = safeAction
         })
         if (res.success) {
             revalidateTag(CACHE_KEY.FAQ.GET_ALL)
+            revalidateTag([CACHE_KEY.FAQ.GET_BY_ID, parsedInput].join(", "))
         }
         return res
     })

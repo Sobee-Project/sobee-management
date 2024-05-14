@@ -1,27 +1,27 @@
 "use client"
-import { deleteFaq } from "@/_actions"
+import { deleteTerm } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
-import { IFaq, IUser } from "@/_lib/interfaces"
-import { Button, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { ITerm, IUser } from "@/_lib/interfaces"
+import { Button, Chip, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { format } from "date-fns"
-import { Eye, SquarePen, Trash2 } from "lucide-react"
+import { CheckIcon, Eye, SquarePen, Trash2, X } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import { Key, useState } from "react"
 import toast from "react-hot-toast"
-import { FaqColumnKey } from "../_mock"
-import ViewFaqModal from "./ViewFaqModal"
+import { TermColumnKey } from "../_mock"
+import ViewTermModal from "./ViewTermModal"
 
 type Props = {
-    faq: IFaq
+    term: ITerm
     columnKey: Key
 }
 
-const RenderCellFaq = ({ faq, columnKey }: Props) => {
-    const cellValue = faq[columnKey as keyof IFaq]
+const RenderCellTerm = ({ term, columnKey }: Props) => {
+    const cellValue = term[columnKey as keyof ITerm]
     const [showPopover, setShowPopover] = useState(false)
     const [showModal, setShowModal] = useState(false)
 
-    const { execute, status } = useAction(deleteFaq, {
+    const { execute, status } = useAction(deleteTerm, {
         onSuccess: ({ data }) => {
             if (data.success) {
                 toast.success(data.message)
@@ -33,29 +33,39 @@ const RenderCellFaq = ({ faq, columnKey }: Props) => {
     const isLoading = status === "executing"
 
     const onDelete = () => {
-        execute(faq._id!)
+        execute(term._id!)
         setShowPopover(false)
     }
 
-    switch (columnKey as FaqColumnKey) {
+    switch (columnKey as TermColumnKey) {
         case "title":
-            return <p>{faq.title}</p>
+            return <p>{term.title}</p>
         case "description":
-            return <p className='line-clamp-2 max-w-80'>{faq.description}</p>
+            return <p className='line-clamp-2 max-w-80'>{term.description}</p>
         case "type":
-            return <p>{faq.type}</p>
+            return <p>{term.type}</p>
         case "issued_by.name":
             return (
                 <p>
                     <span>By </span>
-                    <span className='font-semibold'>{(faq.issued_by as IUser).name}</span>
+                    <span className='font-semibold'>{(term.issued_by as IUser).name}</span>
                 </p>
+            )
+        case "isApproved":
+            return term.isApproved ? (
+                <Chip color='success' variant='bordered' startContent={<CheckIcon size={18} />}>
+                    Approved
+                </Chip>
+            ) : (
+                <Chip color='warning' variant='bordered' startContent={<X size={18} />}>
+                    Waiting for approval
+                </Chip>
             )
         case "createdAt":
             return (
                 <div className='flex flex-col gap-0.5'>
-                    <p className='text-sm font-semibold'>{`${format(new Date(faq.createdAt as string), "dd/MM/yyyy ")}`}</p>
-                    <p className='text-sm '>{`${format(new Date(faq.createdAt as string), "'At' h:mm a")}`}</p>
+                    <p className='text-sm font-semibold'>{`${format(new Date(term.createdAt as string), "dd/MM/yyyy ")}`}</p>
+                    <p className='text-sm '>{`${format(new Date(term.createdAt as string), "'At' h:mm a")}`}</p>
                 </div>
             )
         case "actions":
@@ -73,8 +83,8 @@ const RenderCellFaq = ({ faq, columnKey }: Props) => {
                         <Eye size={20} />
                     </Button>
                     {showModal && (
-                        <ViewFaqModal
-                            faq={faq}
+                        <ViewTermModal
+                            term={term}
                             modalProps={{
                                 onClose: () => setShowModal(false),
                                 isOpen: showModal
@@ -87,7 +97,7 @@ const RenderCellFaq = ({ faq, columnKey }: Props) => {
                         size='sm'
                         color='primary'
                         as={Link}
-                        href={APP_ROUTES.FAQS.EDIT.replace(":id", faq?._id!)}
+                        href={APP_ROUTES.TERMS_AND_CONDITIONS.EDIT.replace(":id", term?._id!)}
                     >
                         <SquarePen size={20} />
                     </Button>
@@ -126,4 +136,4 @@ const RenderCellFaq = ({ faq, columnKey }: Props) => {
             return <>{cellValue}</>
     }
 }
-export default RenderCellFaq
+export default RenderCellTerm

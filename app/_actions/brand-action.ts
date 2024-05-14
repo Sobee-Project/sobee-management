@@ -76,6 +76,7 @@ export const deleteBrand = safeAction
         })
         if (res.success) {
             revalidateTag(CACHE_KEY.BRAND.GET_ALL)
+            revalidateTag([CACHE_KEY.BRAND.GET_BY_ID, parsedInput].join(", "))
         }
         return res
     })
