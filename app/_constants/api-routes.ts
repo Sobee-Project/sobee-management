@@ -100,5 +100,12 @@ export const API_ROUTES = {
         GET_BRAND: "/brand/:id",
         UPDATE_BRAND: "/brand/:id",
         DELETE_BRAND: "/brand/:id"
+    },
+    FAQ: {
+        GET_FAQS: "/faq",
+        CREATE_FAQ: "/faq",
+        GET_FAQ: "/faq/:id",
+        UPDATE_FAQ: "/faq/:id",
+        DELETE_FAQ: "/faq/:id"
     }
 }

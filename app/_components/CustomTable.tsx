@@ -140,13 +140,16 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
     const onSortChange = useCallback(
         (_sortDescriptor: SortDescriptor) => {
             setSortDescriptor(_sortDescriptor)
+
             const sortedData = [...dataSource].sort((a: any, b: any) => {
+                const sortKeyA = fromDotKeyToObjectValue(a, _sortDescriptor.column as string)
+                const sortKeyB = fromDotKeyToObjectValue(b, _sortDescriptor.column as string)
                 if (_sortDescriptor.direction === "ascending") {
                     // @ts-ignore
-                    return a[_sortDescriptor.column] > b[_sortDescriptor.column] ? 1 : -1
+                    return sortKeyA > sortKeyB ? 1 : -1
                 } else {
                     // @ts-ignore
-                    return a[_sortDescriptor.column] < b[_sortDescriptor.column] ? 1 : -1
+                    return sortKeyA < sortKeyB ? 1 : -1
                 }
             })
             setDataSourceState(sortedData)

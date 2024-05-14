@@ -6,7 +6,7 @@ import {
     UpdateBrandFormSchema,
     createBrandFormSchema,
     updateBrandFormSchema
-} from "@/_lib/form-schema/brand-form"
+} from "@/_lib/form-schema"
 import { IBrand } from "@/_lib/interfaces/IBrand"
 import { cn } from "@/_lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
