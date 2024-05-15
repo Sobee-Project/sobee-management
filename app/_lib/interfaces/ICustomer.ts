@@ -6,5 +6,7 @@ export interface ICustomer {
     phoneNumberVerifiedAt?: Date | string
     isEmailVerified?: boolean
     emailVerifiedAt?: Date | string
+    gender?: string
+    isActive?: boolean
     addresses?: string[] | IAddress[]
 }

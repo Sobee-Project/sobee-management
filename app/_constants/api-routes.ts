@@ -48,6 +48,16 @@ export const API_ROUTES = {
         DELETE_STAFF: "/staff/:id"
     },
 
+    CUSTOMER: {
+        GET_CUSTOMERS: "/customer",
+        GET_CUSTOMER: "/customer/:id",
+        CREATE_CUSTOMER: "/customer",
+        UPDATE_CUSTOMER: "/customer/:id",
+        DELETE_CUSTOMER: "/customer/:id",
+        BAN: "/customer/ban/:id",
+        UNBAN: "/customer/unban/:id"
+    },
+
     DAY_OFF: {
         GET_DAY_OFFS: "/day-off",
         CREATE_DAY_OFF: "/day-off",
