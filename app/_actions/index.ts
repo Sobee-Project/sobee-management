@@ -16,6 +16,15 @@ export {
 } from "./category-action"
 export { uploadFile, uploadUrl } from "./cloudinary-action"
 export {
+    banCustomer,
+    createCustomer,
+    deleteCustomer,
+    fetchAllCustomer,
+    fetchCustomerById,
+    unbanCustomer,
+    updateCustomer
+} from "./customer-action"
+export {
     createDayOff,
     deleteDayOff,
     fetchAllDayOffs,
