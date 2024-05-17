@@ -9,4 +9,6 @@ export type CloudinaryPluginProps = {
     visible?: boolean
     onClose?: () => void
     assetType?: AssetType
+    multiple?: boolean
+    folder?: string
 }

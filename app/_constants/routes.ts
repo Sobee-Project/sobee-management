@@ -110,7 +110,8 @@ export const APP_ROUTES = {
     COUPONS: {
         INDEX: "/coupon",
         NEW: "/coupon/new",
-        ID: "/coupon/:id"
+        ID: "/coupon/:id",
+        EDIT: "/coupon/:id/edit"
     },
     FLASH_SALES: {
         INDEX: "/flash-sale",

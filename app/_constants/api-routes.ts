@@ -32,6 +32,16 @@ export const API_ROUTES = {
         GET_ASSET_RESOUREC: "/asset/resource" //?resourcePath={asset.urlPath}
     },
 
+    COUPON: {
+        GET_COUPONS: "/coupon",
+        GET_COUPON: "/coupon/:id",
+        CREATE_COUPON: "/coupon",
+        UPDATE_COUPON: "/coupon/:id",
+        DELETE_COUPON: "/coupon/:id",
+        ACTIVE_COUPON: "/coupon/:id/active",
+        DEACTIVE_COUPON: "/coupon/:id/deactive"
+    },
+
     TAX: {
         GET_TAXES: "/tax",
         CREATE_TAX: "/tax",
