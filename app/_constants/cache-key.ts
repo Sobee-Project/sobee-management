@@ -53,5 +53,9 @@ export const CACHE_KEY = {
     TERM: {
         GET_ALL: "TERM_GET_ALL",
         GET_BY_ID: "TERM_GET_BY_ID"
+    },
+    COUPON: {
+        GET_ALL: "COUPON_GET_ALL",
+        GET_BY_ID: "COUPON_GET_BY_ID"
     }
 }
