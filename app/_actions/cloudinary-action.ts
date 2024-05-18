@@ -15,7 +15,7 @@ export const uploadFile = safeAction
     })
     .schema(uploadFileFormSchema)
     .action(async ({ parsedInput }) => {
-        const { files, resourceType } = parsedInput
+        const { files, resourceType, folder } = parsedInput
         const formData = new FormData()
         switch (true) {
             case files instanceof File:
@@ -29,7 +29,8 @@ export const uploadFile = safeAction
         }
 
         formData.append("upload_preset", ENV_CONFIG.CLOUDINARY_UPLOAD_PRESET!)
-        formData.append("folder", resourceType as string)
+        formData.append("folder", folder as string)
+        formData.append("resourceType", resourceType as string)
         const res = await FETCH.post<
             any,
             {
@@ -47,10 +48,12 @@ export const uploadUrl = safeAction
     })
     .schema(uploadUrlFormSchema)
     .action(async ({ parsedInput }) => {
-        const { url } = parsedInput
+        const { url, folder, resourceType } = parsedInput
         const formData = new FormData()
         formData.append("url", url)
         formData.append("upload_preset", ENV_CONFIG.CLOUDINARY_UPLOAD_PRESET!)
+        formData.append("folder", folder as string)
+        formData.append("resourceType", resourceType as string)
         const res = await FETCH.post<
             any,
             {

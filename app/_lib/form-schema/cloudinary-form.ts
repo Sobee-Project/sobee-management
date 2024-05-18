@@ -6,9 +6,12 @@ export const uploadFileFormSchema = zfd.formData({
         .file(z.instanceof(File))
         .array()
         .or(zfd.file(z.instanceof(File))),
-    resourceType: zfd.text(z.string().optional()).optional()
+    resourceType: zfd.text(z.string().optional()).optional(),
+    folder: zfd.text(z.string().optional()).optional()
 })
 
 export const uploadUrlFormSchema = zfd.formData({
-    url: zfd.text(z.string().url())
+    url: zfd.text(z.string().url()),
+    resourceType: zfd.text(z.string().optional()).optional(),
+    folder: zfd.text(z.string().optional()).optional()
 })

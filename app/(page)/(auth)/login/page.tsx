@@ -25,6 +25,7 @@ const LoginPage = () => {
 
     const { execute, status } = useAction(login, {
         onSuccess: ({ data }) => {
+            if (!data) return
             if (data.success) {
                 toast.success("Login successfully!")
             } else {

@@ -83,15 +83,15 @@ const CloudinaryPlugin = ({
                         formData.append("files", file)
                     })
                 }
-                formData.append("resourceType", folder)
                 break
             case url !== "":
                 formData.append("url", url)
-                formData.append("resourceType", folder)
                 break
             default:
                 return
         }
+        formData.append("resourceType", assetType)
+        formData.append("folder", folder)
 
         execute(formData)
     }

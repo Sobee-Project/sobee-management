@@ -22,7 +22,17 @@ export const API_ROUTES = {
     },
 
     PRODUCT: {
-        GET_PRODUCTS: "/product"
+        GET_PUBLISHED_PRODUCTS: "/product/published",
+        GET_DRAFT_PRODUCTS: "/product/draft",
+        GET_POPULAR_PRODUCTS: "/product/popular",
+        GET_BEST_SELLER_PRODUCTS: "/product/best-seller",
+        GET_RELATED_PRODUCTS: "/product/related/:categoryId",
+        GET_DISCOUNT_PRODUCTS: "/product/discount",
+        GET_FEATURED_PRODUCTS: "/product/featured",
+        GET_PRODUCT: "/product/:id",
+        CREATE_PRODUCT: "/product",
+        UPDATE_PRODUCT: "/product/:id",
+        DELETE_PRODUCT: "/product/:id"
     },
 
     ASSET: {

@@ -51,7 +51,7 @@ export const sidebarMock: TSidebarGroup[] = [
                 href: APP_ROUTES.PRODUCTS.INDEX,
                 items: [
                     {
-                        title: "All products",
+                        title: "Published products",
                         href: APP_ROUTES.PRODUCTS.INDEX
                     },
                     {

@@ -2,7 +2,6 @@
 import { changeAvatar } from "@/_actions"
 import { ScreenLoader } from "@/_components"
 import { IUser } from "@/_lib/interfaces"
-import { useUserStore } from "@/_store"
 import { Button, Chip } from "@nextui-org/react"
 import { Camera } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
@@ -21,14 +20,12 @@ type Props = {
 }
 
 const SimpleInfoSection = ({ userInfo }: Props) => {
-    const { refetch } = useUserStore()
     const [showPlugin, setShowPlugin] = useState(false)
 
     const { execute, status } = useAction(changeAvatar, {
         onSuccess: ({ data }) => {
             if (data.success) {
                 toast.success(data.message)
-                refetch()
             } else {
                 toast.error(data.message || "Failed to change avatar")
             }

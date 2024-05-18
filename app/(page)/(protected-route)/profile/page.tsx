@@ -4,7 +4,7 @@ import { ChangePasswordForm, SimpleInfoSection, UpdateUserInfoForm, UserInfoSect
 
 const Page = async () => {
     const res = await getCurrentUser()
-    const userInfo = res.data?.data?.user!
+    const userInfo = res.data?.user!
     return (
         <div className='grid grid-cols-[40%_auto] gap-4'>
             <div className='flex flex-col gap-4'>

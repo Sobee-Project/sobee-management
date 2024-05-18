@@ -78,6 +78,9 @@ export async function middleware(request: NextRequest) {
             if (request.url.includes(APP_ROUTES.LOGIN)) {
                 return NextResponse.redirect(new URL(APP_ROUTES.DASHBOARD, request.url))
             }
+            if (request.nextUrl.pathname === "/500" || request.nextUrl.pathname === "/401") {
+                return redirectToLogin()
+            }
             return NextResponse.next()
         }
     }

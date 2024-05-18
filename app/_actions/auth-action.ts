@@ -14,12 +14,12 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-export const getCurrentUser = safeAction.metadata({ actionName: "Get current user" }).action(async () => {
+export const getCurrentUser = async () => {
     const res = await FETCH.get<{
         user: IUser
     }>(API_ROUTES.AUTH.GET_ME, {
         cookies,
-        cache: "reload",
+        cache: "force-cache",
         next: {
             tags: [CACHE_KEY.AUTH.GET_ME]
         }
@@ -29,7 +29,7 @@ export const getCurrentUser = safeAction.metadata({ actionName: "Get current use
         redirect(APP_ROUTES.LOGIN)
     }
     return res
-})
+}
 
 export const login = safeAction
     .metadata({

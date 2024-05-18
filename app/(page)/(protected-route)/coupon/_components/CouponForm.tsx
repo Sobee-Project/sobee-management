@@ -1,7 +1,7 @@
 "use client"
 import { createCoupon, updateCoupon } from "@/_actions"
 import { ScreenLoader } from "@/_components"
-import { APP_ROUTES } from "@/_constants"
+import { APP_ROUTES, DEFAULT_COUPON_IMAGE } from "@/_constants"
 import { ECouponApplyType, ECouponType } from "@/_lib/enums"
 import {
     CreateCouponFormSchema,
@@ -54,7 +54,7 @@ const CouponForm = ({ type = "new", data }: Props) => {
                   endDate: format(new Date(data?.endDate as string), "yyyy-MM-dd")
               }
             : {
-                  image: "https://res.cloudinary.com/dtfkou1of/image/upload/v1715880344/sobee-storage/image/coupon/coupon_default.png",
+                  image: DEFAULT_COUPON_IMAGE,
                   type: ECouponType.FIXED,
                   applyTo: ECouponApplyType.ALL,
                   startDate: format(new Date(), "yyyy-MM-dd"),
@@ -93,14 +93,20 @@ const CouponForm = ({ type = "new", data }: Props) => {
                     <div className='flex'>
                         <div className='w-1/3'>
                             <p className='mb-2 text-sm'>Image</p>
-                            <Button color='primary' onClick={() => setShowPlugin(true)}>
+                            <Button color='primary' variant='bordered' onClick={() => setShowPlugin(true)}>
                                 Choose Image
                             </Button>
                         </div>
                         <div className='ml-4 w-2/3 '>
-                            <div className='h-fit w-fit border border-dashed p-4'>
-                                <div className='relative h-32 w-32'>
-                                    <Image src={watch("image") as string} alt='coupon' width={400} height={300} />
+                            <div className='size-fit border border-dashed p-4'>
+                                <div className='relative '>
+                                    <Image
+                                        src={watch("image") as string}
+                                        alt='coupon'
+                                        objectFit='contain'
+                                        width={400}
+                                        height={300}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -214,7 +220,7 @@ const CouponForm = ({ type = "new", data }: Props) => {
                     </RadioGroup>
 
                     <Divider />
-                    <div className='flex flex-wrap justify-center gap-2'>
+                    <div className='flex flex-wrap gap-2'>
                         <Button
                             type='submit'
                             variant='solid'

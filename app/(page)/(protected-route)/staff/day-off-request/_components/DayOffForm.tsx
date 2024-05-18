@@ -1,5 +1,5 @@
 "use client"
-import { BigCalendar } from "@/(page)/(protected-route)/_components"
+import { BigCalendar } from "@/(page)/(protected-route)/_components/BigCalendar"
 import { ScreenLoader } from "@/_components"
 import { IDayOff, IStaff, IUser } from "@/_lib/interfaces"
 import dynamic from "next/dynamic"

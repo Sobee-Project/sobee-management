@@ -44,12 +44,12 @@ const RenderCellCoupon = ({ coupon, columnKey }: Props) => {
     switch (columnKey as CouponColumnKey) {
         case "image":
             return (
-                <div className='relative h-12 w-12'>
+                <div className='relative size-12'>
                     <Image
                         src={coupon.image}
                         alt={coupon.code}
                         layout='fill'
-                        objectFit='cover'
+                        objectFit='contain'
                         objectPosition='center'
                     />
                 </div>

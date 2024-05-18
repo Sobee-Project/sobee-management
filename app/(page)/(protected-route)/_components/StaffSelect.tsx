@@ -1,6 +1,7 @@
 import { IStaff, IUser } from "@/_lib/interfaces"
 import { getCredentialsFromCookie } from "@/_utils"
 import { Avatar, Select, SelectItem, SelectProps } from "@nextui-org/react"
+import { UserRound } from "lucide-react"
 import React, { ReactElement, forwardRef } from "react"
 
 type StaffSelectProps = {
@@ -12,7 +13,7 @@ const StaffSelect = forwardRef<HTMLSelectElement, StaffSelectProps>(({ staffList
     const currentStaffId = getCredentialsFromCookie().user_id as string
     const RenderStaff = (staff: IUser<IStaff>) => (
         <div key={staff._id} className='flex items-center gap-2'>
-            <Avatar src={staff.avatar} size='sm' />
+            <Avatar src={staff.avatar} size='sm' fallback={<UserRound size={20} />} showFallback />
             <div className='flex-1 space-y-1'>
                 <p>{staff.name}</p>
                 <p className='line-clamp-1 text-xs text-slate-500'>
