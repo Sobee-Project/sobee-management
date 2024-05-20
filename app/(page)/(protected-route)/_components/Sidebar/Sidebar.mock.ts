@@ -51,7 +51,7 @@ export const sidebarMock: TSidebarGroup[] = [
                 href: APP_ROUTES.PRODUCTS.INDEX,
                 items: [
                     {
-                        title: "All products",
+                        title: "Published products",
                         href: APP_ROUTES.PRODUCTS.INDEX
                     },
                     {
@@ -95,21 +95,6 @@ export const sidebarMock: TSidebarGroup[] = [
                     {
                         title: "Add new category",
                         href: APP_ROUTES.CATEGORIES.NEW
-                    }
-                ]
-            },
-            {
-                title: "Attributes",
-                icon: Component,
-                href: APP_ROUTES.ATTRIBUTES.INDEX,
-                items: [
-                    {
-                        title: "All attributes",
-                        href: APP_ROUTES.ATTRIBUTES.INDEX
-                    },
-                    {
-                        title: "Add new attribute",
-                        href: APP_ROUTES.ATTRIBUTES.NEW
                     }
                 ]
             },

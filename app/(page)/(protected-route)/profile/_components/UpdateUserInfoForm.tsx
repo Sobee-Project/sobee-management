@@ -2,7 +2,6 @@
 import { updateUser } from "@/_actions"
 import { UpdateUserFormSchema, updateUserFormSchema } from "@/_lib/form-schema"
 import { IUser } from "@/_lib/interfaces"
-import { useUserStore } from "@/_store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
 import { format } from "date-fns"
@@ -33,13 +32,10 @@ const UpdateUserInfoForm = ({ userInfo }: Props) => {
         }
     })
 
-    const { refetch } = useUserStore()
-
     const { execute, status } = useAction(updateUser, {
         onSuccess: ({ data }) => {
             if (data.success) {
                 toast.success(data.message)
-                refetch()
             } else {
                 toast.error(data.message || "Failed to update user information")
             }

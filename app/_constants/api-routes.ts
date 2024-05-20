@@ -22,14 +22,21 @@ export const API_ROUTES = {
     },
 
     PRODUCT: {
-        GET_PRODUCTS: "/product"
+        GET_PUBLISHED_PRODUCTS: "/product/published",
+        GET_DRAFT_PRODUCTS: "/product/draft",
+        GET_POPULAR_PRODUCTS: "/product/popular",
+        GET_BEST_SELLER_PRODUCTS: "/product/best-seller",
+        GET_RELATED_PRODUCTS: "/product/related/:categoryId",
+        GET_DISCOUNT_PRODUCTS: "/product/discount",
+        GET_FEATURED_PRODUCTS: "/product/featured",
+        GET_PRODUCT: "/product/:id",
+        CREATE_PRODUCT: "/product",
+        UPDATE_PRODUCT: "/product/:id",
+        DELETE_PRODUCT: "/product/:id"
     },
 
     ASSET: {
-        UPLOAD: "/asset",
-        GET_ASSETS: "/asset",
-        DELETE_ASSET: "/asset/:id",
-        GET_ASSET_RESOUREC: "/asset/resource" //?resourcePath={asset.urlPath}
+        GET_BY_TYPE: "/asset/type"
     },
 
     COUPON: {
@@ -89,14 +96,6 @@ export const API_ROUTES = {
         CREATE_CATEGORY: "/category",
         UPDATE_CATEGORY: "/category/:id",
         DELETE_CATEGORY: "/category/:id"
-    },
-
-    ATTRIBUTE: {
-        GET_ATTRIBUTES: "/attribute",
-        GET_ATTRIBUTE: "/attribute/:id",
-        CREATE_ATTRIBUTE: "/attribute",
-        UPDATE_ATTRIBUTE: "/attribute/:id",
-        DELETE_ATTRIBUTE: "/attribute/:id"
     },
 
     SHIPPING: {

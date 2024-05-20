@@ -1,6 +1,6 @@
 import { ClassValue } from "clsx"
 
-export type AssetType = "image" | "video" | "audio" | "raw" | "*"
+export type AssetType = "image" | "video" | "audio" | "raw" | "auto"
 
 export type CloudinaryPluginProps = {
     className?: ClassValue

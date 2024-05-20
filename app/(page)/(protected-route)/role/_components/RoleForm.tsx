@@ -106,7 +106,6 @@ const RoleForm = ({ role, type = "create" }: Props) => {
     }
 
     const onSubmit = (data: CreateRoleFormSchema | UpdateRoleFormSchema) => {
-        console.log(data)
         if (grantList.length === 0 || grantList.some((grant) => !grant.resource || grant.actions.length === 0)) {
             return toast.error("Please fill in all grant list")
         }

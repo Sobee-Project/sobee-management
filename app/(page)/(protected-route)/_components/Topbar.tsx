@@ -1,27 +1,22 @@
 "use client"
-import { getCurrentUser, logout } from "@/_actions"
+import { logout } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
-import { useSidebarStore, useUserStore } from "@/_store"
+import { IUser } from "@/_lib/interfaces"
+import { useSidebarStore } from "@/_store"
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react"
 import { motion } from "framer-motion"
-import { LogOut, PanelTopClose, SearchIcon, SunIcon, User2 } from "lucide-react"
+import { LogOut, Menu, SearchIcon, SunIcon, User2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect } from "react"
 import toast from "react-hot-toast"
 
-const Topbar = () => {
+type Props = {
+    user: IUser
+}
+
+const Topbar = ({ user: userInfo }: Props) => {
     const { isOpen, toggleSidebar } = useSidebarStore()
-    const { isRefetch } = useUserStore()
-
-    const { execute: executeUser, result } = useAction(getCurrentUser)
-
-    useEffect(() => {
-        executeUser()
-    }, [executeUser, isRefetch])
-
-    const userInfo = result.data?.data?.user
 
     const { execute } = useAction(logout, {
         onSuccess: ({ data }) => {
@@ -41,12 +36,12 @@ const Topbar = () => {
         <div className='flex h-20 items-center gap-4 border-b-1 border-l-1 bg-white p-4'>
             <motion.button
                 onClick={toggleSidebar}
-                initial={{ rotate: 90 }}
-                animate={{ rotate: isOpen ? -90 : 90 }}
+                initial={{ rotate: 0 }}
+                animate={{ rotate: isOpen ? 45 : 0 }}
                 transition={{ duration: 0.2 }}
                 exit={{ rotate: 0 }}
             >
-                <PanelTopClose className='hover:text-primary' />
+                <Menu className='hover:text-primary' />
             </motion.button>
             <Input
                 variant='bordered'

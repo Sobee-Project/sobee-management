@@ -1,22 +1,32 @@
-import { EProductStatus } from "@/_lib/enums"
+import { EProductStatus, EProductType } from "../enums"
+import { IBrand } from "./IBrand"
 import { ICategory } from "./ICategory"
-import { IProductAssetAttribute } from "./IProductAssetAttribute"
+import { IVariant } from "./IVariant"
 
 export interface IProduct {
     _id?: string
-    category?: ICategory | string
+    category: ICategory | string
     name: string
-    slug: string
+    slug?: string
     description: string
-    price: number
-    discount: number
+    displayPrice: number
+    minPrice?: number
+    maxPrice?: number
+    brand?: string | IBrand
+    discount?: number
+    type?: EProductType | string
+    thumbnail: string
     quantity: number
-    sold: number
-    status: EProductStatus
-    favoritesCount: number
-    productAssetAttributes?: string[] | IProductAssetAttribute[]
+    sold?: number
+    status?: EProductStatus
+    favoritesCount?: number
+    variants?: string[] | IVariant[]
+    ratingCount?: number
+    ratingValue?: number
     isFeatured?: boolean
-    deletedAt?: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isDraft?: boolean
+    isDiscount?: boolean
+    deletedAt?: string
+    createdAt?: string
+    updatedAt?: string
 }

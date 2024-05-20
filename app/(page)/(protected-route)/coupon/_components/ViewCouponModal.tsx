@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react"
 import { format } from "date-fns"
 import { Eye } from "lucide-react"
+import Image from "next/image"
 
 type Props = {
     coupon: ICoupon
@@ -39,10 +40,12 @@ export default function ViewCouponModal({ coupon }: Props) {
                             <ModalBody>
                                 <div className='flex flex-col gap-4'>
                                     <div className='flex items-center gap-4'>
-                                        <img
+                                        <Image
                                             src={coupon.image}
                                             alt={coupon.code}
-                                            className='h-20 w-20 rounded-md object-cover'
+                                            objectFit='contain'
+                                            width={200}
+                                            height={150}
                                         />
                                         <div className='flex flex-col gap-2'>
                                             <p className='text-lg font-bold'>{coupon.code}</p>
