@@ -99,21 +99,6 @@ export const sidebarMock: TSidebarGroup[] = [
                 ]
             },
             {
-                title: "Attributes",
-                icon: Component,
-                href: APP_ROUTES.ATTRIBUTES.INDEX,
-                items: [
-                    {
-                        title: "All attributes",
-                        href: APP_ROUTES.ATTRIBUTES.INDEX
-                    },
-                    {
-                        title: "Add new attribute",
-                        href: APP_ROUTES.ATTRIBUTES.NEW
-                    }
-                ]
-            },
-            {
                 title: "Brands",
                 icon: Framer,
                 href: APP_ROUTES.BRANDS.INDEX,

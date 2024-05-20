@@ -1,4 +1,3 @@
-export * from "./attribute-form"
 export * from "./auth-form"
 export * from "./brand-form"
 export * from "./category-form"

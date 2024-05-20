@@ -2,6 +2,7 @@
 
 import { login } from "@/_actions"
 import { PasswordInput } from "@/_components"
+import { ERole } from "@/_lib/enums"
 import { LoginFormSchema, loginFormSchema } from "@/_lib/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input } from "@nextui-org/react"
@@ -27,6 +28,10 @@ const LoginPage = () => {
         onSuccess: ({ data }) => {
             if (!data) return
             if (data.success) {
+                if (data.data?.user.role === ERole.CUSTOMER) {
+                    toast.error("You are not authorized to access this page!")
+                    return
+                }
                 toast.success("Login successfully!")
             } else {
                 toast.error(data.message || "Login failed!")

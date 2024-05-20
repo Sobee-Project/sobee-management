@@ -10,7 +10,7 @@ type Props = {
     data: IProduct[]
 }
 
-const AttributeListData = ({ data: products }: Props) => {
+const ProductListData = ({ data: products }: Props) => {
     const router = useRouter()
 
     const onClickCreate = () => {
@@ -35,4 +35,4 @@ const AttributeListData = ({ data: products }: Props) => {
     )
 }
 
-export default AttributeListData
+export default ProductListData

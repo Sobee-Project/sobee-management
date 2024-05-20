@@ -1,5 +1,5 @@
 "use client"
-import { deleteAttribute } from "@/_actions"
+import { deleteProduct } from "@/_actions"
 import { APP_ROUTES, DEFAULT_IMAGE } from "@/_constants"
 import { commaFormatter } from "@/_lib/_utils"
 import { ICategory, IProduct } from "@/_lib/interfaces"
@@ -22,7 +22,7 @@ const RenderCellProduct = ({ product, columnKey }: Props) => {
     const cellValue = product[columnKey as keyof IProduct]
     const [showPopover, setShowPopover] = useState(false)
 
-    const { execute, status } = useAction(deleteAttribute, {
+    const { execute, status } = useAction(deleteProduct, {
         onSuccess: ({ data }) => {
             if (data.success) {
                 toast.success(data.message)

@@ -1,14 +1,9 @@
-import { IAttribute } from "./IAttribute"
-import { IProduct } from "./IProduct"
+import { EProductSize } from "../enums"
 
 export interface IVariant {
     assets?: string[]
     amount: number
     price: number
-    attributeList: IAttributeWithValue[]
-}
-
-export interface IAttributeWithValue {
-    attribute: string | IAttribute
-    value: string
+    size: EProductSize | string
+    color: string
 }

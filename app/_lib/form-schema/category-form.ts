@@ -3,7 +3,8 @@ import { z } from "zod"
 export const createCategoryFormSchema = z.object({
     name: z.string().min(1, "Name is required").min(2, "Name must be at least 2 characters"),
     slug: z.string().min(1, "Slug is required").min(2, "Slug must be at least 2 characters"),
-    description: z.string().optional()
+    description: z.string().optional(),
+    image: z.string().url().optional()
 })
 
 export type CreateCategoryFormSchema = z.infer<typeof createCategoryFormSchema>

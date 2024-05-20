@@ -3,7 +3,7 @@ import { z } from "zod"
 export const createProductFormSchema = z.object({
     name: z.string().min(1, "Name is required").max(255, "Name is too long"),
     description: z.string().min(1, "Description is required"),
-    displayPrice: z.number().int().positive(),
+    displayPrice: z.number().positive(),
     thumbnail: z.string().url(),
     brand: z.string().optional(),
     category: z.string().optional(),
@@ -14,13 +14,9 @@ export const createProductFormSchema = z.object({
             z.object({
                 assets: z.array(z.string().optional()).optional(),
                 amount: z.number().int().positive(),
-                attributeList: z.array(
-                    z.object({
-                        attribute: z.string(),
-                        value: z.string()
-                    })
-                ),
-                price: z.number().int().positive()
+                price: z.string().or(z.number().positive()),
+                size: z.string().optional(),
+                color: z.string().optional()
             })
         )
         .optional(),

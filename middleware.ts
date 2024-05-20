@@ -1,4 +1,6 @@
+import { getCurrentUser } from "@/_actions"
 import { API_ROUTES, APP_ROUTES, COOKIES_KEY } from "@/_constants"
+import { ERole } from "@/_lib/enums"
 import { RefreshTokenResponse } from "@/_lib/types"
 import { FETCH } from "@/_services"
 import { NextRequest, NextResponse } from "next/server"
@@ -81,6 +83,7 @@ export async function middleware(request: NextRequest) {
             if (request.nextUrl.pathname === "/500" || request.nextUrl.pathname === "/401") {
                 return redirectToLogin()
             }
+
             return NextResponse.next()
         }
     }

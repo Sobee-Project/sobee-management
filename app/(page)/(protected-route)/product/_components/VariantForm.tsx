@@ -1,8 +1,10 @@
 import { ScreenLoader } from "@/_components"
 import { cartesianProduct } from "@/_lib/_utils"
-import { IAttribute, IAttributeWithValue, IVariant } from "@/_lib/interfaces"
-import { Accordion, AccordionItem, Button, Input, Select, SelectItem } from "@nextui-org/react"
-import { PlusIcon, Trash2Icon } from "lucide-react"
+import { EProductSize } from "@/_lib/enums"
+import { IVariant } from "@/_lib/interfaces"
+import { cn } from "@/_lib/utils"
+import { Accordion, AccordionItem, Button, Checkbox, CheckboxGroup, Input } from "@nextui-org/react"
+import { Trash2 } from "lucide-react"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
@@ -13,131 +15,16 @@ const CloudinaryPlugin = dynamic(() => import("@/_plugins").then((r) => r.Cloudi
 })
 
 type Props = {
-    attributes: IAttribute[]
     variants: IVariant[]
     setVariants: React.Dispatch<React.SetStateAction<IVariant[]>>
-    selectedAttributes: string[]
-    setSelectedAttributes: React.Dispatch<React.SetStateAction<string[]>>
-    attributeValues: Record<string, string[]>
-    setAttributeValues: React.Dispatch<React.SetStateAction<Record<string, string[]>>>
 }
 
-const VariantForm = ({
-    attributes,
-    variants,
-    setVariants,
-    attributeValues,
-    selectedAttributes,
-    setAttributeValues,
-    setSelectedAttributes
-}: Props) => {
+const VariantForm = ({ variants, setVariants }: Props) => {
     const [showAssetPlugin, setShowAssetPlugin] = useState<number | null>(null)
 
-    useEffect(() => {}, [])
+    const colors = useMemo(() => [...new Set(variants.map((variant) => variant.color))], [variants])
 
-    const getAttributeFromId = useCallback(
-        (id: string) => attributes.find((attribute) => attribute._id === id),
-        [attributes]
-    )
-
-    const onResetVariant = useCallback(() => {
-        if (variants.length > 0) setVariants([])
-    }, [variants, setVariants])
-
-    const onAttributesChange = (value: string[]) => {
-        const last = value[value.length - 1]
-        setSelectedAttributes(value)
-        onAddAttributeValue(last)
-    }
-
-    const onRemoveAttribute = (attribute: string) => {
-        onResetVariant()
-        setSelectedAttributes((prev) => prev.filter((v) => v !== attribute))
-    }
-
-    useEffect(() => {
-        const attributeValuesKeys = Object.keys(attributeValues)
-        if (attributeValuesKeys.length > 0) {
-            // find not exist key in selectedAttributes and remove it from attributeValues
-            const notExistKeys = attributeValuesKeys.filter((key) => !selectedAttributes.includes(key))
-            if (notExistKeys.length > 0) {
-                setAttributeValues((prev) => {
-                    const newValues = { ...prev }
-                    notExistKeys.forEach((key) => {
-                        delete newValues[key]
-                    })
-                    return newValues
-                })
-            }
-        }
-    }, [attributeValues, selectedAttributes, setAttributeValues])
-
-    const onAddAttributeValue = (attribute: string) => {
-        onResetVariant()
-        setAttributeValues((prev) => ({
-            ...prev,
-            [attribute]: [...(prev[attribute] || []), ""]
-        }))
-    }
-
-    const onRemoveValueOfAttributeInAttributeValues = (attribute: string, index: number) => {
-        onResetVariant()
-
-        setAttributeValues((prev) => {
-            const newList = [...(prev[attribute] || [])]
-            newList.splice(index, 1)
-            return {
-                ...prev,
-                [attribute]: newList
-            }
-        })
-    }
-
-    const onAttributeValuesChange = (attribute: string, index: number, value: string) => {
-        onResetVariant()
-
-        setAttributeValues((prev) => {
-            const newList = [...(prev[attribute] || [])]
-            newList[index] = value
-            return {
-                ...prev,
-                [attribute]: newList
-            }
-        })
-    }
-
-    const canRenderAddVariantValues = useMemo(() => {
-        return (
-            selectedAttributes.length > 0 &&
-            Object.keys(attributeValues).length === selectedAttributes.length &&
-            Object.values(attributeValues).every((v) => v.every((val) => val.length > 0))
-        )
-    }, [attributeValues, selectedAttributes.length])
-
-    const generateVariant = useCallback(() => {
-        const tempValuesMatrix = [] as IAttributeWithValue[][]
-
-        for (const attribute of selectedAttributes) {
-            const values = attributeValues[attribute]
-            tempValuesMatrix.push(
-                values.map((v) => ({
-                    attribute,
-                    value: v
-                }))
-            )
-        }
-
-        const cartesian = cartesianProduct(tempValuesMatrix)
-
-        setVariants(
-            cartesian.map((values) => ({
-                amount: 0,
-                attributeList: values,
-                assets: [],
-                price: 0
-            }))
-        )
-    }, [attributeValues, selectedAttributes, setVariants])
+    const sizes = useMemo(() => [...new Set(variants.map((variant) => variant.size))], [variants])
 
     const onVariantValueChange = (key: keyof IVariant, index: number, value: any) => {
         setVariants((prev) => {
@@ -150,81 +37,122 @@ const VariantForm = ({
         })
     }
 
+    const onColorChange = (index: number, value: string) => {
+        const newColors = [...colors]
+        newColors[index] = value
+        setTimeout(() => {
+            cartesian(sizes, newColors)
+        }, 200)
+    }
+
+    const increaseColorHex = (hex: string) => {
+        const remvoveHash = hex.replace("#", "")
+        const hexToDec = (hex: string) => parseInt(remvoveHash, 16)
+        const decToHex = (dec: number) => dec.toString(16).padStart(6, "0")
+        const dec = hexToDec(remvoveHash) + 1
+        return "#" + decToHex(dec)
+    }
+
+    const onAddColor = () => {
+        cartesian(sizes, [...colors, increaseColorHex(colors[colors.length - 1] || "#000000")])
+    }
+
+    const onRemoveColor = (index: number) => {
+        const newColors = [...colors]
+        newColors.splice(index, 1)
+        cartesian(sizes, newColors)
+    }
+
+    const cartesian = useCallback((_sizes: string[], _colors: string[]) => {
+        const sizes = _sizes.length === 0 ? [EProductSize.M] : _sizes
+        const colors = _colors.length === 0 ? ["#000000"] : _colors
+
+        const _cartesian = cartesianProduct([sizes, colors])
+        setVariants((prev) => {
+            return _cartesian.map(([size, color]) => {
+                return {
+                    size,
+                    color,
+                    price: 0,
+                    amount: 0,
+                    assets: []
+                }
+            })
+        })
+    }, [])
+
+    const onAddSize = (_sizes: string[]) => {
+        console.log(_sizes)
+        cartesian(_sizes, colors)
+    }
+
     return (
         <div>
             <p className='mb-4 text-sm'>Add variants for the product. You can add multiple variants for the product.</p>
-            <Select
-                selectionMode='multiple'
-                items={attributes}
-                label='Attributes'
-                placeholder='Select attributes'
-                onSelectionChange={(v) => onAttributesChange(Array.from(v) as string[])}
-                selectedKeys={selectedAttributes}
-            >
-                {(item) => (
-                    <SelectItem key={item._id!} value={item._id}>
-                        {item.name}
-                    </SelectItem>
-                )}
-            </Select>
-            <div className='my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
-                {selectedAttributes.map((attribute, index) => (
-                    <div key={attribute} className='flex flex-col gap-2 rounded border p-2'>
-                        <div className='flex items-center justify-between'>
-                            <p className='line-clamp-1 flex-1 text-sm'>{getAttributeFromId(attribute)?.name} values</p>
-                            <Button
-                                color='danger'
-                                size='sm'
-                                variant='light'
-                                onPress={() => onRemoveAttribute(attribute)}
-                            >
-                                Remove
-                            </Button>
-                        </div>
-                        {attributeValues[attribute]?.map((value, valIndex) => (
-                            <div key={valIndex} className='flex gap-2'>
-                                <Input
-                                    autoFocus
-                                    placeholder={`#${valIndex + 1}`}
-                                    value={value}
-                                    onValueChange={(e) => onAttributeValuesChange(attribute, valIndex, e)}
+            <div className='my-4'>
+                <div className='flex flex-col gap-2 rounded border p-2'>
+                    <p className='line-clamp-1 flex-1 text-sm'>Size values</p>
+                    <CheckboxGroup
+                        orientation='horizontal'
+                        classNames={{
+                            wrapper: "gap-4"
+                        }}
+                        onValueChange={onAddSize}
+                        value={sizes}
+                    >
+                        {Object.values(EProductSize).map((size) => (
+                            <Checkbox key={size} value={size}>
+                                {size}
+                            </Checkbox>
+                        ))}
+                    </CheckboxGroup>
+                </div>
+                <div className='my-2 flex flex-col gap-2 rounded border p-2'>
+                    <p className='line-clamp-1 flex-1 text-sm'>Color values</p>
+                    <div className='flex flex-wrap items-center gap-4'>
+                        {colors.map((color, index) => (
+                            <div key={index} className='flex items-center gap-2 rounded border p-1'>
+                                <input
+                                    type='color'
+                                    onChange={(e) => onColorChange(index, e.target.value)}
+                                    value={color}
+                                    className='rounded'
                                 />
+                                <span className='text-sm uppercase'>{color}</span>
                                 <Button
-                                    color='danger'
                                     isIconOnly
-                                    size='sm'
+                                    color='danger'
                                     variant='light'
-                                    onPress={() => onRemoveValueOfAttributeInAttributeValues(attribute, valIndex)}
+                                    size='sm'
+                                    onPress={() => onRemoveColor(index)}
                                 >
-                                    <Trash2Icon size={16} />
+                                    <Trash2 size={16} />
                                 </Button>
                             </div>
                         ))}
-                        <div className='flex justify-center gap-2'>
-                            <Button
-                                color='default'
-                                variant='flat'
-                                size='sm'
-                                isIconOnly
-                                onPress={() => onAddAttributeValue(attribute)}
-                            >
-                                <PlusIcon size={16} />
-                            </Button>
-                        </div>
+                        <Button color='primary' variant='bordered' onPress={onAddColor}>
+                            Add color
+                        </Button>
                     </div>
-                ))}
+                </div>
             </div>
-            {canRenderAddVariantValues && variants.length === 0 && (
-                <Button onPress={generateVariant}>Generate variants</Button>
-            )}
             {variants.length > 0 && (
                 <Accordion variant='bordered' selectionMode='multiple'>
-                    {variants.map(({ amount, attributeList, assets, price }, index) => {
-                        const variantTitle = attributeList.map(({ value }) => value).join("/")
+                    {variants.map(({ amount, assets, price, color, size }, index) => {
                         return (
                             <AccordionItem
                                 key={index.toString()}
-                                title={variantTitle}
+                                title={
+                                    <div className='flex items-center gap-2'>
+                                        <div
+                                            className={cn(`h-4 w-8 rounded-full`)}
+                                            style={{
+                                                backgroundColor: color
+                                            }}
+                                        />
+                                        <p>{size}</p>
+                                    </div>
+                                }
                                 classNames={{
                                     title: "text-sm font-medium"
                                 }}
@@ -234,12 +162,11 @@ const VariantForm = ({
                                         <div className='flex gap-2'>
                                             <Input
                                                 autoFocus
-                                                type='number'
                                                 min={1}
                                                 label='Price'
                                                 placeholder='200'
                                                 endContent={"$"}
-                                                onValueChange={(e) => onVariantValueChange("price", index, Number(e))}
+                                                onValueChange={(e) => onVariantValueChange("price", index, e)}
                                                 value={price.toString()}
                                             />
                                             <Input
@@ -262,7 +189,7 @@ const VariantForm = ({
                                                 Add asset
                                             </Button>
                                         </div>
-                                        <div className='flex flex-wrap gap-2'>
+                                        <div className='grid gap-2 md:grid-cols-3'>
                                             {(assets || []).map((asset, assetIndex) => (
                                                 <Image
                                                     key={asset}
@@ -270,7 +197,7 @@ const VariantForm = ({
                                                     alt='product'
                                                     width={100}
                                                     height={100}
-                                                    className='rounded'
+                                                    className='size-40 rounded object-contain'
                                                 />
                                             ))}
                                         </div>
@@ -286,7 +213,12 @@ const VariantForm = ({
                 <CloudinaryPlugin
                     visible={showAssetPlugin !== null}
                     onClose={() => setShowAssetPlugin(null)}
-                    onUploadSuccess={({ urls }) => onVariantValueChange("assets", showAssetPlugin, urls)}
+                    onUploadSuccess={({ urls }) =>
+                        onVariantValueChange("assets", showAssetPlugin, [
+                            ...(variants[showAssetPlugin]?.assets || []),
+                            ...urls
+                        ])
+                    }
                     assetType='image'
                     folder='image/product/asset'
                 />

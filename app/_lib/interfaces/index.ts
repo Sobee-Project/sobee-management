@@ -1,6 +1,6 @@
 export * from "./IAddress"
 export * from "./IAdmin"
-export * from "./IAttribute"
+export * from "./IAsset"
 export * from "./IBrand"
 export * from "./ICart"
 export * from "./ICategory"

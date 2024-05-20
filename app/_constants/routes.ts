@@ -20,12 +20,6 @@ export const APP_ROUTES = {
         ID: "/category/:id",
         EDIT: "/category/:id/edit"
     },
-    ATTRIBUTES: {
-        INDEX: "/attribute",
-        NEW: "/attribute/new",
-        ID: "/attribute/:id",
-        EDIT: "/attribute/:id/edit"
-    },
     BRANDS: {
         INDEX: "/brand",
         NEW: "/brand/new",

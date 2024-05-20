@@ -36,10 +36,7 @@ export const API_ROUTES = {
     },
 
     ASSET: {
-        UPLOAD: "/asset",
-        GET_ASSETS: "/asset",
-        DELETE_ASSET: "/asset/:id",
-        GET_ASSET_RESOUREC: "/asset/resource" //?resourcePath={asset.urlPath}
+        GET_BY_TYPE: "/asset/type"
     },
 
     COUPON: {
@@ -99,14 +96,6 @@ export const API_ROUTES = {
         CREATE_CATEGORY: "/category",
         UPDATE_CATEGORY: "/category/:id",
         DELETE_CATEGORY: "/category/:id"
-    },
-
-    ATTRIBUTE: {
-        GET_ATTRIBUTES: "/attribute",
-        GET_ATTRIBUTE: "/attribute/:id",
-        CREATE_ATTRIBUTE: "/attribute",
-        UPDATE_ATTRIBUTE: "/attribute/:id",
-        DELETE_ATTRIBUTE: "/attribute/:id"
     },
 
     SHIPPING: {

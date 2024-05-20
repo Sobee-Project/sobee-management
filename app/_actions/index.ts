@@ -1,10 +1,4 @@
-export {
-    createAttribute,
-    deleteAttribute,
-    fetchAllAttributes,
-    fetchAttributeById,
-    updateAttribute
-} from "./attribute-action"
+export { getAssetsByType } from "./asset-action"
 export { changePassword, getCurrentUser, login, logout } from "./auth-action"
 export { createBrand, deleteBrand, fetchAllBrands, fetchBrandById, updateBrand } from "./brand-action"
 export {

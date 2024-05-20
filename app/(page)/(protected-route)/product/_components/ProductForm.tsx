@@ -9,7 +9,7 @@ import {
     createProductFormSchema,
     updateProductFormSchema
 } from "@/_lib/form-schema"
-import { IAttribute, IBrand, ICategory, IProduct, IVariant } from "@/_lib/interfaces"
+import { IBrand, ICategory, IProduct, IVariant } from "@/_lib/interfaces"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Checkbox, Input, Select, SelectItem, Textarea } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
@@ -31,12 +31,11 @@ const CloudinaryPlugin = dynamic(() => import("@/_plugins").then((r) => r.Cloudi
 type Props = {
     type?: "new" | "edit"
     data?: IProduct
-    attributes: IAttribute[]
     brands: IBrand[]
     categories: ICategory[]
 }
 
-const ProductForm = ({ type = "new", data, attributes, brands, categories }: Props) => {
+const ProductForm = ({ type = "new", data, brands, categories }: Props) => {
     const isEdit = type === "edit"
     const {
         register,
@@ -50,8 +49,7 @@ const ProductForm = ({ type = "new", data, attributes, brands, categories }: Pro
             ? ({
                   ...data,
                   category: (data?.category as ICategory)._id,
-                  brand: (data?.brand as IBrand)._id,
-                  variants: data?.variants
+                  brand: data?.brand ? (data?.brand as IBrand)._id : ""
               } as any)
             : {
                   thumbnail: DEFAULT_IMAGE,
@@ -66,42 +64,25 @@ const ProductForm = ({ type = "new", data, attributes, brands, categories }: Pro
     const params = useParams()
     const [showThumbnailPlugin, setShowThumbnailPlugin] = useState(false)
     const [variants, setVariants] = useState<IVariant[]>([])
-    const [selectedAttributes, setSelectedAttributes] = useState<string[]>([])
-    const [attributeValues, setAttributeValues] = useState<{ [key: string]: string[] }>({})
+
+    console.log(data?.variants, variants)
 
     useEffect(() => {
-        if (data) {
-            const variants = data.variants as IVariant[]
-            const selectedAttributes = [
-                ...new Set(
-                    variants.flatMap((variant) => variant.attributeList.map((attr) => attr.attribute)) as string[]
-                )
-            ]
-            setSelectedAttributes(selectedAttributes)
-
-            const attributeValues = selectedAttributes.reduce(
-                (acc, key) => {
-                    const values = variants
-                        .flatMap((variant) => variant.attributeList)
-                        .filter((attr) => attr.attribute === key)
-                        .map((attr) => attr.value)
-                    return { ...acc, [key]: [...new Set(values)] }
-                },
-                {} as { [key: string]: string[] }
-            )
-            console.log(attributeValues)
-
-            setAttributeValues(attributeValues)
-
-            setVariants(variants)
+        if (data && data.type === EProductType.VARIABLE) {
+            const _variants = (data.variants || []) as IVariant[]
+            setVariants(_variants)
         }
     }, [data])
 
     useEffect(() => {
-        const totalQuantity = variants.reduce((acc, item) => acc + item.amount, 0)
-        setValue("quantity", totalQuantity)
-        setValue("variants", variants as any)
-    }, [setValue, variants])
+        if (watch("type") === EProductType.VARIABLE) {
+            const totalQuantity = variants.reduce((acc, item) => acc + item.amount, 0)
+            setValue("quantity", totalQuantity)
+            setValue("variants", variants as any)
+        } else {
+            setValue("quantity", data?.quantity || 0)
+        }
+    }, [data?.quantity, setValue, variants, watch])
 
     const { execute, status } = useAction(isEdit ? updateProduct : createProduct, {
         onSuccess: ({ data }) => {
@@ -117,6 +98,7 @@ const ProductForm = ({ type = "new", data, attributes, brands, categories }: Pro
     const isLoading = status === "executing"
 
     const onSubmit = (data: CreateProductFormSchema | UpdateProductFormSchema) => {
+        console.log(data)
         const _data = isEdit
             ? ({ ...data, _id: params.id } as UpdateProductFormSchema)
             : (data as CreateProductFormSchema)
@@ -243,15 +225,7 @@ const ProductForm = ({ type = "new", data, attributes, brands, categories }: Pro
                             ))}
                         </Select>
                         {watch("type") === EProductType.VARIABLE && (
-                            <VariantForm
-                                variants={variants}
-                                setVariants={setVariants}
-                                attributes={attributes}
-                                selectedAttributes={selectedAttributes}
-                                setSelectedAttributes={setSelectedAttributes}
-                                attributeValues={attributeValues}
-                                setAttributeValues={setAttributeValues}
-                            />
+                            <VariantForm variants={variants} setVariants={setVariants} />
                         )}
                     </div>
 

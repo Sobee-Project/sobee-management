@@ -1,6 +1,6 @@
 "use client"
 import { createCategory, updateCategory } from "@/_actions"
-import { APP_ROUTES } from "@/_constants"
+import { APP_ROUTES, DEFAULT_IMAGE } from "@/_constants"
 import {
     CreateCategoryFormSchema,
     UpdateCategoryFormSchema,
@@ -8,10 +8,13 @@ import {
     updateCategoryFormSchema
 } from "@/_lib/form-schema"
 import { ICategory } from "@/_lib/interfaces"
+import { CloudinaryPlugin } from "@/_plugins"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input, Textarea } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
+import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
@@ -25,14 +28,21 @@ const CategoryForm = ({ type = "new", data }: Props) => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        watch,
+        setValue
     } = useForm<CreateCategoryFormSchema | UpdateCategoryFormSchema>({
         resolver: zodResolver(isEdit ? updateCategoryFormSchema : createCategoryFormSchema),
-        defaultValues: isEdit ? data : undefined
+        defaultValues: isEdit
+            ? data
+            : {
+                  image: DEFAULT_IMAGE
+              }
     })
 
     const router = useRouter()
     const params = useParams()
+    const [showThumbnailPlugin, setShowThumbnailPlugin] = useState(false)
 
     const { execute, status } = useAction(isEdit ? updateCategory : createCategory, {
         onSuccess: ({ data }) => {
@@ -84,6 +94,38 @@ const CategoryForm = ({ type = "new", data }: Props) => {
                         isInvalid={!!errors.slug}
                         isDisabled={isLoading}
                     />
+                    <div className='flex'>
+                        <div className='w-1/3'>
+                            <p className='mb-2 text-sm'>Thumbnail</p>
+                            <Button color='primary' variant='bordered' onClick={() => setShowThumbnailPlugin(true)}>
+                                Choose Thumbnail
+                            </Button>
+                        </div>
+                        <div className='ml-4 w-2/3 '>
+                            <div className='size-fit rounded border border-dashed p-4'>
+                                <div className='relative'>
+                                    <Image
+                                        src={watch("image") as string}
+                                        alt='coupon'
+                                        objectFit='contain'
+                                        width={400}
+                                        height={300}
+                                        className='rounded'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {showThumbnailPlugin && (
+                        <CloudinaryPlugin
+                            visible={showThumbnailPlugin}
+                            onClose={() => setShowThumbnailPlugin(false)}
+                            onUploadSuccess={({ urls }) => setValue("image", urls[0])}
+                            assetType='image'
+                            multiple={false}
+                            folder='image/category'
+                        />
+                    )}
                     <Textarea
                         {...register("description")}
                         label='Description'
