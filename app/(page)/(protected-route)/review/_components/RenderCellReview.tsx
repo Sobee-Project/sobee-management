@@ -27,8 +27,6 @@ const RenderCellReview = ({ columnKey, review }: Props) => {
 
     const cellValue = review[columnKey as keyof IReview]
     switch (columnKey as ReviewColumnKey) {
-        case "title":
-            return review.title
         case "content":
             return review.content
         case "rating":

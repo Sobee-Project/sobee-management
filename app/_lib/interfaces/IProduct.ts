@@ -20,7 +20,7 @@ export interface IProduct {
     sold?: number
     status?: EProductStatus
     favoritesCount?: number
-    variants?: string[] | IVariant[]
+    variants?: IVariant[]
     ratingCount?: number
     ratingValue?: number
     isFeatured?: boolean

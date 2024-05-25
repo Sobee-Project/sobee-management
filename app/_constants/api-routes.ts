@@ -139,5 +139,11 @@ export const API_ROUTES = {
         CREATE_TERM: "/term",
         UPDATE_TERM: "/term/:id",
         DELETE_TERM: "/term/:id"
+    },
+
+    QUESTION: {
+        GET_QUESTIONS: "/question",
+        REPLY_QUESTION: "/question/:id/reply",
+        DELETE_QUESTION: "/question/:id"
     }
 }

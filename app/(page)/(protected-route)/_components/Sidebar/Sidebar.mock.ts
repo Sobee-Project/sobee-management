@@ -69,21 +69,6 @@ export const sidebarMock: TSidebarGroup[] = [
                 ]
             },
             {
-                title: "Inventory",
-                icon: Package2,
-                href: APP_ROUTES.INVENTORY.INDEX,
-                items: [
-                    {
-                        title: "Import products to inventory",
-                        href: APP_ROUTES.INVENTORY.IMPORT
-                    },
-                    {
-                        title: "Import history",
-                        href: APP_ROUTES.INVENTORY.HISTORY
-                    }
-                ]
-            },
-            {
                 title: "Categories",
                 icon: Layers3,
                 href: APP_ROUTES.CATEGORIES.INDEX,
@@ -264,21 +249,6 @@ export const sidebarMock: TSidebarGroup[] = [
                     {
                         title: "Add new customer",
                         href: APP_ROUTES.CUSTOMERS.NEW
-                    }
-                ]
-            },
-            {
-                title: "Vendors",
-                icon: Package,
-                href: APP_ROUTES.VENDORS.INDEX,
-                items: [
-                    {
-                        title: "All vendors",
-                        href: APP_ROUTES.VENDORS.INDEX
-                    },
-                    {
-                        title: "Add new vendor",
-                        href: APP_ROUTES.VENDORS.NEW
                     }
                 ]
             }
