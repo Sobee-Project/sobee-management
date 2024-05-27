@@ -7,12 +7,12 @@ import { z } from "zod"
 
 const revalidateTagSchema = z.string()
 export const revalidateTagAction = safeAction.schema(revalidateTagSchema).action(async ({ parsedInput }) => {
-    revalidateTag(parsedInput)
+  revalidateTag(parsedInput)
 })
 
 export const invalidateCookies = safeAction.metadata({ actionName: "Invalidate cookies" }).action(async () => {
-    const cookieData = cookies()
-    cookieData.delete(COOKIES_KEY.ACCESS_TOKEN_KEY)
-    cookieData.delete(COOKIES_KEY.REFRESH_TOKEN_KEY)
-    cookieData.delete(COOKIES_KEY.USER_ID_KEY)
+  const cookieData = cookies()
+  cookieData.delete(COOKIES_KEY.ACCESS_TOKEN_KEY)
+  cookieData.delete(COOKIES_KEY.REFRESH_TOKEN_KEY)
+  cookieData.delete(COOKIES_KEY.USER_ID_KEY)
 })

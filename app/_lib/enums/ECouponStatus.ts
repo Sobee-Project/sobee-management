@@ -1,5 +1,5 @@
 export enum ECouponStatus {
-    ACTIVE = "ACTIVE",
-    EXPIRED = "EXPIRED",
-    DISABLED = "DISABLED"
+  ACTIVE = "ACTIVE",
+  EXPIRED = "EXPIRED",
+  DISABLED = "DISABLED"
 }

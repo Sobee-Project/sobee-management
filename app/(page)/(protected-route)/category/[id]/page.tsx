@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 import React from "react"
 
 const page = ({ params }: ParamsProps) => {
-    redirect(APP_ROUTES.CATEGORIES.EDIT.replace(":id", params.id))
+  redirect(APP_ROUTES.CATEGORIES.EDIT.replace(":id", params.id))
 }
 
 export default page

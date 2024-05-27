@@ -7,32 +7,32 @@ import { ProductColumnKey, productColumns } from "../_mock"
 import RenderCellProduct from "./RenderCellProduct"
 
 type Props = {
-    data: IProduct[]
+  data: IProduct[]
 }
 
 const ProductListData = ({ data: products }: Props) => {
-    const router = useRouter()
+  const router = useRouter()
 
-    const onClickCreate = () => {
-        router.push(APP_ROUTES.PRODUCTS.NEW)
-    }
+  const onClickCreate = () => {
+    router.push(APP_ROUTES.PRODUCTS.NEW)
+  }
 
-    return (
-        <div>
-            <CustomTable
-                dataSource={products || []}
-                columns={productColumns}
-                RenderCell={(product, columnKey) => <RenderCellProduct product={product} columnKey={columnKey} />}
-                searchKeys={["name"] as ProductColumnKey[]}
-                searchPlaceholder='Search products...'
-                bodyProps={{
-                    emptyContent: "No products found"
-                }}
-                onClickCreate={onClickCreate}
-                createText='Create new product'
-            />
-        </div>
-    )
+  return (
+    <div>
+      <CustomTable
+        dataSource={products || []}
+        columns={productColumns}
+        RenderCell={(product, columnKey) => <RenderCellProduct product={product} columnKey={columnKey} />}
+        searchKeys={["name"] as ProductColumnKey[]}
+        searchPlaceholder='Search products...'
+        bodyProps={{
+          emptyContent: "No products found"
+        }}
+        onClickCreate={onClickCreate}
+        createText='Create new product'
+      />
+    </div>
+  )
 }
 
 export default ProductListData

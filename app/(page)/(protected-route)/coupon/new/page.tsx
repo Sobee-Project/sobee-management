@@ -6,18 +6,18 @@ import React from "react"
 import { CouponForm } from "../_components"
 
 const page = () => {
-    return (
-        <div className='space-y-6'>
-            <div className='mt-4 flex items-center gap-8'>
-                <Link href={APP_ROUTES.COUPONS.INDEX} className='p-2'>
-                    <ChevronLeft className='text-slate-500' />
-                </Link>
-                <h1 className='text-2xl font-semibold'>Add Coupon</h1>
-            </div>
-            <Divider />
-            <CouponForm />
-        </div>
-    )
+  return (
+    <div className='space-y-6'>
+      <div className='mt-4 flex items-center gap-8'>
+        <Link href={APP_ROUTES.COUPONS.INDEX} className='p-2'>
+          <ChevronLeft className='text-slate-500' />
+        </Link>
+        <h1 className='text-2xl font-semibold'>Add Coupon</h1>
+      </div>
+      <Divider />
+      <CouponForm />
+    </div>
+  )
 }
 
 export default page

@@ -9,42 +9,42 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export const fetchAllQuestions = async () => {
-    const res = await FETCH.get<IQuestion[]>(API_ROUTES.QUESTION.GET_QUESTIONS, {
-        next: {
-            tags: [CACHE_KEY.QUESTION.GET_ALL]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
-    return res
+  const res = await FETCH.get<IQuestion[]>(API_ROUTES.QUESTION.GET_QUESTIONS, {
+    next: {
+      tags: [CACHE_KEY.QUESTION.GET_ALL]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
+  return res
 }
 
 export const replyQuestion = safeAction
-    .metadata({
-        actionName: "Reply Question"
-    })
-    .schema(replyQuestionFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.put<ReplyQuestionForm>(
-            API_ROUTES.QUESTION.REPLY_QUESTION.replace(":id", parsedInput._id),
-            parsedInput,
-            {
-                cookies
-            }
-        )
-        if (res.success) revalidateTag(CACHE_KEY.QUESTION.GET_ALL)
-        return res
-    })
+  .metadata({
+    actionName: "Reply Question"
+  })
+  .schema(replyQuestionFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.put<ReplyQuestionForm>(
+      API_ROUTES.QUESTION.REPLY_QUESTION.replace(":id", parsedInput._id),
+      parsedInput,
+      {
+        cookies
+      }
+    )
+    if (res.success) revalidateTag(CACHE_KEY.QUESTION.GET_ALL)
+    return res
+  })
 
 export const deleteQuestion = safeAction
-    .metadata({
-        actionName: "Delete Question"
+  .metadata({
+    actionName: "Delete Question"
+  })
+  .schema(deleteQuestionFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.delete(API_ROUTES.QUESTION.DELETE_QUESTION.replace(":id", parsedInput), {
+      cookies
     })
-    .schema(deleteQuestionFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.delete(API_ROUTES.QUESTION.DELETE_QUESTION.replace(":id", parsedInput), {
-            cookies
-        })
-        if (res.success) revalidateTag(CACHE_KEY.QUESTION.GET_ALL)
-        return res
-    })
+    if (res.success) revalidateTag(CACHE_KEY.QUESTION.GET_ALL)
+    return res
+  })

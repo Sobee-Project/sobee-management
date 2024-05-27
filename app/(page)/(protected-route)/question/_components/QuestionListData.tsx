@@ -9,27 +9,27 @@ import { questionColumns } from "../_mock"
 import RenderCellQuestion from "./RenderCellQuestion"
 
 type Props = {
-    data: IQuestion[]
+  data: IQuestion[]
 }
 
 const QuestionListData = ({ data: questionList }: Props) => {
-    const router = useRouter()
+  const router = useRouter()
 
-    return (
-        <div>
-            <CustomTable
-                dataSource={questionList || []}
-                columns={questionColumns}
-                RenderCell={(question, columnKey) => <RenderCellQuestion question={question} columnKey={columnKey} />}
-                searchKeys={["name", "country", "city", "state", "zip"]}
-                searchPlaceholder='Search questions...'
-                bodyProps={{
-                    emptyContent: "No questions found"
-                }}
-                showCreate={false}
-            />
-        </div>
-    )
+  return (
+    <div>
+      <CustomTable
+        dataSource={questionList || []}
+        columns={questionColumns}
+        RenderCell={(question, columnKey) => <RenderCellQuestion question={question} columnKey={columnKey} />}
+        searchKeys={["name", "country", "city", "state", "zip"]}
+        searchPlaceholder='Search questions...'
+        bodyProps={{
+          emptyContent: "No questions found"
+        }}
+        showCreate={false}
+      />
+    </div>
+  )
 }
 
 export default QuestionListData

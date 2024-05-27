@@ -1,12 +1,12 @@
 import { PropsWithChildren } from "react"
 
 type ParamsProps = {
-    params: { [key: string]: string }
-    searchParams?: { [key: string]: string | string[] | undefined }
+  params: { [key: string]: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 type LayoutParamsProps = {
-    params?: any
+  params?: any
 } & PropsWithChildren
 
 export type { LayoutParamsProps, ParamsProps }

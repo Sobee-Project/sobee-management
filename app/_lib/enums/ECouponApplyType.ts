@@ -1,4 +1,4 @@
 export enum ECouponApplyType {
-    ALL = "All",
-    SPECIFIC = "Specific"
+  ALL = "All",
+  SPECIFIC = "Specific"
 }

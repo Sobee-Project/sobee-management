@@ -5,11 +5,11 @@ import startOfWeek from "date-fns/startOfWeek"
 import { Event, Formats, Messages, ViewsProps, dateFnsLocalizer } from "react-big-calendar"
 
 export const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    locales: {}
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales: {}
 })
 
 export const messages: Messages = {}

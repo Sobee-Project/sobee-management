@@ -10,74 +10,74 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export const fetchAllCategories = async () => {
-    const res = await FETCH.get<ICategory[]>(API_ROUTES.CATEGORY.GET_CATEGORIES, {
-        next: {
-            tags: [CACHE_KEY.CATEGORY.GET_ALL]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
-    return res
+  const res = await FETCH.get<ICategory[]>(API_ROUTES.CATEGORY.GET_CATEGORIES, {
+    next: {
+      tags: [CACHE_KEY.CATEGORY.GET_ALL]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
+  return res
 }
 
 export const fetchCategoryById = async (id: string) => {
-    const res = await FETCH.get<ICategory>(API_ROUTES.CATEGORY.GET_CATEGORY.replace(":id", id), {
-        next: {
-            tags: [[CACHE_KEY.CATEGORY.GET_BY_ID, id].join(", ")]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
-    return res
+  const res = await FETCH.get<ICategory>(API_ROUTES.CATEGORY.GET_CATEGORY.replace(":id", id), {
+    next: {
+      tags: [[CACHE_KEY.CATEGORY.GET_BY_ID, id].join(", ")]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
+  return res
 }
 
 export const createCategory = safeAction
-    .metadata({
-        actionName: "Create Category"
+  .metadata({
+    actionName: "Create Category"
+  })
+  .schema(createCategoryFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.post<ICategory>(API_ROUTES.CATEGORY.CREATE_CATEGORY, parsedInput, {
+      cookies
     })
-    .schema(createCategoryFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.post<ICategory>(API_ROUTES.CATEGORY.CREATE_CATEGORY, parsedInput, {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag(CACHE_KEY.CATEGORY.GET_ALL)
-            return res
-        }
-        return res
-    })
+    if (res.success) {
+      revalidateTag(CACHE_KEY.CATEGORY.GET_ALL)
+      return res
+    }
+    return res
+  })
 
 export const updateCategory = safeAction
-    .metadata({
-        actionName: "Update Category"
-    })
-    .schema(updateCategoryFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.put<ICategory>(
-            API_ROUTES.CATEGORY.UPDATE_CATEGORY.replace(":id", parsedInput._id!),
-            parsedInput,
-            {
-                cookies
-            }
-        )
-        if (res.success) {
-            revalidateTag([CACHE_KEY.CATEGORY.GET_BY_ID, parsedInput._id!].join(", "))
-        }
-        return res
-    })
+  .metadata({
+    actionName: "Update Category"
+  })
+  .schema(updateCategoryFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.put<ICategory>(
+      API_ROUTES.CATEGORY.UPDATE_CATEGORY.replace(":id", parsedInput._id!),
+      parsedInput,
+      {
+        cookies
+      }
+    )
+    if (res.success) {
+      revalidateTag([CACHE_KEY.CATEGORY.GET_BY_ID, parsedInput._id!].join(", "))
+    }
+    return res
+  })
 
 export const deleteCategory = safeAction
-    .metadata({
-        actionName: "Delete Category"
+  .metadata({
+    actionName: "Delete Category"
+  })
+  .schema(deleteCategoryFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.delete<ICategory>(API_ROUTES.CATEGORY.DELETE_CATEGORY.replace(":id", parsedInput), {
+      cookies
     })
-    .schema(deleteCategoryFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.delete<ICategory>(API_ROUTES.CATEGORY.DELETE_CATEGORY.replace(":id", parsedInput), {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag(CACHE_KEY.CATEGORY.GET_ALL)
-            return res
-        }
-        return res
-    })
+    if (res.success) {
+      revalidateTag(CACHE_KEY.CATEGORY.GET_ALL)
+      return res
+    }
+    return res
+  })

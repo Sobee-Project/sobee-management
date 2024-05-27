@@ -7,29 +7,29 @@ import { couponColumns } from "../_mock"
 import RenderCellCoupon from "./RenderCellCoupon"
 
 type Props = {
-    data: ICoupon[]
+  data: ICoupon[]
 }
 
 const CouponListData = ({ data: couponList }: Props) => {
-    const router = useRouter()
+  const router = useRouter()
 
-    const onClickCreate = () => {
-        router.push(APP_ROUTES.COUPONS.NEW)
-    }
-    return (
-        <CustomTable
-            dataSource={couponList || []}
-            columns={couponColumns}
-            RenderCell={(coupon, columnKey) => <RenderCellCoupon coupon={coupon} columnKey={columnKey} />}
-            searchKeys={["code"]}
-            searchPlaceholder='Search coupons...'
-            bodyProps={{
-                emptyContent: "No data found"
-            }}
-            csvData={couponList}
-            onClickCreate={onClickCreate}
-            createText='Create new coupon'
-        />
-    )
+  const onClickCreate = () => {
+    router.push(APP_ROUTES.COUPONS.NEW)
+  }
+  return (
+    <CustomTable
+      dataSource={couponList || []}
+      columns={couponColumns}
+      RenderCell={(coupon, columnKey) => <RenderCellCoupon coupon={coupon} columnKey={columnKey} />}
+      searchKeys={["code"]}
+      searchPlaceholder='Search coupons...'
+      bodyProps={{
+        emptyContent: "No data found"
+      }}
+      csvData={couponList}
+      onClickCreate={onClickCreate}
+      createText='Create new coupon'
+    />
+  )
 }
 export default CouponListData

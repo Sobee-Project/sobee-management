@@ -3,7 +3,7 @@ import { ParamsProps } from "@/_lib/params"
 import { redirect } from "next/navigation"
 
 const page = ({ params }: ParamsProps) => {
-    redirect(APP_ROUTES.BRANDS.EDIT.replace(":id", params.id))
+  redirect(APP_ROUTES.BRANDS.EDIT.replace(":id", params.id))
 }
 
 export default page

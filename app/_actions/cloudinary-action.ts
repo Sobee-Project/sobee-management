@@ -10,57 +10,57 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export const uploadFile = safeAction
-    .metadata({
-        actionName: "Upload File"
-    })
-    .schema(uploadFileFormSchema)
-    .action(async ({ parsedInput }) => {
-        const { files, resourceType, folder } = parsedInput
-        const formData = new FormData()
-        switch (true) {
-            case files instanceof File:
-                formData.append("files", files)
-                break
-            default:
-                files.forEach((file) => {
-                    formData.append("files", file)
-                })
-                break
-        }
-
-        formData.append("upload_preset", ENV_CONFIG.CLOUDINARY_UPLOAD_PRESET!)
-        formData.append("folder", folder as string)
-        formData.append("resourceType", resourceType as string)
-        const res = await FETCH.post<
-            any,
-            {
-                urls: string[]
-            }
-        >(API_ROUTES.UPLOAD.UPLOAD_FILE, formData, {
-            cookies
+  .metadata({
+    actionName: "Upload File"
+  })
+  .schema(uploadFileFormSchema)
+  .action(async ({ parsedInput }) => {
+    const { files, resourceType, folder } = parsedInput
+    const formData = new FormData()
+    switch (true) {
+      case files instanceof File:
+        formData.append("files", files)
+        break
+      default:
+        files.forEach((file) => {
+          formData.append("files", file)
         })
-        return res
+        break
+    }
+
+    formData.append("upload_preset", ENV_CONFIG.CLOUDINARY_UPLOAD_PRESET!)
+    formData.append("folder", folder as string)
+    formData.append("resourceType", resourceType as string)
+    const res = await FETCH.post<
+      any,
+      {
+        urls: string[]
+      }
+    >(API_ROUTES.UPLOAD.UPLOAD_FILE, formData, {
+      cookies
     })
+    return res
+  })
 
 export const uploadUrl = safeAction
-    .metadata({
-        actionName: "Upload URL"
+  .metadata({
+    actionName: "Upload URL"
+  })
+  .schema(uploadUrlFormSchema)
+  .action(async ({ parsedInput }) => {
+    const { url, folder, resourceType } = parsedInput
+    const formData = new FormData()
+    formData.append("url", url)
+    formData.append("upload_preset", ENV_CONFIG.CLOUDINARY_UPLOAD_PRESET!)
+    formData.append("folder", folder as string)
+    formData.append("resourceType", resourceType as string)
+    const res = await FETCH.post<
+      any,
+      {
+        urls: string[]
+      }
+    >(API_ROUTES.UPLOAD.UPLOAD_URL, formData, {
+      cookies
     })
-    .schema(uploadUrlFormSchema)
-    .action(async ({ parsedInput }) => {
-        const { url, folder, resourceType } = parsedInput
-        const formData = new FormData()
-        formData.append("url", url)
-        formData.append("upload_preset", ENV_CONFIG.CLOUDINARY_UPLOAD_PRESET!)
-        formData.append("folder", folder as string)
-        formData.append("resourceType", resourceType as string)
-        const res = await FETCH.post<
-            any,
-            {
-                urls: string[]
-            }
-        >(API_ROUTES.UPLOAD.UPLOAD_URL, formData, {
-            cookies
-        })
-        return res
-    })
+    return res
+  })

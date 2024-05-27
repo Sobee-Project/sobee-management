@@ -1,3 +1,3 @@
 export const APP_COLORS = {
-    primary: "#00D1FF"
+  primary: "#00D1FF"
 }

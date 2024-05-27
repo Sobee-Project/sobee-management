@@ -4,12 +4,12 @@ import React from "react"
 import { QuestionListData } from "./_components"
 
 const page = async () => {
-    const res = await fetchAllQuestions()
-    return (
-        <div>
-            <QuestionListData data={res.data!} />
-        </div>
-    )
+  const res = await fetchAllQuestions()
+  return (
+    <div>
+      <QuestionListData data={res.data!} />
+    </div>
+  )
 }
 
 export default page

@@ -9,265 +9,257 @@ import { DefaultExtensionType, FileIcon, IconType, defaultStyles } from "react-f
 import { AssetType } from "."
 
 type Props = {
-    files: File[] | FileList | null
-    setFiles: (files: File[] | FileList | null) => void
-    multiple: boolean
-    type?: AssetType
-    isLoading?: boolean
+  files: File[] | FileList | null
+  setFiles: (files: File[] | FileList | null) => void
+  multiple: boolean
+  type?: AssetType
+  isLoading?: boolean
 }
 
 const ViaDevice = ({ files, setFiles, type = "auto", isLoading = false, multiple }: Props) => {
-    const uploadRef = React.useRef<HTMLInputElement>(null)
-    const [isDragging, setIsDragging] = useState(false)
+  const uploadRef = React.useRef<HTMLInputElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
 
-    const onBrowse = () => {
-        uploadRef.current?.click()
-    }
+  const onBrowse = () => {
+    uploadRef.current?.click()
+  }
 
-    const onFilesChange = (_files: File[] | FileList | null) => {
-        const currentFiles = files ? [...files] : ([] as File[])
-        const newFiles = _files ? [..._files] : ([] as File[])
-        const ids = new Set(newFiles.map((file) => file.name))
-        const merged = [...newFiles, ...currentFiles.filter((file) => !ids.has(file.name))]
-        setFiles(merged)
-    }
+  const onFilesChange = (_files: File[] | FileList | null) => {
+    const currentFiles = files ? [...files] : ([] as File[])
+    const newFiles = _files ? [..._files] : ([] as File[])
+    const ids = new Set(newFiles.map((file) => file.name))
+    const merged = [...newFiles, ...currentFiles.filter((file) => !ids.has(file.name))]
+    setFiles(merged)
+  }
 
-    const onRemove = useCallback(
-        (index: number) => {
-            const newFiles = files ? [...files] : ([] as File[])
-            newFiles.splice(index, 1)
-            setFiles(newFiles)
-        },
-        [files, setFiles]
-    )
+  const onRemove = useCallback(
+    (index: number) => {
+      const newFiles = files ? [...files] : ([] as File[])
+      newFiles.splice(index, 1)
+      setFiles(newFiles)
+    },
+    [files, setFiles]
+  )
 
-    const onClear = () => {
-        setFiles(null)
-    }
+  const onClear = () => {
+    setFiles(null)
+  }
 
-    const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        const files = e.target.files
-        onFilesChange(files)
-    }
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    const files = e.target.files
+    onFilesChange(files)
+  }
 
-    const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setIsDragging(true)
-    }
+  const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(true)
+  }
 
-    const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setIsDragging(false)
-    }
+  const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+  }
 
-    const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setIsDragging(true)
-    }
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(true)
+  }
 
-    const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setIsDragging(false)
-        const files = e.dataTransfer.files
-        onFilesChange(files)
-    }
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+    const files = e.dataTransfer.files
+    onFilesChange(files)
+  }
 
-    const renderFiles = useCallback(() => {
-        return (
-            files && (
-                <div className='grid gap-2 md:grid-cols-2'>
-                    {[...files].map((file, index) => {
-                        const fileType = file.type
-                        const key = `${file.name}-${index}-${file.lastModified}`
-                        const fileName = file.name.split(".").shift()
-                        const ext = (file.name.split(".").pop() || "") as DefaultExtensionType
-                        const type = file.type.split("/")[0] as IconType
-                        const renderFileType = () => {
-                            switch (true) {
-                                case fileType.includes("image"):
-                                    return (
-                                        <Image
-                                            key={key}
-                                            src={URL.createObjectURL(file)}
-                                            alt={file.name}
-                                            width={100}
-                                            height={100}
-                                            className={cn(
-                                                "w-12 object-contain",
-                                                isLoading && "pointer-events-none opacity-20"
-                                            )}
-                                        />
-                                    )
-                                default:
-                                    return (
-                                        <div
-                                            className={cn("h-auto w-8", isLoading && "pointer-events-none opacity-20")}
-                                            key={key}
-                                        >
-                                            <FileIcon extension={ext} type={type} {...defaultStyles[ext]} />
-                                        </div>
-                                    )
-                            }
-                        }
-                        return (
-                            <motion.div
-                                key={key}
-                                className={cn(
-                                    "group flex h-fit cursor-pointer items-center gap-2 rounded-lg border p-2 shadow-sm transition-all hover:border-primary sm:hover:shadow-md",
-                                    isLoading && "pointer-events-none select-none opacity-20"
-                                )}
-                                transition={{ duration: 1 }}
-                                initial='hidden'
-                                animate='visible'
-                                exit='hidden'
-                                variants={{
-                                    hidden: { opacity: 0 },
-                                    visible: { opacity: 1 }
-                                }}
-                            >
-                                {renderFileType()}
-                                <div
-                                    className={cn("flex-1", isLoading && "pointer-events-none select-none opacity-20")}
-                                >
-                                    <span className='line-clamp-1 text-sm group-hover:text-primary'>{fileName}</span>
-                                    <span className='text-xs text-gray-500 group-hover:text-primary'>
-                                        .{ext} - {fromFileSizeToReadable(file.size)}
-                                    </span>
-                                </div>
-                                <div className='flex items-center gap-1'>
-                                    <Button
-                                        as={Link}
-                                        href={URL.createObjectURL(file)}
-                                        target='_blank'
-                                        isIconOnly
-                                        showAnchorIcon
-                                        variant='light'
-                                        color='primary'
-                                        size='sm'
-                                        isDisabled={isLoading}
-                                    />
-                                    <Button
-                                        isIconOnly
-                                        variant='light'
-                                        color='danger'
-                                        size='sm'
-                                        onPress={() => onRemove(index)}
-                                        isDisabled={isLoading}
-                                    >
-                                        <Trash2Icon size={14} />
-                                    </Button>
-                                </div>
-                            </motion.div>
-                        )
-                    })}
-                    {multiple && (
-                        <Button
-                            variant='flat'
-                            startContent={<PlusIcon size={16} />}
-                            className='h-full min-h-14 self-start'
-                            onClick={onBrowse}
-                            isDisabled={isLoading}
-                        >
-                            Add more
-                        </Button>
-                    )}
-                </div>
-            )
-        )
-    }, [files, isLoading, multiple, onRemove])
-
-    const acceptType = useMemo(() => {
-        switch (type) {
-            case "image":
-                return "image/*"
-            case "video":
-                return "video/*"
-            case "audio":
-                return "audio/*"
-            case "raw":
-                return "application/*, text/*"
-            default:
-                return "*"
-        }
-    }, [type])
-
+  const renderFiles = useCallback(() => {
     return (
-        <div
-            className='flex flex-col gap-4'
-            onDragEnter={onDragEnter}
-            onDragLeave={onDragLeave}
-            onDragOver={onDragOver}
-            onDrop={onDrop}
-        >
-            <input
-                type='file'
-                className='hidden'
-                ref={uploadRef}
-                onChange={onFileChange}
-                multiple={multiple}
-                accept={acceptType}
-                onClick={(e) => {
-                    const element = e.target as HTMLInputElement
-                    element.value = ""
+      files && (
+        <div className='grid gap-2 md:grid-cols-2'>
+          {[...files].map((file, index) => {
+            const fileType = file.type
+            const key = `${file.name}-${index}-${file.lastModified}`
+            const fileName = file.name.split(".").shift()
+            const ext = (file.name.split(".").pop() || "") as DefaultExtensionType
+            const type = file.type.split("/")[0] as IconType
+            const renderFileType = () => {
+              switch (true) {
+                case fileType.includes("image"):
+                  return (
+                    <Image
+                      key={key}
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                      width={100}
+                      height={100}
+                      className={cn("w-12 object-contain", isLoading && "pointer-events-none opacity-20")}
+                    />
+                  )
+                default:
+                  return (
+                    <div className={cn("h-auto w-8", isLoading && "pointer-events-none opacity-20")} key={key}>
+                      <FileIcon extension={ext} type={type} {...defaultStyles[ext]} />
+                    </div>
+                  )
+              }
+            }
+            return (
+              <motion.div
+                key={key}
+                className={cn(
+                  "group flex h-fit cursor-pointer items-center gap-2 rounded-lg border p-2 shadow-sm transition-all hover:border-primary sm:hover:shadow-md",
+                  isLoading && "pointer-events-none select-none opacity-20"
+                )}
+                transition={{ duration: 1 }}
+                initial='hidden'
+                animate='visible'
+                exit='hidden'
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1 }
                 }}
-            />
-            {(!files || (files && files.length === 0)) && (
-                <AnimatePresence>
-                    <div
-                        className={cn(
-                            "flex flex-col items-center gap-3 rounded-lg border-2 border-dashed p-4 transition-colors",
-                            isDragging && "border-primary"
-                        )}
-                    >
-                        <UploadCloudIcon
-                            className={cn("size-20 md:size-32", !isDragging ? "stroke-gray-300" : "stroke-primary")}
-                            strokeWidth={1.5}
-                        />
-                        <p className={cn("text-center text-sm", isDragging ? "text-primary" : "text-gray-500")}>
-                            Drag and drop here to upload
-                        </p>
-                        {!isDragging && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5 }}
-                                exit={{ opacity: 0 }}
-                                className='flex flex-col items-center gap-2'
-                            >
-                                <span className={cn("text-sm text-gray-500")}>or</span>
-                                <Button variant='flat' onPress={onBrowse}>
-                                    Browse File
-                                </Button>
-                            </motion.div>
-                        )}
-                    </div>
-                </AnimatePresence>
-            )}
-            {files && files.length > 0 && (
-                <div className='flex flex-col gap-2'>
-                    <div className='self-end'>
-                        <Button
-                            variant='light'
-                            size='sm'
-                            color='danger'
-                            startContent={<Trash2Icon size={16} />}
-                            className='self-start'
-                            onClick={onClear}
-                            isDisabled={isLoading}
-                        >
-                            Clear
-                        </Button>
-                    </div>
-                    {renderFiles()}
+              >
+                {renderFileType()}
+                <div className={cn("flex-1", isLoading && "pointer-events-none select-none opacity-20")}>
+                  <span className='line-clamp-1 text-sm group-hover:text-primary'>{fileName}</span>
+                  <span className='text-xs text-gray-500 group-hover:text-primary'>
+                    .{ext} - {fromFileSizeToReadable(file.size)}
+                  </span>
                 </div>
-            )}
+                <div className='flex items-center gap-1'>
+                  <Button
+                    as={Link}
+                    href={URL.createObjectURL(file)}
+                    target='_blank'
+                    isIconOnly
+                    showAnchorIcon
+                    variant='light'
+                    color='primary'
+                    size='sm'
+                    isDisabled={isLoading}
+                  />
+                  <Button
+                    isIconOnly
+                    variant='light'
+                    color='danger'
+                    size='sm'
+                    onPress={() => onRemove(index)}
+                    isDisabled={isLoading}
+                  >
+                    <Trash2Icon size={14} />
+                  </Button>
+                </div>
+              </motion.div>
+            )
+          })}
+          {multiple && (
+            <Button
+              variant='flat'
+              startContent={<PlusIcon size={16} />}
+              className='h-full min-h-14 self-start'
+              onClick={onBrowse}
+              isDisabled={isLoading}
+            >
+              Add more
+            </Button>
+          )}
         </div>
+      )
     )
+  }, [files, isLoading, multiple, onRemove])
+
+  const acceptType = useMemo(() => {
+    switch (type) {
+      case "image":
+        return "image/*"
+      case "video":
+        return "video/*"
+      case "audio":
+        return "audio/*"
+      case "raw":
+        return "application/*, text/*"
+      default:
+        return "*"
+    }
+  }, [type])
+
+  return (
+    <div
+      className='flex flex-col gap-4'
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    >
+      <input
+        type='file'
+        className='hidden'
+        ref={uploadRef}
+        onChange={onFileChange}
+        multiple={multiple}
+        accept={acceptType}
+        onClick={(e) => {
+          const element = e.target as HTMLInputElement
+          element.value = ""
+        }}
+      />
+      {(!files || (files && files.length === 0)) && (
+        <AnimatePresence>
+          <div
+            className={cn(
+              "flex flex-col items-center gap-3 rounded-lg border-2 border-dashed p-4 transition-colors",
+              isDragging && "border-primary"
+            )}
+          >
+            <UploadCloudIcon
+              className={cn("size-20 md:size-32", !isDragging ? "stroke-gray-300" : "stroke-primary")}
+              strokeWidth={1.5}
+            />
+            <p className={cn("text-center text-sm", isDragging ? "text-primary" : "text-gray-500")}>
+              Drag and drop here to upload
+            </p>
+            {!isDragging && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                exit={{ opacity: 0 }}
+                className='flex flex-col items-center gap-2'
+              >
+                <span className={cn("text-sm text-gray-500")}>or</span>
+                <Button variant='flat' onPress={onBrowse}>
+                  Browse File
+                </Button>
+              </motion.div>
+            )}
+          </div>
+        </AnimatePresence>
+      )}
+      {files && files.length > 0 && (
+        <div className='flex flex-col gap-2'>
+          <div className='self-end'>
+            <Button
+              variant='light'
+              size='sm'
+              color='danger'
+              startContent={<Trash2Icon size={16} />}
+              className='self-start'
+              onClick={onClear}
+              isDisabled={isLoading}
+            >
+              Clear
+            </Button>
+          </div>
+          {renderFiles()}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default ViaDevice

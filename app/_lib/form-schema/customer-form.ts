@@ -2,19 +2,19 @@ import { z } from "zod"
 import { userFormSchema } from "./user-form"
 
 export const createCustomerFormSchema = z
-    .object({
-        _user: z.object({
-            gender: z.string(),
-            isActive: z.boolean().default(true)
-        })
+  .object({
+    _user: z.object({
+      gender: z.string(),
+      isActive: z.boolean().default(true)
     })
-    .merge(userFormSchema)
+  })
+  .merge(userFormSchema)
 
 export const updateCustomerFormSchema = z
-    .object({
-        _id: z.string().optional()
-    })
-    .merge(createCustomerFormSchema)
+  .object({
+    _id: z.string().optional()
+  })
+  .merge(createCustomerFormSchema)
 
 export const deleteCustomerFormSchema = z.string()
 

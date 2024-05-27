@@ -3,13 +3,13 @@ import React from "react"
 import { TermListData } from "./_components"
 
 const page = async () => {
-    const res = await fetchAllTerms()
+  const res = await fetchAllTerms()
 
-    return (
-        <div>
-            <TermListData data={res.data!} />
-        </div>
-    )
+  return (
+    <div>
+      <TermListData data={res.data!} />
+    </div>
+  )
 }
 
 export default page

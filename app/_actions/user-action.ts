@@ -8,32 +8,32 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 export const updateUser = safeAction
-    .metadata({ actionName: "Update User" })
-    .schema(updateUserFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.put<Partial<IUser>>(API_ROUTES.USER.UPDATE, parsedInput, {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag(CACHE_KEY.AUTH.GET_ME)
-        }
-        return res
+  .metadata({ actionName: "Update User" })
+  .schema(updateUserFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.put<Partial<IUser>>(API_ROUTES.USER.UPDATE, parsedInput, {
+      cookies
     })
+    if (res.success) {
+      revalidateTag(CACHE_KEY.AUTH.GET_ME)
+    }
+    return res
+  })
 
 export const changeAvatar = safeAction
-    .metadata({ actionName: "Change Avatar" })
-    .schema(changeAvatarFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.put<
-            {
-                avatar: string
-            },
-            IUser
-        >(API_ROUTES.USER.CHANGE_AVATAR, parsedInput, {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag(CACHE_KEY.AUTH.GET_ME)
-        }
-        return res
+  .metadata({ actionName: "Change Avatar" })
+  .schema(changeAvatarFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.put<
+      {
+        avatar: string
+      },
+      IUser
+    >(API_ROUTES.USER.CHANGE_AVATAR, parsedInput, {
+      cookies
     })
+    if (res.success) {
+      revalidateTag(CACHE_KEY.AUTH.GET_ME)
+    }
+    return res
+  })

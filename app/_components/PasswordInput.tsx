@@ -7,27 +7,27 @@ type Props = InputProps
 
 // eslint-disable-next-line react/display-name
 const PasswordInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-    const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
-    const RenderShowPasswordIcon = useCallback(
-        (props?: LucideProps) => {
-            return showPassword ? (
-                <EyeOff onClick={() => setShowPassword(false)} {...props} />
-            ) : (
-                <Eye onClick={() => setShowPassword(true)} {...props} />
-            )
-        },
-        [showPassword]
-    )
+  const RenderShowPasswordIcon = useCallback(
+    (props?: LucideProps) => {
+      return showPassword ? (
+        <EyeOff onClick={() => setShowPassword(false)} {...props} />
+      ) : (
+        <Eye onClick={() => setShowPassword(true)} {...props} />
+      )
+    },
+    [showPassword]
+  )
 
-    return (
-        <Input
-            type={showPassword ? "text" : "password"}
-            endContent={<RenderShowPasswordIcon size={20} className='cursor-pointer' />}
-            {...props}
-            ref={ref}
-        />
-    )
+  return (
+    <Input
+      type={showPassword ? "text" : "password"}
+      endContent={<RenderShowPasswordIcon size={20} className='cursor-pointer' />}
+      {...props}
+      ref={ref}
+    />
+  )
 })
 
 export default PasswordInput

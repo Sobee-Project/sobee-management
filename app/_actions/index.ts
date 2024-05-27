@@ -2,58 +2,58 @@ export { getAssetsByType } from "./asset-action"
 export { changePassword, getCurrentUser, login, logout } from "./auth-action"
 export { createBrand, deleteBrand, fetchAllBrands, fetchBrandById, updateBrand } from "./brand-action"
 export {
-    createCategory,
-    deleteCategory,
-    fetchAllCategories,
-    fetchCategoryById,
-    updateCategory
+  createCategory,
+  deleteCategory,
+  fetchAllCategories,
+  fetchCategoryById,
+  updateCategory
 } from "./category-action"
 export { uploadFile, uploadUrl } from "./cloudinary-action"
 export {
-    activeCoupon,
-    createCoupon,
-    deactiveCoupon,
-    deleteCoupon,
-    fetchAllCoupons,
-    fetchCouponById,
-    updateCoupon
+  activeCoupon,
+  createCoupon,
+  deactiveCoupon,
+  deleteCoupon,
+  fetchAllCoupons,
+  fetchCouponById,
+  updateCoupon
 } from "./coupon-action"
 export {
-    banCustomer,
-    createCustomer,
-    deleteCustomer,
-    fetchAllCustomer,
-    fetchCustomerById,
-    unbanCustomer,
-    updateCustomer
+  banCustomer,
+  createCustomer,
+  deleteCustomer,
+  fetchAllCustomer,
+  fetchCustomerById,
+  unbanCustomer,
+  updateCustomer
 } from "./customer-action"
 export {
-    createDayOff,
-    deleteDayOff,
-    fetchAllDayOffs,
-    fetchDayOffById,
-    updateDayOff,
-    updateDayOffStatus
+  createDayOff,
+  deleteDayOff,
+  fetchAllDayOffs,
+  fetchDayOffById,
+  updateDayOff,
+  updateDayOffStatus
 } from "./day-off-action"
 export { createFaq, deleteFaq, fetchAllFaqs, fetchFaqById, updateFaq } from "./faq-action"
 export {
-    createPaymentMethod,
-    deletePaymentMethod,
-    fetchAllPaymentMethods,
-    fetchPaymentMethodById,
-    updatePaymentMethod
+  createPaymentMethod,
+  deletePaymentMethod,
+  fetchAllPaymentMethods,
+  fetchPaymentMethodById,
+  updatePaymentMethod
 } from "./payment-method-action"
 export {
-    createProduct,
-    deleteProduct,
-    fetchBestSellerProducts,
-    fetchDiscountProducts,
-    fetchDraftProducts,
-    fetchFeaturedProducts,
-    fetchPopularProducts,
-    fetchProductById,
-    fetchPublishedProducts,
-    updateProduct
+  createProduct,
+  deleteProduct,
+  fetchBestSellerProducts,
+  fetchDiscountProducts,
+  fetchDraftProducts,
+  fetchFeaturedProducts,
+  fetchPopularProducts,
+  fetchProductById,
+  fetchPublishedProducts,
+  updateProduct
 } from "./product-action"
 export { deleteQuestion, fetchAllQuestions, replyQuestion } from "./question-action"
 export { deleteReview, fetchAllReviews, fetchReviewById } from "./review-action"

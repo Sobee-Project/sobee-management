@@ -1,19 +1,19 @@
 import { LucideIcon } from "lucide-react"
 
 type TSidebarMeta = {
-    icon?: LucideIcon
-    title: string
-    href?: string
+  icon?: LucideIcon
+  title: string
+  href?: string
 }
 
 type TSidebar = TSidebarMeta & {
-    items?: TSidebarMeta[]
+  items?: TSidebarMeta[]
 }
 
 type TSidebarGroup = {
-    title: string
-    items: TSidebar[]
-    hasSeparator?: boolean
+  title: string
+  items: TSidebar[]
+  hasSeparator?: boolean
 }
 
 type SidebarProps = {}

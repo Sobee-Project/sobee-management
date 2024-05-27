@@ -9,32 +9,32 @@ import { taxColumns } from "../_mock"
 import RenderCellTax from "./RenderCellTax"
 
 type Props = {
-    data: ITax[]
+  data: ITax[]
 }
 
 const TaxListData = ({ data: taxList }: Props) => {
-    const router = useRouter()
+  const router = useRouter()
 
-    const onClickCreate = () => {
-        router.push(APP_ROUTES.TAXES.NEW)
-    }
+  const onClickCreate = () => {
+    router.push(APP_ROUTES.TAXES.NEW)
+  }
 
-    return (
-        <div>
-            <CustomTable
-                dataSource={taxList || []}
-                columns={taxColumns}
-                RenderCell={(tax, columnKey) => <RenderCellTax tax={tax} columnKey={columnKey} />}
-                searchKeys={["name", "country", "city", "state", "zip"]}
-                searchPlaceholder='Search taxes...'
-                bodyProps={{
-                    emptyContent: "No taxes found"
-                }}
-                onClickCreate={onClickCreate}
-                createText='Create new tax'
-            />
-        </div>
-    )
+  return (
+    <div>
+      <CustomTable
+        dataSource={taxList || []}
+        columns={taxColumns}
+        RenderCell={(tax, columnKey) => <RenderCellTax tax={tax} columnKey={columnKey} />}
+        searchKeys={["name", "country", "city", "state", "zip"]}
+        searchPlaceholder='Search taxes...'
+        bodyProps={{
+          emptyContent: "No taxes found"
+        }}
+        onClickCreate={onClickCreate}
+        createText='Create new tax'
+      />
+    </div>
+  )
 }
 
 export default TaxListData

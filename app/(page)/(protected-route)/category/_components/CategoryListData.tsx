@@ -9,32 +9,32 @@ import { categoryColumns } from "../_mock"
 import RenderCellCategory from "./RenderCellCategory"
 
 type Props = {
-    data: ICategory[]
+  data: ICategory[]
 }
 
 const CategoryListData = ({ data: categoryList }: Props) => {
-    const router = useRouter()
+  const router = useRouter()
 
-    const onClickCreate = () => {
-        router.push(APP_ROUTES.CATEGORIES.NEW)
-    }
+  const onClickCreate = () => {
+    router.push(APP_ROUTES.CATEGORIES.NEW)
+  }
 
-    return (
-        <div>
-            <CustomTable
-                dataSource={categoryList || []}
-                columns={categoryColumns}
-                RenderCell={(category, columnKey) => <RenderCellCategory category={category} columnKey={columnKey} />}
-                searchKeys={["name", "slug"] as (keyof ICategory)[]}
-                searchPlaceholder='Search categoryes...'
-                bodyProps={{
-                    emptyContent: "No categoryes found"
-                }}
-                onClickCreate={onClickCreate}
-                createText='Create new category'
-            />
-        </div>
-    )
+  return (
+    <div>
+      <CustomTable
+        dataSource={categoryList || []}
+        columns={categoryColumns}
+        RenderCell={(category, columnKey) => <RenderCellCategory category={category} columnKey={columnKey} />}
+        searchKeys={["name", "slug"] as (keyof ICategory)[]}
+        searchPlaceholder='Search categoryes...'
+        bodyProps={{
+          emptyContent: "No categoryes found"
+        }}
+        onClickCreate={onClickCreate}
+        createText='Create new category'
+      />
+    </div>
+  )
 }
 
 export default CategoryListData

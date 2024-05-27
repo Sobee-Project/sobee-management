@@ -9,41 +9,41 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export const fetchAllReviews = async () => {
-    const res = await FETCH.get<IReview[]>(API_ROUTES.REVIEW.GET_REVIEWS, {
-        next: {
-            tags: [CACHE_KEY.REVIEW.GET_ALL]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
-    return res
+  const res = await FETCH.get<IReview[]>(API_ROUTES.REVIEW.GET_REVIEWS, {
+    next: {
+      tags: [CACHE_KEY.REVIEW.GET_ALL]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
+  return res
 }
 
 export const fetchReviewById = async (id: string) => {
-    const res = await FETCH.get<IReview>(API_ROUTES.REVIEW.GET_REVIEW.replace(":id", id), {
-        next: {
-            tags: [[CACHE_KEY.REVIEW.GET_BY_ID, id].join(", ")]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
+  const res = await FETCH.get<IReview>(API_ROUTES.REVIEW.GET_REVIEW.replace(":id", id), {
+    next: {
+      tags: [[CACHE_KEY.REVIEW.GET_BY_ID, id].join(", ")]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
 
-    return res
+  return res
 }
 
 export const deleteReview = safeAction
-    .metadata({
-        actionName: "Delete Review"
+  .metadata({
+    actionName: "Delete Review"
+  })
+  .schema(deleteReviewFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.delete(API_ROUTES.REVIEW.DELETE_REVIEW.replace(":id", parsedInput), {
+      cookies
     })
-    .schema(deleteReviewFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.delete(API_ROUTES.REVIEW.DELETE_REVIEW.replace(":id", parsedInput), {
-            cookies
-        })
 
-        if (res.success) {
-            revalidateTag(CACHE_KEY.REVIEW.GET_ALL)
-        }
+    if (res.success) {
+      revalidateTag(CACHE_KEY.REVIEW.GET_ALL)
+    }
 
-        return res
-    })
+    return res
+  })

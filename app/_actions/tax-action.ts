@@ -10,70 +10,70 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export const fetchAllTaxes = async () => {
-    const res = await FETCH.get<ITax[]>(API_ROUTES.TAX.GET_TAXES, {
-        next: {
-            tags: [CACHE_KEY.TAX.GET_ALL]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
-    return res
+  const res = await FETCH.get<ITax[]>(API_ROUTES.TAX.GET_TAXES, {
+    next: {
+      tags: [CACHE_KEY.TAX.GET_ALL]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
+  return res
 }
 
 export const fetchTaxById = async (id: string) => {
-    const res = await FETCH.get<ITax>(API_ROUTES.TAX.GET_TAX.replace(":id", id), {
-        next: {
-            tags: [[CACHE_KEY.TAX.GET_BY_ID, id].join(", ")]
-        },
-        cookies
-    })
-    if (!res.success) redirect("/" + res.statusCode)
-    return res
+  const res = await FETCH.get<ITax>(API_ROUTES.TAX.GET_TAX.replace(":id", id), {
+    next: {
+      tags: [[CACHE_KEY.TAX.GET_BY_ID, id].join(", ")]
+    },
+    cookies
+  })
+  if (!res.success) redirect("/" + res.statusCode)
+  return res
 }
 
 export const createTax = safeAction
-    .metadata({
-        actionName: "Create Tax"
+  .metadata({
+    actionName: "Create Tax"
+  })
+  .schema(createTaxFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.post<ITax>(API_ROUTES.TAX.CREATE_TAX, parsedInput, {
+      cookies
     })
-    .schema(createTaxFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.post<ITax>(API_ROUTES.TAX.CREATE_TAX, parsedInput, {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag(CACHE_KEY.TAX.GET_ALL)
-            return res
-        }
-        return res
-    })
+    if (res.success) {
+      revalidateTag(CACHE_KEY.TAX.GET_ALL)
+      return res
+    }
+    return res
+  })
 
 export const updateTax = safeAction
-    .metadata({
-        actionName: "Update Tax"
+  .metadata({
+    actionName: "Update Tax"
+  })
+  .schema(updateTaxFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.put<ITax>(API_ROUTES.TAX.UPDATE_TAX.replace(":id", parsedInput._id!), parsedInput, {
+      cookies
     })
-    .schema(updateTaxFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.put<ITax>(API_ROUTES.TAX.UPDATE_TAX.replace(":id", parsedInput._id!), parsedInput, {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag([CACHE_KEY.TAX.GET_BY_ID, parsedInput._id!].join(", "))
-        }
-        return res
-    })
+    if (res.success) {
+      revalidateTag([CACHE_KEY.TAX.GET_BY_ID, parsedInput._id!].join(", "))
+    }
+    return res
+  })
 
 export const deleteTax = safeAction
-    .metadata({
-        actionName: "Delete Tax"
+  .metadata({
+    actionName: "Delete Tax"
+  })
+  .schema(deleteTaxFormSchema)
+  .action(async ({ parsedInput }) => {
+    const res = await FETCH.delete<ITax>(API_ROUTES.TAX.DELETE_TAX.replace(":id", parsedInput), {
+      cookies
     })
-    .schema(deleteTaxFormSchema)
-    .action(async ({ parsedInput }) => {
-        const res = await FETCH.delete<ITax>(API_ROUTES.TAX.DELETE_TAX.replace(":id", parsedInput), {
-            cookies
-        })
-        if (res.success) {
-            revalidateTag(CACHE_KEY.TAX.GET_ALL)
-            return res
-        }
-        return res
-    })
+    if (res.success) {
+      revalidateTag(CACHE_KEY.TAX.GET_ALL)
+      return res
+    }
+    return res
+  })
