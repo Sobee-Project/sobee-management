@@ -15,11 +15,12 @@ const CloudinaryPlugin = dynamic(() => import("@/_plugins").then((r) => r.Cloudi
 })
 
 type Props = {
+  displayPrice: number
   variants: IVariant[]
   setVariants: React.Dispatch<React.SetStateAction<IVariant[]>>
 }
 
-const VariantForm = ({ variants, setVariants }: Props) => {
+const VariantForm = ({ displayPrice, variants, setVariants }: Props) => {
   const [showAssetPlugin, setShowAssetPlugin] = useState<number | null>(null)
 
   const colors = useMemo(() => [...new Set(variants.map((variant) => variant.color))], [variants])
@@ -63,23 +64,26 @@ const VariantForm = ({ variants, setVariants }: Props) => {
     cartesian(sizes, newColors)
   }
 
-  const cartesian = useCallback((_sizes: string[], _colors: string[]) => {
-    const sizes = _sizes.length === 0 ? [EProductSize.M] : _sizes
-    const colors = _colors.length === 0 ? ["#000000"] : _colors
+  const cartesian = useCallback(
+    (_sizes: string[], _colors: string[]) => {
+      const sizes = _sizes.length === 0 ? [EProductSize.M] : _sizes
+      const colors = _colors.length === 0 ? ["#000000"] : _colors
 
-    const _cartesian = cartesianProduct([sizes, colors])
-    setVariants((prev) => {
-      return _cartesian.map(([size, color]) => {
-        return {
-          size,
-          color,
-          price: 0,
-          amount: 0,
-          assets: []
-        }
+      const _cartesian = cartesianProduct([sizes, colors])
+      setVariants((prev) => {
+        return _cartesian.map(([size, color]) => {
+          return {
+            size,
+            color,
+            price: displayPrice,
+            amount: 0,
+            assets: []
+          }
+        })
       })
-    })
-  }, [])
+    },
+    [displayPrice, setVariants]
+  )
 
   const onAddSize = (_sizes: string[]) => {
     console.log(_sizes)
@@ -164,7 +168,7 @@ const VariantForm = ({ variants, setVariants }: Props) => {
                         value={price.toString()}
                       />
                       <Input
-                        type='number'
+                        // type='number'
                         min={1}
                         label='Amount'
                         placeholder='5'

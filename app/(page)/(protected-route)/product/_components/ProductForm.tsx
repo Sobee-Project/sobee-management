@@ -60,7 +60,10 @@ const ProductForm = ({ type = "new", data, brands, categories, shippingFees, tax
           isDraft: false,
           type: EProductType.SIMPLE,
           price: 0,
-          quantity: 0
+          quantity: 0,
+          discount: 0,
+          status: EProductStatus.ACTIVE,
+          variants: []
         }
   })
 
@@ -82,7 +85,7 @@ const ProductForm = ({ type = "new", data, brands, categories, shippingFees, tax
     if (watch("type") === EProductType.VARIABLE) {
       const totalQuantity = variants.reduce((acc, item) => acc + item.amount, 0)
       setValue("quantity", totalQuantity)
-      setValue("variants", variants as any)
+      setValue("variants", variants as IVariant[])
     } else {
       setValue("quantity", data?.quantity || 0)
     }
@@ -253,7 +256,9 @@ const ProductForm = ({ type = "new", data, brands, categories, shippingFees, tax
                 </SelectItem>
               ))}
             </Select>
-            {watch("type") === EProductType.VARIABLE && <VariantForm variants={variants} setVariants={setVariants} />}
+            {watch("type") === EProductType.VARIABLE && (
+              <VariantForm displayPrice={watch("displayPrice")} variants={variants} setVariants={setVariants} />
+            )}
           </div>
 
           <Input

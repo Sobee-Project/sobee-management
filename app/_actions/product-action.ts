@@ -135,7 +135,7 @@ export const deleteProduct = safeAction
   })
   .schema(deleteProductFormSchema)
   .action(async ({ parsedInput }) => {
-    const res = await FETCH.delete(API_ROUTES.PRODUCT.DELETE_PRODUCT, {
+    const res = await FETCH.delete(API_ROUTES.PRODUCT.DELETE_PRODUCT.replace(":id", parsedInput), {
       cookies
     })
 

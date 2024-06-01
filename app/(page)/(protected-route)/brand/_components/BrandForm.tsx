@@ -1,6 +1,6 @@
 "use client"
 import { createBrand, updateBrand } from "@/_actions"
-import { APP_ROUTES } from "@/_constants"
+import { APP_ROUTES, DEFAULT_IMAGE } from "@/_constants"
 import {
   CreateBrandFormSchema,
   UpdateBrandFormSchema,
@@ -9,10 +9,13 @@ import {
 } from "@/_lib/form-schema"
 import { IBrand } from "@/_lib/interfaces"
 import { cn } from "@/_lib/utils"
+import { CloudinaryPlugin } from "@/_plugins"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input, Switch } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
+import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
@@ -25,6 +28,7 @@ const BrandForm = ({ type = "new", data }: Props) => {
   const isEdit = type === "edit"
   const router = useRouter()
   const params = useParams()
+  const [showThumbnailPlugin, setShowThumbnailPlugin] = useState(false)
 
   const {
     setValue,
@@ -34,7 +38,7 @@ const BrandForm = ({ type = "new", data }: Props) => {
     formState: { errors }
   } = useForm<CreateBrandFormSchema | UpdateBrandFormSchema>({
     resolver: zodResolver(isEdit ? updateBrandFormSchema : createBrandFormSchema),
-    defaultValues: isEdit ? data : { isActive: true }
+    defaultValues: isEdit ? data : { isActive: true, logo: DEFAULT_IMAGE }
   })
 
   const { execute, status } = useAction(isEdit ? updateBrand : createBrand, {
@@ -83,7 +87,39 @@ const BrandForm = ({ type = "new", data }: Props) => {
             isInvalid={!!errors.website}
             isDisabled={isLoading}
           />
-          <Input
+          <div className='flex'>
+            <div className='w-1/3'>
+              <p className='mb-2 text-sm'>Logo</p>
+              <Button color='primary' variant='bordered' onClick={() => setShowThumbnailPlugin(true)}>
+                Choose Logo
+              </Button>
+            </div>
+            <div className='ml-4 w-2/3 '>
+              <div className='size-fit rounded border border-dashed p-4'>
+                <div className='relative'>
+                  <Image
+                    src={watch("logo") as string}
+                    alt='logo'
+                    objectFit='contain'
+                    width={400}
+                    height={300}
+                    className='rounded'
+                  />
+                </div>
+              </div>
+            </div>
+            {showThumbnailPlugin && (
+              <CloudinaryPlugin
+                visible={showThumbnailPlugin}
+                onClose={() => setShowThumbnailPlugin(false)}
+                onUploadSuccess={({ urls }) => setValue("logo", urls[0])}
+                assetType='image'
+                multiple={false}
+                folder='image/brand'
+              />
+            )}
+          </div>
+          {/* <Input
             {...register("logo")}
             label='Logo'
             labelPlacement='outside'
@@ -92,7 +128,7 @@ const BrandForm = ({ type = "new", data }: Props) => {
             errorMessage={errors.logo?.message}
             isInvalid={!!errors.logo}
             isDisabled={isLoading}
-          />
+          /> */}
           <Switch
             {...(register("isActive"),
             {
