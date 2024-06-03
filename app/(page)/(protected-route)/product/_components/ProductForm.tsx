@@ -20,7 +20,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import titleize from "titleize"
-import { BrandSelect } from "../../_components"
+import { BrandSelect, CategorySelect } from "../../_components"
 import VariantForm from "./VariantForm"
 
 const CloudinaryPlugin = dynamic(() => import("@/_plugins").then((r) => r.CloudinaryPlugin), {
@@ -59,7 +59,6 @@ const ProductForm = ({ type = "new", data, brands, categories, shippingFees, tax
           thumbnail: DEFAULT_IMAGE,
           isDraft: false,
           type: EProductType.SIMPLE,
-          price: 0,
           quantity: 0,
           discount: 0,
           status: EProductStatus.ACTIVE,
@@ -142,7 +141,13 @@ const ProductForm = ({ type = "new", data, brands, categories, shippingFees, tax
             endContent='$'
           />
           <BrandSelect {...register("brand")} brandList={brands} variant='bordered' labelPlacement='outside' />
-          <Select
+          <CategorySelect
+            {...register("category")}
+            categoryList={categories}
+            variant='bordered'
+            labelPlacement='outside'
+          />
+          {/* <Select
             {...register("category")}
             label='Category'
             labelPlacement='outside'
@@ -155,7 +160,7 @@ const ProductForm = ({ type = "new", data, brands, categories, shippingFees, tax
                 {category.name}
               </SelectItem>
             ))}
-          </Select>
+          </Select> */}
           <Select
             {...register("shippingFee")}
             label='Shipping Fee'

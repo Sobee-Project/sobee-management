@@ -1,5 +1,6 @@
-import { fetchCategoryById } from "@/_actions"
+import { fetchAllCategories, fetchCategoryById } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
+import { ICategory } from "@/_lib/interfaces"
 import { ParamsProps } from "@/_lib/params"
 import { Divider } from "@nextui-org/react"
 import { ChevronLeft } from "lucide-react"
@@ -10,6 +11,15 @@ const page = async ({ params }: ParamsProps) => {
   const id = params.id
   const res = await fetchCategoryById(id)
   const data = res.data!
+
+  let categories = [] as ICategory[]
+  const categoryFetch = fetchAllCategories()
+
+  const [categoryRes] = await Promise.all([categoryFetch])
+
+  if (categoryRes.success) {
+    categories = categoryRes.data!
+  }
 
   return (
     <div className='space-y-6'>
@@ -22,7 +32,7 @@ const page = async ({ params }: ParamsProps) => {
         </h1>
       </div>
       <Divider />
-      <CategoryForm data={res.data} type='edit' />
+      <CategoryForm data={res.data} categories={categories} type='edit' />
     </div>
   )
 }

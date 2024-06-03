@@ -4,4 +4,6 @@ export interface ICategory {
   slug: string
   description?: string
   image?: string
+  parent?: string | null | ICategory
+  children?: ICategory[] | string[]
 }

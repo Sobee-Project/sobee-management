@@ -10,7 +10,7 @@ import {
 import { ICategory } from "@/_lib/interfaces"
 import { CloudinaryPlugin } from "@/_plugins"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Input, Textarea } from "@nextui-org/react"
+import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react"
 import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
@@ -21,9 +21,10 @@ import toast from "react-hot-toast"
 type Props = {
   type?: "new" | "edit"
   data?: ICategory
+  categories: ICategory[]
 }
 
-const CategoryForm = ({ type = "new", data }: Props) => {
+const CategoryForm = ({ type = "new", data, categories }: Props) => {
   const isEdit = type === "edit"
   const {
     register,
@@ -34,9 +35,13 @@ const CategoryForm = ({ type = "new", data }: Props) => {
   } = useForm<CreateCategoryFormSchema | UpdateCategoryFormSchema>({
     resolver: zodResolver(isEdit ? updateCategoryFormSchema : createCategoryFormSchema),
     defaultValues: isEdit
-      ? data
+      ? {
+          ...data,
+          parent: (data?.parent as any) || undefined
+        }
       : {
-          image: DEFAULT_IMAGE
+          image: DEFAULT_IMAGE,
+          parent: undefined
         }
   })
 
@@ -124,6 +129,20 @@ const CategoryForm = ({ type = "new", data }: Props) => {
               folder='image/category'
             />
           )}
+          <Select
+            {...register("parent")}
+            label='Parent Category'
+            labelPlacement='outside'
+            description='Select the parent of the category'
+            placeholder='Select parent category'
+            variant='bordered'
+          >
+            {categories.map((category) => (
+              <SelectItem key={category._id!} value={category._id}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </Select>
           <Textarea
             {...register("description")}
             label='Description'

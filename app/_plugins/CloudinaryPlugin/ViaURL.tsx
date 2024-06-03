@@ -39,7 +39,7 @@ const ViaURL = ({ url, setUrl, isLoading = false }: Props) => {
         label='Image URL'
         autoFocus
         isDisabled={!!preview || isLoading}
-        onValueChange={(v) => setUrl(v)}
+        onValueChange={(v) => setUrl(v.trim())}
         type='url'
         value={url}
       />
