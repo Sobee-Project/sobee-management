@@ -1,8 +1,8 @@
 import { DEFAULT_IMAGE } from "@/_constants"
-import { IBrand, IUser } from "@/_lib/interfaces"
+import { IBrand } from "@/_lib/interfaces"
 import { getCredentialsFromCookie } from "@/_utils"
 import { Avatar, Select, SelectItem, SelectProps } from "@nextui-org/react"
-import React, { ReactElement, forwardRef } from "react"
+import { forwardRef } from "react"
 
 type BrandSelectProps = {
   brandList: IBrand[]

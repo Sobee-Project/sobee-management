@@ -2,7 +2,7 @@
 import { deleteCategory } from "@/_actions"
 import { APP_ROUTES } from "@/_constants"
 import { ICategory } from "@/_lib/interfaces"
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { SquarePen, Trash2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Link from "next/link"
@@ -18,6 +18,8 @@ type Props = {
 const RenderCellCategory = ({ category, columnKey }: Props) => {
   const cellValue = category[columnKey as keyof ICategory]
   const [showPopover, setShowPopover] = useState(false)
+
+  const parent = category.parent as ICategory
 
   const { execute, status } = useAction(deleteCategory, {
     onSuccess: ({ data }) => {
@@ -35,8 +37,19 @@ const RenderCellCategory = ({ category, columnKey }: Props) => {
   }
 
   switch (columnKey as CategoryColumnKey) {
+    case "image":
+      return (
+        <Avatar
+          src={category.image}
+          size='sm'
+          showFallback
+          fallback='https://res.cloudinary.com/dtfkou1of/image/upload/v1715627220/sobee-storage/image/default_image.jpg'
+        />
+      )
     case "name":
       return category.name
+    case "parent":
+      return parent?.name || "N/A"
     case "slug":
       return category.slug
     case "description":
@@ -47,7 +60,7 @@ const RenderCellCategory = ({ category, columnKey }: Props) => {
           <Button
             isIconOnly
             variant='light'
-            size='sm'
+            size='md'
             color='primary'
             as={Link}
             href={APP_ROUTES.CATEGORIES.EDIT.replace(":id", category?._id!)}
@@ -79,8 +92,6 @@ const RenderCellCategory = ({ category, columnKey }: Props) => {
           </Popover>
         </div>
       )
-    default:
-      return <>{cellValue}</>
   }
 }
 
