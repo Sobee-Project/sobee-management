@@ -22,13 +22,14 @@ const TermListData = ({ data: termList }: Props) => {
       columns={termColumns}
       RenderCell={(term, columnKey) => <RenderCellTerm term={term} columnKey={columnKey} />}
       searchKeys={["name", "issued_by.name", "type"]}
-      searchPlaceholder='Search TERMs...'
+      searchPlaceholder='Search terms...'
       bodyProps={{
         emptyContent: "No data found"
       }}
       csvData={termList}
       onClickCreate={onClickCreate}
-      createText='Create new TERM'
+      createText='Create new term'
+      showPagination={false}
     />
   )
 }

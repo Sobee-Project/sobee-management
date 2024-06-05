@@ -33,7 +33,7 @@ const StaffProfile = ({ staff }: Props) => {
           alt={staff.name}
           width={200}
           height={200}
-          className='-mt-14 size-28 rounded-full border border-primary-100 bg-white object-cover p-2 shadow-lg lg:-mt-20 lg:size-40'
+          className='-mt-14 size-28 rounded-full border border-primary-100 bg-background object-cover p-2 shadow-lg lg:-mt-20 lg:size-40'
         />
         <h1 className='my-4 text-2xl font-semibold'>{staff.name}</h1>
         <div className='flex flex-wrap items-end justify-between gap-4'>

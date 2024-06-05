@@ -1,6 +1,6 @@
 "use client"
 import { deleteCategory } from "@/_actions"
-import { APP_ROUTES } from "@/_constants"
+import { APP_ROUTES, DEFAULT_IMAGE } from "@/_constants"
 import { ICategory } from "@/_lib/interfaces"
 import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { SquarePen, Trash2 } from "lucide-react"
@@ -38,22 +38,15 @@ const RenderCellCategory = ({ category, columnKey }: Props) => {
 
   switch (columnKey as CategoryColumnKey) {
     case "image":
-      return (
-        <Avatar
-          src={category.image}
-          size='sm'
-          showFallback
-          fallback='https://res.cloudinary.com/dtfkou1of/image/upload/v1715627220/sobee-storage/image/default_image.jpg'
-        />
-      )
+      return <Avatar src={category.image} size='sm' showFallback fallback={DEFAULT_IMAGE} />
     case "name":
       return category.name
-    case "parent":
-      return parent?.name || "N/A"
     case "slug":
       return category.slug
-    case "description":
-      return category.description || "N/A"
+    case "productCount":
+      return category.productCount
+    case "isParent":
+      return !parent ? "Yes" : "No"
     case "actions":
       return (
         <div className='flex items-center gap-1'>
@@ -92,6 +85,8 @@ const RenderCellCategory = ({ category, columnKey }: Props) => {
           </Popover>
         </div>
       )
+    default:
+      return <>{cellValue}</>
   }
 }
 

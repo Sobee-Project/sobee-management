@@ -29,6 +29,7 @@ const FaqListData = ({ data: faqList }: Props) => {
       csvData={faqList}
       onClickCreate={onClickCreate}
       createText='Create new FAQ'
+      showPagination={false}
     />
   )
 }

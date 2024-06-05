@@ -39,7 +39,7 @@ const UserInfoSection = ({ userInfo }: Props) => {
   }, [])
 
   return (
-    <div className='space-y-2 rounded-md bg-white p-4 shadow-custom-light'>
+    <div className='space-y-2 rounded-md bg-background p-4 shadow-custom-light'>
       {renderItem(AtSign, userInfo?.email || "")}
       {renderItem(Phone, userInfo?.phoneNumber || "")}
       {renderItem(Baby, format(userInfo?.dateOfBirth || new Date(), "dd/MM/yyyy"))}

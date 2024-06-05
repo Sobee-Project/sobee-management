@@ -145,5 +145,10 @@ export const API_ROUTES = {
     GET_QUESTIONS: "/question",
     REPLY_QUESTION: "/question/:id/reply",
     DELETE_QUESTION: "/question/:id"
+  },
+  ORDER: {
+    GET_ALL: "/order",
+    GET_ORDER: "/order/:id",
+    UPDATE: "/order/:id"
   }
 }

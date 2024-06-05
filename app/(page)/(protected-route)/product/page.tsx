@@ -14,7 +14,7 @@ const page = async () => {
   return (
     <div>
       <PageHeader title='Published Products' keyCache={CACHE_KEY.PRODUCT.GET_ALL} />
-      <ProductListData data={products} />
+      <ProductListData data={products} paginationRes={res} />
     </div>
   )
 }

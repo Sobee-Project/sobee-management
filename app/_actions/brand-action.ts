@@ -8,12 +8,13 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-export const fetchAllBrands = async () => {
+export const fetchAllBrands = async (query?: any) => {
   const res = await FETCH.get<IBrand[]>(API_ROUTES.BRAND.GET_BRANDS, {
     next: {
       tags: [CACHE_KEY.BRAND.GET_ALL]
     },
-    cookies
+    cookies,
+    params: query
   })
   if (!res.success) redirect("/" + res.statusCode)
   return res

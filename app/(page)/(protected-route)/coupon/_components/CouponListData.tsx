@@ -29,6 +29,7 @@ const CouponListData = ({ data: couponList }: Props) => {
       csvData={couponList}
       onClickCreate={onClickCreate}
       createText='Create new coupon'
+      showPagination={false}
     />
   )
 }

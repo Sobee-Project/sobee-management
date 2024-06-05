@@ -53,7 +53,7 @@ const LoginPage = () => {
     >
       <form
         onSubmit={handleSubmit(handleClickLogin)}
-        className='max-w-96 space-y-8 rounded-lg border bg-white px-8 py-6 shadow-lg dark:bg-gray-900'
+        className='max-w-96 space-y-8 rounded-lg border bg-background px-8 py-6 shadow-lg dark:bg-gray-900'
       >
         <div className='space-y-4'>
           <h1 className='text-center text-2xl font-bold dark:text-gray-200'>Welcome Back!</h1>

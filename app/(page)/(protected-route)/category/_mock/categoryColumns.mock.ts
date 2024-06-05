@@ -1,6 +1,6 @@
 import { ColumnType } from "@/_components"
 
-export type CategoryColumnKey = "image" | "name" | "parent" | "slug" | "description" | "actions"
+export type CategoryColumnKey = "image" | "name" | "slug" | "actions" | "productCount" | "isParent"
 export const categoryColumns: ColumnType<CategoryColumnKey>[] = [
   {
     label: "Image",
@@ -12,17 +12,19 @@ export const categoryColumns: ColumnType<CategoryColumnKey>[] = [
     allowSorting: true
   },
   {
-    label: "Parent Category",
-    key: "parent"
+    label: "Product Count",
+    key: "productCount",
+    allowSorting: true
+  },
+  {
+    label: "Is Parent",
+    key: "isParent",
+    allowSorting: true
   },
   {
     label: "Slug",
     key: "slug",
     allowSorting: true
-  },
-  {
-    label: "Description",
-    key: "description"
   },
   {
     label: "Actions",

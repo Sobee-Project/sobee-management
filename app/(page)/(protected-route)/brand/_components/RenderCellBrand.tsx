@@ -8,6 +8,7 @@ import { format } from "date-fns"
 import { CheckIcon, SquarePen, Trash2, X } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
+import NextLink from "next/link"
 import { Key, useState } from "react"
 import toast from "react-hot-toast"
 import { BrandColumnKey } from "../_mock"
@@ -39,7 +40,7 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
 
   switch (columnKey as BrandColumnKey) {
     case "name":
-      return <p className='text-lg'>{brand.name}</p>
+      return <p>{brand.name}</p>
     case "logo":
       return (
         <Image
@@ -67,12 +68,12 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
       )
     case "website":
       return (
-        <Link href={brand.website} isExternal showAnchorIcon color='primary'>
-          {brand.website}
+        <Link href={brand.website} isExternal showAnchorIcon color='primary' className='text-sm'>
+          Visit Website
         </Link>
       )
     case "products":
-      return brand.products?.length || 0
+      return brand.productCount || 0
     case "createdAt":
       return (
         <div className='flex flex-col gap-0.5'>
@@ -88,7 +89,7 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
             variant='light'
             size='sm'
             color='primary'
-            as={Link}
+            as={NextLink}
             href={APP_ROUTES.BRANDS.EDIT.replace(":id", brand?._id!)}
           >
             <SquarePen size={20} />
@@ -103,7 +104,7 @@ const RenderCellBrand = ({ brand, columnKey }: Props) => {
               <div className='space-y-2 self-end px-1 py-2'>
                 <p className='font-bold'>Delete confirmation</p>
                 <p>
-                  Are you sure you want to delete <b>this review</b> role?
+                  Are you sure you want to delete <b>{brand.name}</b> brand?
                 </p>
                 <div className='flex justify-end space-x-2'>
                   <Button color='danger' onClick={onDelete} size='sm' isLoading={isLoading} isDisabled={isLoading}>

@@ -27,6 +27,7 @@ const QuestionListData = ({ data: questionList }: Props) => {
           emptyContent: "No questions found"
         }}
         showCreate={false}
+        showPagination={false}
       />
     </div>
   )

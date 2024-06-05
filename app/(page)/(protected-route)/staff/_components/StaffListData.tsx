@@ -30,6 +30,7 @@ const RoleListData = ({ data: staffList }: Props) => {
         }}
         onClickCreate={onClickCreate}
         createText='Create new staff'
+        showPagination={false}
       />
     </div>
   )

@@ -6,13 +6,15 @@ import { Button } from "@nextui-org/react"
 import { getCookie } from "cookies-next"
 import { motion } from "framer-motion"
 import { XIcon } from "lucide-react"
+import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 import { SidebarGroupItem, SidebarProps, sidebarMock } from "."
 
 const Sidebar = ({}: SidebarProps) => {
   const { isOpen: expand, toggleSidebar: toggleExpand } = useSidebarStore()
-
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
   return (
     <>
       {expand && <div className='fixed inset-0 z-50 size-full bg-black/50 md:hidden' onClick={toggleExpand} />}
@@ -39,7 +41,7 @@ const Sidebar = ({}: SidebarProps) => {
           <div className='flex w-full items-center justify-center'>
             <Link href={APP_ROUTES.DASHBOARD}>
               <Image
-                src={expand ? "/logo_text_light.png" : "/logo.svg"}
+                src={expand ? (isDark ? "/logo_text_dark.png" : "/logo_text_light.png") : "/logo.svg"}
                 width={expand ? 140 : 30}
                 height={expand ? 140 : 30}
                 alt='Logo'

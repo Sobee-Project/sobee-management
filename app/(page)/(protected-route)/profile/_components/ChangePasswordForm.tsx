@@ -39,7 +39,7 @@ const ChangePasswordForm = () => {
 
   return (
     // eslint-disable-next-line tailwindcss/classnames-order
-    <div className='h-fit space-y-2 rounded-md bg-white p-4 shadow-custom-light'>
+    <div className='h-fit space-y-2 rounded-md bg-background p-4 shadow-custom-light'>
       <h2 className='text-2xl font-bold'>Change password</h2>
       <form className='space-y-3' onSubmit={handleSubmit(onUpdate)}>
         <Input

@@ -203,7 +203,10 @@ const RoleForm = ({ role, type = "create" }: Props) => {
           <p className='text-sm text-slate-500'>{isEdit ? "Update" : "Add"} role from here</p>
         </div>
       )}
-      <form onSubmit={handleSubmit(onSubmit)} className='flex-1 space-y-4 rounded-md border bg-white p-8 shadow-lg'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex-1 space-y-4 rounded-md border bg-background p-8 shadow-lg'
+      >
         <Input
           {...register("role_name")}
           label='Role name'

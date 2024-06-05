@@ -32,6 +32,7 @@ const TaxListData = ({ data: taxList }: Props) => {
         }}
         onClickCreate={onClickCreate}
         createText='Create new tax'
+        showPagination={false}
       />
     </div>
   )

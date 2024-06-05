@@ -9,4 +9,5 @@ export interface IBrand {
   products?: string[] | IProduct[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  productCount?: number
 }

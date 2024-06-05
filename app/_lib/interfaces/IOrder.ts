@@ -13,6 +13,8 @@ export interface IOrder {
   status: EOrderStatus
   shippingFee: number
   total: number
+  phoneNumber: string
+  emailAdress: string
   paymentMethod?: string | IPaymentMethod
   shippingAddress: IAddress | string
   note?: string

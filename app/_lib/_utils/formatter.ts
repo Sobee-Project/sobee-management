@@ -25,3 +25,10 @@ export const numFormatter = (num: number, fractionDigits: number = 0, prefix: st
     return `${prefix}${num} ${postfix}`
   }
 }
+
+export const formatCurrency = (value: number = 0) => {
+  return value.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  })
+}

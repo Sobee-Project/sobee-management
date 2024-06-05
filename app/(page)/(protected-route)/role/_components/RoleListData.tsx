@@ -34,6 +34,7 @@ const RoleListData = ({ data: roleList }: Props) => {
         }}
         onClickCreate={onClickCreate}
         createText='Create new role'
+        showPagination={false}
       />
     </div>
   )

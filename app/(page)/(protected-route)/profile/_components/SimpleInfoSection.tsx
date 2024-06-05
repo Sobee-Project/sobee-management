@@ -40,7 +40,7 @@ const SimpleInfoSection = ({ userInfo }: Props) => {
 
   return (
     <>
-      <div className='flex flex-col items-center justify-center gap-4 rounded-md bg-white p-8 shadow-custom-light'>
+      <div className='flex flex-col items-center justify-center gap-4 rounded-md bg-background p-8 shadow-custom-light'>
         <div className='relative size-24 rounded-full'>
           <Image
             src={userInfo?.avatar!}

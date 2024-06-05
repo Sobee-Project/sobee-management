@@ -1,7 +1,9 @@
 "use client"
+import { IPaginate } from "@/_lib/interfaces"
 import {
   Button,
   Input,
+  Pagination,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -19,6 +21,7 @@ import {
 import { Download, Plus, Search, Trash2 } from "lucide-react"
 import { Key, useCallback, useEffect, useState } from "react"
 import { CSVLink } from "react-csv"
+import { Headers } from "react-csv/lib/core"
 import toast from "react-hot-toast"
 
 type ActionMeta = {
@@ -35,6 +38,16 @@ type Settings = {
   showCheckbox?: boolean
   rowKeyPattern?: string
   searchPlaceholder?: string
+  showPagination?: boolean
+}
+
+type Pagination = {
+  onChangePage?: (page: number) => void
+} & IPaginate
+
+type Search = {
+  keyword: string
+  onChangeKeyword: (keyword: string) => void
 }
 
 type TableNode<T> = {
@@ -51,6 +64,8 @@ type CustomTableProps<T = any> = {
   dataSource: T[]
   columns: ColumnType[]
   bodyProps?: Omit<TableBodyProps<T>, "children">
+  pagination?: Pagination
+  search?: Search
 } & ActionMeta &
   Settings &
   TableNode<T> &
@@ -70,16 +85,21 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
     RenderCell,
     csvData,
     searchPlaceholder = "Search...",
-    createText = "Create"
+    createText = "Create",
+    pagination = { page: 1, total: 10, onChangePage: () => {} } as Pagination,
+    showPagination = true,
+    search
   } = props
+  const { page, total, onChangePage } = pagination
+  const { keyword, onChangeKeyword } = search ?? ({} as Search)
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([])
   const [dataSourceState, setDataSourceState] = useState<T[]>(dataSource)
-  const [searchKeyword, setSearchKeyword] = useState("")
   const [showPopover, setShowPopover] = useState(false)
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "",
     direction: "ascending"
   })
+  const [searchLocal, setSearchLocal] = useState("")
 
   useEffect(() => {
     setDataSourceState(dataSource)
@@ -120,21 +140,21 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
   }
 
   const onSearch = useCallback(
-    (value: string) => {
-      setSearchKeyword(value)
-      if (value === "") {
-        onReset()
-        return
-      }
-      const res = dataSource.filter((item: any) => {
-        return searchKeys?.some((key) => {
-          const val = key.includes(".") ? fromDotKeyToObjectValue(item, key) : item[key]
-          return val?.toLowerCase()?.includes(value.toLowerCase())
+    (_keyword: string) => {
+      if (search) {
+        onChangeKeyword(_keyword)
+      } else {
+        setSearchLocal(_keyword)
+        const filteredData = dataSource.filter((item: any) => {
+          return searchKeys.some((key) => {
+            const value = fromDotKeyToObjectValue(item, key)
+            return value?.toString().toLowerCase().includes(_keyword.toLowerCase())
+          })
         })
-      })
-      setDataSourceState(res)
+        setDataSourceState(filteredData)
+      }
     },
-    [dataSource, onReset, searchKeys]
+    [dataSource, onChangeKeyword, search, searchKeys]
   )
 
   const onSortChange = useCallback(
@@ -166,7 +186,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
           variant='bordered'
           endContent={<Search size={20} />}
           onValueChange={onSearch}
-          value={searchKeyword}
+          value={search ? keyword : searchLocal}
         />
         {selectedRowKeys.length === 0 ? (
           showCreate && (
@@ -214,6 +234,14 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
           <CSVLink
             filename={csvFileName?.includes(".csv") ? csvFileName : csvFileName + ".csv"}
             data={(csvData ?? dataSource) as any}
+            headers={
+              columns
+                .filter((v) => v.key !== "actions")
+                .map((column) => ({
+                  label: column.label,
+                  key: column.key
+                })) as Headers
+            }
           >
             <Button startContent={<Download size={14} />} onClick={onClickExport} className='hidden md:inline-flex'>
               Export
@@ -226,6 +254,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
       </div>
     )
   }, [
+    columns,
     createText,
     csvData,
     csvFileName,
@@ -233,7 +262,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
     onCreate,
     onDelete,
     onSearch,
-    searchKeyword,
+    keyword,
     searchPlaceholder,
     selectedRowKeys.length,
     showCreate,
@@ -242,6 +271,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
 
   return (
     <Table
+      isStriped
       {...props}
       selectionMode={showCheckbox ? "multiple" : "none"}
       topContent={renderTopContent()}
@@ -251,22 +281,24 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
       selectedKeys={selectedRowKeys}
       sortDescriptor={sortDescriptor}
       onSortChange={onSortChange}
-      // bottomContent={
-      //     <div className='flex w-full justify-center'>
-      //         <Pagination
-      //             loop
-      //             showControls
-      //             showShadow
-      //             color='secondary'
-      //             page={1}
-      //             total={10}
-      //             // onChange={(page) => setPage(page)}
-      //         />
-      //     </div>
-      // }
+      bottomContent={
+        showPagination && !!total && total > 1 ? (
+          <div className='flex w-full justify-center'>
+            <Pagination
+              showControls
+              size='sm'
+              color='primary'
+              page={page}
+              total={total ?? 1}
+              onChange={onChangePage}
+              isDisabled={props.bodyProps?.isLoading}
+            />
+          </div>
+        ) : null
+      }
     >
       <TableHeader>
-        {columns.map((column, index) => (
+        {columns.map((column) => (
           <TableColumn key={column.key} allowsSorting={!!column.allowSorting}>
             {column.label}
           </TableColumn>

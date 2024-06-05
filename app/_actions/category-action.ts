@@ -9,12 +9,13 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-export const fetchAllCategories = async () => {
+export const fetchAllCategories = async (query?: any) => {
   const res = await FETCH.get<ICategory[]>(API_ROUTES.CATEGORY.GET_CATEGORIES, {
     next: {
       tags: [CACHE_KEY.CATEGORY.GET_ALL]
     },
-    cookies
+    cookies,
+    params: query
   })
   if (!res.success) redirect("/" + res.statusCode)
   return res

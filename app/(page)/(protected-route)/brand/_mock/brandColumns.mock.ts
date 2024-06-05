@@ -21,8 +21,9 @@ export const brandColumns: ColumnType<BrandColumnKey>[] = [
     key: "website"
   },
   {
-    label: "Products",
-    key: "products"
+    label: "Product Count",
+    key: "products",
+    allowSorting: true
   },
   {
     label: "Day Created",

@@ -6,4 +6,5 @@ export interface ICategory {
   image?: string
   parent?: string | null | ICategory
   children?: ICategory[] | string[]
+  productCount?: number
 }

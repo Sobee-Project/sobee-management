@@ -36,6 +36,7 @@ export {
   updateDayOffStatus
 } from "./day-off-action"
 export { createFaq, deleteFaq, fetchAllFaqs, fetchFaqById, updateFaq } from "./faq-action"
+export { fetchAllOrders, fetchOrderById } from "./order-action"
 export {
   createPaymentMethod,
   deletePaymentMethod,

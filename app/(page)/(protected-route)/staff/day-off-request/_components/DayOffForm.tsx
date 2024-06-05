@@ -41,7 +41,7 @@ const DayOffForm = ({ dayOffs, staff }: Props) => {
 
   return (
     <div className='flex flex-col flex-wrap gap-8'>
-      <div className='flex-1 rounded-2xl border bg-white p-4 shadow-sm'>
+      <div className='flex-1 rounded-2xl border bg-background p-4 shadow-sm'>
         <BigCalendar
           views={["month", "week", "agenda"]}
           defaultView='month'

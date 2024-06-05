@@ -66,5 +66,9 @@ export const CACHE_KEY = {
   },
   QUESTION: {
     GET_ALL: "QUESTION_GET_ALL"
+  },
+  ORDER: {
+    GET_ALL: "ORDER_GET_ALL",
+    GET_BY_ID: "ORDER_GET_BY_ID"
   }
 }

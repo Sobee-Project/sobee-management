@@ -89,7 +89,7 @@ const StaffForm = ({ staff, type = "create", roles }: Props) => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-1 flex-col gap-6 rounded-md border bg-white p-8 shadow-lg'
+        className='flex flex-1 flex-col gap-6 rounded-md border bg-background p-8 shadow-lg'
       >
         <div className='flex flex-col gap-4 md:flex-row'>
           <div className='flex flex-1 flex-col gap-6'>

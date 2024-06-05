@@ -50,13 +50,13 @@ const SidebarItem = ({ href = "#", icon: Icon = Dot, title, items = [] }: TSideb
         {sidebarExpand && (
           <SubIcon
             size={20}
-            className={cn("group-hover:text-primary", isSubLinkActive ? "text-primary" : "text-slate-700")}
+            className={cn("group-hover:text-primary", isSubLinkActive ? "text-primary" : "text-foreground-500")}
           />
         )}
         <h4
           className={cn(
             `flex-1 text-left group-hover:text-primary`,
-            isSubLinkActive ? "font-semibold text-primary" : "font-normal text-slate-700",
+            isSubLinkActive ? "font-semibold text-primary" : "font-normal text-foreground-500",
             "text-sm"
           )}
         >
@@ -87,20 +87,20 @@ const SidebarItem = ({ href = "#", icon: Icon = Dot, title, items = [] }: TSideb
           <button
             onClick={handleExpand}
             className={cn(
-              `group flex w-full items-center justify-between gap-2 rounded px-4 py-2 transition-colors  hover:bg-primary-50`,
-              isLinkActive && "bg-primary-50 inner-border-small ",
+              `group flex w-full items-center justify-between gap-2 rounded border border-transparent px-4 py-2 transition-colors hover:bg-primary-50`,
+              isLinkActive && "border-primary-500 bg-primary-50",
               sidebarExpand && "mb-1"
             )}
           >
             <Icon
               size={20}
-              className={cn("group-hover:text-primary", isLinkActive ? "text-primary" : "text-slate-700")}
+              className={cn("group-hover:text-primary", isLinkActive ? "text-primary" : "text-foreground-500")}
             />
             {sidebarExpand && (
               <h4
                 className={cn(
                   `flex-1 text-left text-sm  group-hover:text-primary`,
-                  isLinkActive ? "font-semibold text-primary" : "font-normal text-slate-700"
+                  isLinkActive ? "font-semibold text-primary" : "font-normal text-foreground-500"
                 )}
               >
                 {title}
@@ -108,7 +108,7 @@ const SidebarItem = ({ href = "#", icon: Icon = Dot, title, items = [] }: TSideb
             )}
             {hasItems && sidebarExpand && (
               <motion.div animate={{ rotate: expanded ? 90 : 0 }} transition={{ duration: 0.2 }} exit={{ opacity: 0 }}>
-                <ChevronRight size={20} className={"text-slate-700 group-hover:text-primary"} />
+                <ChevronRight size={20} className={"text-foreground-500 group-hover:text-primary"} />
               </motion.div>
             )}
           </button>

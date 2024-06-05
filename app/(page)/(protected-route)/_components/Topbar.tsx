@@ -1,5 +1,7 @@
 "use client"
 import { logout } from "@/_actions"
+import { invalidateCookies } from "@/_actions/utils-action"
+import { ThemeSwitcher } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
 import { IUser } from "@/_lib/interfaces"
 import { useSidebarStore } from "@/_store"
@@ -9,6 +11,7 @@ import { LogOut, Menu, SearchIcon, SunIcon, User2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
 import Link from "next/link"
+import { useEffect } from "react"
 import toast from "react-hot-toast"
 
 type Props = {
@@ -17,6 +20,14 @@ type Props = {
 
 const Topbar = ({ user: userInfo }: Props) => {
   const { isOpen, toggleSidebar } = useSidebarStore()
+
+  const { execute: executeCookie } = useAction(invalidateCookies)
+
+  useEffect(() => {
+    if (!userInfo) {
+      executeCookie()
+    }
+  }, [executeCookie, userInfo])
 
   const { execute } = useAction(logout, {
     onSuccess: ({ data }) => {
@@ -33,7 +44,7 @@ const Topbar = ({ user: userInfo }: Props) => {
   }
 
   return (
-    <div className='flex h-20 items-center gap-4 border-b-1 border-l-1 bg-white p-4'>
+    <div className='flex h-20 items-center gap-4 border-b-1 border-l-1 bg-background p-4'>
       <motion.button
         onClick={toggleSidebar}
         initial={{ rotate: 0 }}
@@ -49,9 +60,7 @@ const Topbar = ({ user: userInfo }: Props) => {
         placeholder='Search...'
         endContent={<SearchIcon onClick={() => console.log(1)} />}
       />
-      <button>
-        <SunIcon />
-      </button>
+      <ThemeSwitcher />
       <Dropdown>
         <DropdownTrigger>
           <button className='grid size-10 place-items-center rounded-full bg-primary-50 p-1'>

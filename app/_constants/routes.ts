@@ -1,3 +1,5 @@
+import { ENV_CONFIG } from "./env-config"
+
 export const APP_ROUTES = {
   LOGIN: "/login",
   DASHBOARD: "/dashboard",
@@ -139,4 +141,10 @@ export const APP_ROUTES = {
     MAINTAINANCE: "/setting/maintainance"
   },
   PROFILE: "/profile"
+}
+
+export const CUSTOMER_ROUTES = {
+  PRODUCTS: {
+    ID: ENV_CONFIG.NEXT_PUBLIC_CUSTOMER_URL + "/product/:id"
+  }
 }

@@ -1,6 +1,6 @@
 "use client"
 import { deleteProduct } from "@/_actions"
-import { APP_ROUTES, DEFAULT_IMAGE } from "@/_constants"
+import { APP_ROUTES, CUSTOMER_ROUTES, DEFAULT_IMAGE } from "@/_constants"
 import { commaFormatter } from "@/_lib/_utils"
 import { ICategory, IProduct } from "@/_lib/interfaces"
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
@@ -75,7 +75,8 @@ const RenderCellProduct = ({ product, columnKey }: Props) => {
             size='sm'
             color='primary'
             as={Link}
-            href={APP_ROUTES.PRODUCTS.ID.replace(":id", product?._id!)}
+            href={CUSTOMER_ROUTES.PRODUCTS.ID.replace(":id", product?.slug!)}
+            target='_blank'
           >
             <Eye size={20} />
           </Button>

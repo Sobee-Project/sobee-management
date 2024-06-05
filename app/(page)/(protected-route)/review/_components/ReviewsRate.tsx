@@ -14,7 +14,7 @@ const getPercentage = (arr: any, value: any) => {
 
 const ReviewsRate = () => {
   return (
-    <div className='col-span-2 flex min-h-[182px] flex-col justify-between rounded-lg bg-white p-3 shadow-medium'>
+    <div className='col-span-2 flex min-h-[182px] flex-col justify-between rounded-lg bg-background p-3 shadow-medium'>
       {data.map((item, index) => (
         <ReviewsRateItem key={index} rate={item.rate} value={getPercentage(data, item.value)} />
       ))}

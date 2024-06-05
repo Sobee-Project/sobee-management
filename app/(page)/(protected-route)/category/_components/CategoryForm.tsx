@@ -75,7 +75,7 @@ const CategoryForm = ({ type = "new", data, categories }: Props) => {
         <h3 className='font-semibold'>Information</h3>
         <p className='text-sm text-slate-500'>{isEdit ? "Update" : "Add"} your category information from here</p>
       </div>
-      <div className='flex-1 rounded-md border bg-white p-8 shadow-lg'>
+      <div className='flex-1 rounded-md border bg-background p-8 shadow-lg'>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
           <Input
             {...register("name")}

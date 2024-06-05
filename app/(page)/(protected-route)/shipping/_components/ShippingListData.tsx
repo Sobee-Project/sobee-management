@@ -32,6 +32,7 @@ const ShippingListData = ({ data: shippingList }: Props) => {
         }}
         onClickCreate={onClickCreate}
         createText='Create new shipping'
+        showPagination={false}
       />
     </div>
   )

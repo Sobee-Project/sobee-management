@@ -103,7 +103,7 @@ const CustomerForm = ({ customer, type = "create" }: Props) => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-1 flex-col gap-6 rounded-md border bg-white p-8 shadow-lg'
+        className='flex flex-1 flex-col gap-6 rounded-md border bg-background p-8 shadow-lg'
       >
         <Input
           {...register("name")}

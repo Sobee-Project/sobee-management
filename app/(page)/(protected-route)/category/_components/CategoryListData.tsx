@@ -1,19 +1,52 @@
 "use client"
+import { fetchAllCategories } from "@/_actions"
 import { CustomTable, ScreenLoader } from "@/_components"
 import { APP_ROUTES } from "@/_constants"
-import { ICategory } from "@/_lib/interfaces"
+import { ICategory, IPaginate } from "@/_lib/interfaces"
 import { Spinner } from "@nextui-org/react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useDebounce } from "use-debounce"
 import { categoryColumns } from "../_mock"
 import RenderCellCategory from "./RenderCellCategory"
 
 type Props = {
   data: ICategory[]
+  paginationRes: IPaginate
 }
 
-const CategoryListData = ({ data: categoryList }: Props) => {
+const CategoryListData = ({ data, paginationRes: pagination }: Props) => {
   const router = useRouter()
+
+  const [categories, setCategories] = useState(data)
+  const [paginationRes, setPaginationRes] = useState<IPaginate>(pagination)
+
+  const [isFetching, setIsFetching] = useState(false)
+  const [keyword, setKeyword] = useState("")
+  const [debouncedKeyword] = useDebounce(keyword, 500)
+
+  useEffect(() => {
+    setCategories(data)
+    setPaginationRes(pagination)
+  }, [data, pagination])
+
+  const fetchNext = useCallback(async (page: number, query: any = {}) => {
+    setIsFetching(true)
+    const res = await fetchAllCategories({ page, ...query })
+    if (res.success) {
+      setCategories(res.data!)
+      setPaginationRes(res)
+    }
+    setIsFetching(false)
+  }, [])
+
+  const onChangeKeyword = (keyword: string) => {
+    setKeyword(keyword)
+  }
+
+  useEffect(() => {
+    fetchNext(1, { keyword: debouncedKeyword })
+  }, [debouncedKeyword, fetchNext])
 
   const onClickCreate = () => {
     router.push(APP_ROUTES.CATEGORIES.NEW)
@@ -22,16 +55,27 @@ const CategoryListData = ({ data: categoryList }: Props) => {
   return (
     <div>
       <CustomTable
-        dataSource={categoryList || []}
+        dataSource={categories || []}
         columns={categoryColumns}
         RenderCell={(category, columnKey) => <RenderCellCategory category={category} columnKey={columnKey} />}
         searchKeys={["name", "slug"] as (keyof ICategory)[]}
-        searchPlaceholder='Search categoryes...'
+        searchPlaceholder='Search categories...'
         bodyProps={{
-          emptyContent: "No categoryes found"
+          emptyContent: "No categories found",
+          isLoading: isFetching,
+          loadingContent: <Spinner />
         }}
         onClickCreate={onClickCreate}
         createText='Create new category'
+        pagination={{
+          page: paginationRes.page,
+          total: paginationRes.total,
+          onChangePage: fetchNext
+        }}
+        search={{
+          keyword,
+          onChangeKeyword
+        }}
       />
     </div>
   )
