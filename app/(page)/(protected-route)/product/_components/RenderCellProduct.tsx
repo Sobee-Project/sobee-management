@@ -48,7 +48,7 @@ const RenderCellProduct = ({ product, columnKey }: Props) => {
             alt={product.name}
             width={50}
             height={50}
-            className='hidden overflow-hidden object-contain md:block'
+            className='hidden overflow-hidden bg-white object-contain md:block'
           />
           <div>
             <p className='line-clamp-1'>{product.name}</p>

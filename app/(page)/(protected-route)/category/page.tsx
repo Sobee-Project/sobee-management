@@ -1,16 +1,21 @@
 import { fetchAllCategories, fetchAllTaxes } from "@/_actions"
 import { CACHE_KEY } from "@/_constants"
+import { Spinner } from "@nextui-org/react"
+import dynamic from "next/dynamic"
 import { redirect } from "next/navigation"
 import React from "react"
 import { PageHeader } from "../_components"
-import { CategoryListData } from "./_components"
+
+const CategoryListData = dynamic(() => import("./_components/CategoryListData"), {
+  ssr: false,
+  loading: () => <Spinner />
+})
 
 const page = async () => {
-  const res = await fetchAllCategories()
   return (
     <div>
       <PageHeader title='All Categories' keyCache={CACHE_KEY.CATEGORY.GET_ALL} />
-      <CategoryListData data={res.data!} paginationRes={res} />
+      <CategoryListData />
     </div>
   )
 }

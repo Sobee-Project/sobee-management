@@ -57,7 +57,7 @@ export {
   updateProduct
 } from "./product-action"
 export { deleteQuestion, fetchAllQuestions, replyQuestion } from "./question-action"
-export { deleteReview, fetchAllReviews, fetchReviewById } from "./review-action"
+export { deleteReview, fetchAllReviews, fetchReviewById, getReviewAnalytics } from "./review-action"
 export { createRole, deleteRole, fetchAllRoles, fetchRoleById, updateRole } from "./role-action"
 export { createShipping, deleteShipping, fetchAllShippings, fetchShippingById, updateShipping } from "./shipping-action"
 export { createStaff, deleteStaff, fetchAllStaff, fetchStaffById, updateStaff } from "./staff-action"

@@ -15,7 +15,6 @@ type Props = {
 }
 
 const RenderCellReview = ({ columnKey, review }: Props) => {
-  console.log(review)
   const [showPopover, setShowPopover] = useState(false)
 
   const { execute, status } = useAction(deleteReview, {
@@ -41,11 +40,11 @@ const RenderCellReview = ({ columnKey, review }: Props) => {
       return (
         <p>
           <span>By </span>
-          {/* <span className='font-semibold'>{(review.customer as IUser).name}</span> */}
+          <span className='font-semibold'>{(review.customer as IUser).name}</span>
         </p>
       )
     case "product.name":
-    // return (review.product as IProduct).name
+      return (review.product as IProduct).name
     case "assets":
       return review.assets.length + " images"
     case "createdAt":

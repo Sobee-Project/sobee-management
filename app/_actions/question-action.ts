@@ -8,14 +8,14 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-export const fetchAllQuestions = async () => {
+export const fetchAllQuestions = async (query?: any) => {
   const res = await FETCH.get<IQuestion[]>(API_ROUTES.QUESTION.GET_QUESTIONS, {
     next: {
       tags: [CACHE_KEY.QUESTION.GET_ALL]
     },
-    cookies
+    cookies,
+    params: query
   })
-  if (!res.success) redirect("/" + res.statusCode)
   return res
 }
 

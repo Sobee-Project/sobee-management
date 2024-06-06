@@ -88,7 +88,8 @@ export const API_ROUTES = {
     CREATE_REVIEW: "/review",
     GET_REVIEW: "/review/:id",
     UPDATE_REVIEW: "/review/:id",
-    DELETE_REVIEW: "/review/:id"
+    DELETE_REVIEW: "/review/:id",
+    GET_ANALYTICS: "/review/analytics"
   },
   CATEGORY: {
     GET_CATEGORIES: "/category",

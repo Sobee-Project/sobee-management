@@ -1,22 +1,26 @@
 import ReviewsRateItem from "./ReviewsRateItem"
 
-const data = [
-  { rate: 5, value: 2568 },
-  { rate: 4, value: 3568 },
-  { rate: 3, value: 1568 },
-  { rate: 2, value: 0 },
-  { rate: 1, value: 568 }
-]
 const getPercentage = (arr: any, value: any) => {
-  const total = arr.reduce((acc: any, item: any) => acc + item.value, 0)
+  const total = arr.reduce((acc: any, item: any) => acc + item.count, 0)
   return Math.round((value / total) * 100)
 }
 
-const ReviewsRate = () => {
+type Props = {
+  data: { rating: number; count: number }[]
+}
+
+const ReviewsRate = ({ data }: Props) => {
+  const fillLackDataRating = Array.from({ length: 5 }, (_, index) => {
+    const currData = data.find((item) => item.rating === index + 1)
+    return currData ? currData : { rating: index + 1, count: 0 }
+  })
+
+  console.log({ fillLackDataRating })
+
   return (
-    <div className='col-span-2 flex min-h-[182px] flex-col justify-between rounded-lg bg-background p-3 shadow-medium'>
-      {data.map((item, index) => (
-        <ReviewsRateItem key={index} rate={item.rate} value={getPercentage(data, item.value)} />
+    <div className='col-span-1 flex min-h-[182px] flex-col justify-between rounded-lg bg-background p-3 shadow-medium'>
+      {fillLackDataRating.map((item, index) => (
+        <ReviewsRateItem key={index} rate={item.rating} value={getPercentage(fillLackDataRating, item.count)} />
       ))}
     </div>
   )

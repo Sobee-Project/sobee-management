@@ -12,24 +12,19 @@ import { ProductColumnKey, productColumns } from "../_mock"
 import RenderCellProduct from "./RenderCellProduct"
 
 type Props = {
-  data: IProduct[]
-  paginationRes: IPaginate
   isDraft?: boolean
 }
 
-const ProductListData = ({ data, paginationRes: pagination, isDraft = false }: Props) => {
+const ProductListData = ({ isDraft = false }: Props) => {
   const router = useRouter()
 
-  const [products, setProducts] = useState(data)
-  const [paginationRes, setPaginationRes] = useState<IPaginate>(pagination)
+  const [products, setProducts] = useState<IProduct[]>([])
+  const [paginationRes, setPaginationRes] = useState<IPaginate>({
+    page: 1
+  })
   const [isFetching, setIsFetching] = useState(false)
   const [keyword, setKeyword] = useState("")
   const [debouncedKeyword] = useDebounce(keyword, 500)
-
-  useEffect(() => {
-    setProducts(data)
-    setPaginationRes(pagination)
-  }, [data, pagination])
 
   const handler = isDraft ? fetchDraftProducts : fetchPublishedProducts
 

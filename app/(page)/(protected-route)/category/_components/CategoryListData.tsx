@@ -10,25 +10,17 @@ import { useDebounce } from "use-debounce"
 import { categoryColumns } from "../_mock"
 import RenderCellCategory from "./RenderCellCategory"
 
-type Props = {
-  data: ICategory[]
-  paginationRes: IPaginate
-}
-
-const CategoryListData = ({ data, paginationRes: pagination }: Props) => {
+const CategoryListData = () => {
   const router = useRouter()
 
-  const [categories, setCategories] = useState(data)
-  const [paginationRes, setPaginationRes] = useState<IPaginate>(pagination)
+  const [categories, setCategories] = useState<ICategory[]>([])
+  const [paginationRes, setPaginationRes] = useState<IPaginate>({
+    page: 1
+  })
 
   const [isFetching, setIsFetching] = useState(false)
   const [keyword, setKeyword] = useState("")
   const [debouncedKeyword] = useDebounce(keyword, 500)
-
-  useEffect(() => {
-    setCategories(data)
-    setPaginationRes(pagination)
-  }, [data, pagination])
 
   const fetchNext = useCallback(async (page: number, query: any = {}) => {
     setIsFetching(true)

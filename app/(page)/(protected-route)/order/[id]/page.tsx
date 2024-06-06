@@ -8,7 +8,7 @@ import { redirect } from "next/navigation"
 import OrderItemList from "./_components/OrderItemList"
 import StatusTracking from "./_components/StatusTracking"
 
-const PageHeader = dynamic(() => import("../../_components/PageHeader"), {
+const PageHeader = dynamic(() => import("../../_components/PageHeader/PageHeader"), {
   ssr: false,
   loading: () => <Spinner />
 })

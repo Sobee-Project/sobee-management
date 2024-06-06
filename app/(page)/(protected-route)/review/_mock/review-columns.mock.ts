@@ -4,17 +4,11 @@ export type ReviewColumnKey =
   | "product.name"
   | "customer.name"
   | "rating"
-  | "title"
   | "content"
   | "assets"
   | "createdAt"
   | "actions"
 export const reviewColumn: ColumnType<ReviewColumnKey>[] = [
-  {
-    label: "Title",
-    key: "title",
-    allowSorting: true
-  },
   {
     label: "Content",
     key: "content"

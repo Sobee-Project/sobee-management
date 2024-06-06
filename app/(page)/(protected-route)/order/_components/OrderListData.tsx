@@ -10,25 +10,15 @@ import { useDebounce } from "use-debounce"
 import { orderColumns } from "../_mock"
 import RenderCellOrder from "./RenderCellOrder"
 
-type Props = {
-  data: IOrder[]
-  paginationRes: IPaginate
-}
-
-const OrderListData = ({ data, paginationRes: pagination }: Props) => {
-  const router = useRouter()
-
-  const [orders, setOrders] = useState(data)
-  const [paginationRes, setPaginationRes] = useState<IPaginate>(pagination)
+const OrderListData = () => {
+  const [orders, setOrders] = useState<IOrder[]>([])
+  const [paginationRes, setPaginationRes] = useState<IPaginate>({
+    page: 1
+  })
 
   const [isFetching, setIsFetching] = useState(false)
   const [keyword, setKeyword] = useState("")
   const [debouncedKeyword] = useDebounce(keyword, 500)
-
-  useEffect(() => {
-    setOrders(data)
-    setPaginationRes(pagination)
-  }, [data, pagination])
 
   const fetchNext = useCallback(async (page: number, query: any = {}) => {
     setIsFetching(true)

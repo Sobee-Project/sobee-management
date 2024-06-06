@@ -1,16 +1,20 @@
 import { fetchAllBrands } from "@/_actions"
 import { CACHE_KEY } from "@/_constants"
+import { Spinner } from "@nextui-org/react"
+import dynamic from "next/dynamic"
 import React from "react"
 import { PageHeader } from "../_components"
-import { BrandListData } from "./_components"
+
+const BrandListData = dynamic(() => import("./_components/BrandListData"), {
+  ssr: false,
+  loading: () => <Spinner />
+})
 
 const page = async () => {
-  const res = await fetchAllBrands()
-
   return (
     <div>
       <PageHeader title='All Brands' keyCache={CACHE_KEY.BRAND.GET_ALL} />
-      <BrandListData data={res.data!} paginationRes={res} />
+      <BrandListData />
     </div>
   )
 }
