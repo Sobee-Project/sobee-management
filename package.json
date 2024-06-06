@@ -30,6 +30,7 @@
         "react-file-icon": "^1.4.0",
         "react-hook-form": "^7.51.2",
         "react-hot-toast": "^2.4.1",
+        "react-to-pdf": "^1.0.1",
         "sharp": "^0.33.3",
         "tailwind-merge": "^2.2.2",
         "titleize": "^4.0.0",

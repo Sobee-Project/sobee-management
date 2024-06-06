@@ -149,6 +149,7 @@ export const API_ROUTES = {
   ORDER: {
     GET_ALL: "/order",
     GET_ORDER: "/order/:id",
-    UPDATE: "/order/:id"
+    UPDATE: "/order/:id",
+    UPDATE_STATUS: "/order/:id/status"
   }
 }
