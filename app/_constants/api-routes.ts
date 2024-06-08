@@ -152,5 +152,11 @@ export const API_ROUTES = {
     GET_ORDER: "/order/:id",
     UPDATE: "/order/:id",
     UPDATE_STATUS: "/order/:id/status"
+  },
+  ANALYTICS: {
+    GET_ANALYSTICS: "/analytics",
+    GET_SUMMARY: "/analytics/summary",
+    GET_TOTAL_ORDER_BY_STATUS: "/analytics/total-order-by-status",
+    GET_ORDER_ANALYTICS: "/analytics/order-analytics"
   }
 }

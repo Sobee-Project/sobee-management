@@ -9,7 +9,12 @@ export const commaFormatter = (num: number) => {
  * @returns {*|string} formatted number
  * @description This function formats a number to a more readable format
  */
-export const numFormatter = (num: number, fractionDigits: number = 0, prefix: string = "", postfix: string = "") => {
+export const numFormatter = (
+  num: number,
+  fractionDigits: number = 0,
+  prefix: string = "",
+  postfix: string = ""
+): any | string => {
   const options = {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits

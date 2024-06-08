@@ -11,9 +11,10 @@ type Props = {
   duration?: number
   className?: ClassValue
   suffix?: string
+  prefix?: string
 }
 
-const SpringsNumber = ({ from = 0, to, speed = 0.02, duration = 1, className, suffix }: Props) => {
+const SpringsNumber = ({ from = 0, to, speed = 0.02, duration = 1, className, prefix, suffix }: Props) => {
   const [displayedValue, setDisplayedValue] = useState<number>(from)
   const nodeRef = useRef<HTMLParagraphElement>(null)
 
@@ -52,7 +53,7 @@ const SpringsNumber = ({ from = 0, to, speed = 0.02, duration = 1, className, su
       transition={{ duration }}
       className={cn("text-2xl font-semibold", className)}
     >
-      {displayedValue + (suffix ? suffix : "")}
+      {(prefix ? prefix : "") + displayedValue + (suffix ? suffix : "")}
     </motion.p>
   )
 }

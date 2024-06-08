@@ -1,3 +1,4 @@
+export { fetchSummaryAnalytics } from "./analytics-action"
 export { getAssetsByType } from "./asset-action"
 export { changePassword, getCurrentUser, login, logout } from "./auth-action"
 export { createBrand, deleteBrand, fetchAllBrands, fetchBrandById, updateBrand } from "./brand-action"
