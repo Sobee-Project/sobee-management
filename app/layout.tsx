@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { CookiesProvider } from "next-client-cookies/server"
 import { Poppins } from "next/font/google"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "./globals.css"
@@ -20,10 +21,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning={true}>
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <CookiesProvider>
+      <html lang='en'>
+        <body className={inter.className}>
+          <Providers>{children}</Providers>
+        </body>
+      </html>
+    </CookiesProvider>
   )
 }

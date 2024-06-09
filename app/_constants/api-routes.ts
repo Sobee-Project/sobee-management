@@ -158,5 +158,9 @@ export const API_ROUTES = {
     GET_SUMMARY: "/analytics/summary",
     GET_TOTAL_ORDER_BY_STATUS: "/analytics/total-order-by-status",
     GET_ORDER_ANALYTICS: "/analytics/order-analytics"
+  },
+  CHAT: {
+    CREATE_ROOM: "/chat-room",
+    GET_ROOM: "/chat-room/:id"
   }
 }

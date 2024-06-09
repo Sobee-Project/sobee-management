@@ -52,8 +52,8 @@ export const APP_ROUTES = {
   },
   TRANSACTIONS: "/transaction",
   CONTACT: {
-    INDEX: "/contact",
-    ID: "/contact/:id"
+    INDEX: "/chat",
+    ID: "/chat/:id"
   },
   REFUNDS: {
     INDEX: "/refund",
@@ -140,7 +140,11 @@ export const APP_ROUTES = {
     PAYMENT: "/setting/payment",
     MAINTAINANCE: "/setting/maintainance"
   },
-  PROFILE: "/profile"
+  PROFILE: "/profile",
+  CHAT: {
+    INDEX: "/chat",
+    ID: "/chat/:id"
+  }
 }
 
 export const CUSTOMER_ROUTES = {

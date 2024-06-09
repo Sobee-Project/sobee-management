@@ -9,6 +9,7 @@ export {
   fetchCategoryById,
   updateCategory
 } from "./category-action"
+export { createRoom, fetchRoomById } from "./chat-action"
 export { uploadFile, uploadUrl } from "./cloudinary-action"
 export {
   activeCoupon,

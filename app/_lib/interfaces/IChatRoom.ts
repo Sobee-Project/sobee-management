@@ -1,12 +1,25 @@
 import { IChatMessage } from "./IChatMessage"
+import { IOrder } from "./IOrder"
+import { IProduct } from "./IProduct"
 import { IUser } from "./IUser"
 
 export interface IChatRoom {
   _id?: string
-  messages?: string[] | IChatMessage[]
+  messages: IChatMessage[]
   title: string
-  createdBy?: string | IUser
-  users?: string[] | IUser[]
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  order?: string | IOrder
+  product?: string | IProduct
+  createdBy: string | IUser
+  lastMessage?: IChatMessage
+  isHaveNew?: boolean
+  staff: {
+    user: string | IUser
+    isDeleted: boolean
+  }
+  customer: {
+    user: string | IUser
+    isDeleted: boolean
+  }
+  createdAt?: string
+  updatedAt?: string
 }
