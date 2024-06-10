@@ -20,6 +20,7 @@ export const useChatRoomSocket = () => {
     socket.emit(SOCKET_CLIENT_MESSAGE.VIEW_LIST_ROOM_CHAT)
 
     socket.on(SOCKET_SERVER_MESSAGE.LIST_ROOM_CHAT_RESULT, (res: SucccessResponse<IChatRoom[]>) => {
+      console.log("list room", res)
       setData(res.data)
       setIsLoading(false)
     })
