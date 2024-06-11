@@ -39,6 +39,7 @@ type Settings = {
   rowKeyPattern?: string
   searchPlaceholder?: string
   showPagination?: boolean
+  showExport?: boolean
 }
 
 type Pagination = {
@@ -88,7 +89,8 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
     createText = "Create",
     pagination = { page: 1, total: 10, onChangePage: () => {} } as Pagination,
     showPagination = true,
-    search
+    search,
+    showExport = true
   } = props
   const { page, total, onChangePage } = pagination
   const { keyword, onChangeKeyword } = search ?? ({} as Search)
@@ -230,7 +232,7 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
           </Popover>
         )}
 
-        {dataSource.length > 0 && (
+        {dataSource.length > 0 && showExport && (
           <CSVLink
             filename={csvFileName?.includes(".csv") ? csvFileName : csvFileName + ".csv"}
             data={(csvData ?? dataSource) as any}
@@ -254,19 +256,22 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
       </div>
     )
   }, [
-    columns,
-    createText,
-    csvData,
-    csvFileName,
-    dataSource,
-    onCreate,
-    onDelete,
-    onSearch,
-    keyword,
     searchPlaceholder,
+    onSearch,
+    search,
+    keyword,
+    searchLocal,
     selectedRowKeys.length,
     showCreate,
-    showPopover
+    onCreate,
+    createText,
+    showPopover,
+    onDelete,
+    dataSource,
+    showExport,
+    csvFileName,
+    csvData,
+    columns
   ])
 
   return (
@@ -274,11 +279,11 @@ const CustomTable = <T = any,>(props: CustomTableProps<T>) => {
       isStriped
       {...props}
       selectionMode={showCheckbox ? "multiple" : "none"}
-      topContent={renderTopContent()}
+      topContent={props.topContent ? props.topContent : renderTopContent()}
       topContentPlacement='outside'
-      onSelectionChange={onSelectChange}
+      onSelectionChange={props.onSelectionChange ? props.onSelectionChange : onSelectChange}
       //@ts-ignore
-      selectedKeys={selectedRowKeys}
+      selectedKeys={props.selectedKeys ? props.selectedKeys : selectedRowKeys}
       sortDescriptor={sortDescriptor}
       onSortChange={onSortChange}
       bottomContent={

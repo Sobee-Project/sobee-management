@@ -1,7 +1,7 @@
 "use client"
-import { createCoupon, updateCoupon } from "@/_actions"
-import { ScreenLoader } from "@/_components"
-import { APP_ROUTES, DEFAULT_COUPON_IMAGE } from "@/_constants"
+import { createCoupon, fetchPublishedProducts, updateCoupon } from "@/_actions"
+import { CustomTable, ScreenLoader } from "@/_components"
+import { APP_ROUTES, DEFAULT_COUPON_IMAGE, DEFAULT_IMAGE } from "@/_constants"
 import { ECouponApplyType, ECouponType } from "@/_lib/enums"
 import {
   CreateCouponFormSchema,
@@ -9,17 +9,21 @@ import {
   createCouponFormSchema,
   updateCouponFormSchema
 } from "@/_lib/form-schema"
-import { ICoupon } from "@/_lib/interfaces"
+import { ICategory, ICoupon, IPaginate, IProduct } from "@/_lib/interfaces"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Divider, Input, Radio, RadioGroup } from "@nextui-org/react"
+import { Button, Divider, Input, Radio, RadioGroup, Selection, Spinner } from "@nextui-org/react"
 import { format } from "date-fns"
+import { Search } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
-import { useState } from "react"
+import { Key, useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
+import { useDebounce } from "use-debounce"
+import { ProductColumnKey, productColumns } from "../_mock"
+import RenderCellProduct from "./RenderCellProduct"
 const CloudinaryPlugin = dynamic(() => import("@/_plugins").then((r) => r.CloudinaryPlugin), {
   ssr: false,
   loading: () => <ScreenLoader />
@@ -35,6 +39,29 @@ const CouponForm = ({ type = "new", data }: Props) => {
   const [showPlugin, setShowPlugin] = useState(false)
   const router = useRouter()
   const params = useParams()
+
+  const [products, setProducts] = useState<IProduct[]>([])
+  const [paginationRes, setPaginationRes] = useState<IPaginate>({
+    page: 1
+  })
+  const [isFetching, setIsFetching] = useState(false)
+  const [keyword, setKeyword] = useState("")
+  const [debouncedKeyword] = useDebounce(keyword, 500)
+  const [selectedKeys, setSelectedKeys] = useState<Key[]>([])
+
+  const fetchNext = useCallback(async (page: number, query: any = {}) => {
+    setIsFetching(true)
+    const res = await fetchPublishedProducts({ page, ...query })
+    if (res.success) {
+      setProducts(res.data!)
+      setPaginationRes(res)
+    }
+    setIsFetching(false)
+  }, [])
+
+  const onChangeKeyword = (keyword: string) => {
+    setKeyword(keyword)
+  }
 
   const {
     setValue,
@@ -62,6 +89,19 @@ const CouponForm = ({ type = "new", data }: Props) => {
         }
   })
 
+  useEffect(() => {
+    setValue(
+      "productApply",
+      selectedKeys.map((key) => key as string)
+    )
+  }, [selectedKeys, setValue])
+
+  useEffect(() => {
+    if (data?.productApply) {
+      setSelectedKeys(data.productApply as Key[])
+    }
+  }, [data?.productApply])
+
   const { execute, status } = useAction(isEdit ? updateCoupon : createCoupon, {
     onSuccess: ({ data }) => {
       if (data.success) {
@@ -79,6 +119,21 @@ const CouponForm = ({ type = "new", data }: Props) => {
     const _data = isEdit ? ({ ...data, _id: params.id } as UpdateCouponFormSchema) : (data as CreateCouponFormSchema)
     execute(_data)
   }
+
+  const onSelectChange = useCallback(
+    (selectedRowKeys: Selection) => {
+      if (selectedRowKeys === "all") {
+        setSelectedKeys(products.map((item: IProduct) => item._id!))
+        return
+      }
+      setSelectedKeys(Array.from(selectedRowKeys))
+    },
+    [products]
+  )
+
+  useEffect(() => {
+    fetchNext(1, { keyword: debouncedKeyword })
+  }, [debouncedKeyword, fetchNext])
 
   return (
     <div className='flex flex-wrap gap-8'>
@@ -212,6 +267,76 @@ const CouponForm = ({ type = "new", data }: Props) => {
           </RadioGroup>
 
           <Divider />
+          {selectedKeys.length > 0 &&
+            products
+              .filter((v) => selectedKeys.includes(v._id!))
+              .map((product) => {
+                const category = product.category as ICategory
+                return (
+                  <div
+                    key={product._id}
+                    className='flex items-center justify-between rounded-md border border-foreground-300 p-2'
+                  >
+                    <div className='flex gap-2'>
+                      <Image
+                        src={product.thumbnail || DEFAULT_IMAGE}
+                        alt={product.name}
+                        width={50}
+                        height={50}
+                        className='hidden overflow-hidden bg-white object-contain md:block'
+                      />
+                      <div>
+                        <p className='line-clamp-1'>{product.name}</p>
+                        <p className='line-clamp-1 text-sm text-slate-500'>{category.name}</p>
+                      </div>
+                    </div>
+                    <Button
+                      color='danger'
+                      variant='bordered'
+                      onClick={() => setSelectedKeys(selectedKeys.filter((key) => key !== product._id))}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                )
+              })}
+          {selectedKeys.length > 0 && <Divider />}
+          {watch("applyTo") === ECouponApplyType.SPECIFIC && (
+            <CustomTable
+              RenderCell={(product, columnKey) => <RenderCellProduct product={product} columnKey={columnKey} />}
+              columns={productColumns}
+              dataSource={products}
+              searchKeys={["name"] as ProductColumnKey[]}
+              searchPlaceholder='Search products...'
+              bodyProps={{
+                emptyContent: "No products found",
+                isLoading: isFetching,
+                loadingContent: <Spinner />
+              }}
+              onSelectionChange={onSelectChange}
+              //@ts-ignore
+              selectedKeys={selectedKeys}
+              topContent={
+                <div className='flex space-x-2'>
+                  <Input
+                    className='flex-1'
+                    placeholder='Search products...'
+                    variant='bordered'
+                    endContent={<Search size={20} />}
+                    onValueChange={onChangeKeyword}
+                    value={keyword}
+                  />
+                </div>
+              }
+              pagination={{
+                page: paginationRes.page,
+                total: paginationRes.total,
+                onChangePage: fetchNext
+              }}
+              showExport={false}
+              showCreate={false}
+            />
+          )}
           <div className='flex flex-wrap gap-2'>
             <Button type='submit' variant='solid' color='primary' isDisabled={isLoading} isLoading={isLoading}>
               {isLoading ? "Saving..." : "Save"}

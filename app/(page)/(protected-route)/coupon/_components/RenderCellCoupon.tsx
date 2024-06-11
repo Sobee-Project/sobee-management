@@ -5,11 +5,12 @@ import { APP_ROUTES } from "@/_constants"
 import { commaFormatter } from "@/_lib/_utils"
 import { ECouponStatus, ECouponType } from "@/_lib/enums"
 import { ICoupon } from "@/_lib/interfaces"
-import { Button, Chip, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { Button, Chip, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { format, formatDistanceToNow } from "date-fns"
 import { SquarePen, Trash2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Image from "next/image"
+import Link from "next/link"
 import { Key, useState } from "react"
 import toast from "react-hot-toast"
 import { CouponColumnKey } from "../_mock"
@@ -55,7 +56,7 @@ const RenderCellCoupon = ({ coupon, columnKey }: Props) => {
     case "discountValue":
       switch (coupon.type) {
         case ECouponType.PERCENTAGE:
-          return `${coupon.discountValue}%`
+          return `${coupon.discountValue * 100}%`
         case ECouponType.FIXED:
           return `${commaFormatter(coupon.discountValue)}`
         default:
