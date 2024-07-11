@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sobee Management
 
-## Getting Started
+### Table of Contents
 
-First, run the development server:
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Work Assignment](#work-assignment)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Contributing](#contributing)
+7. [License](#license)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Project Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sobee Management is the admin panel for the Sobee e-commerce platform.The platform is built using NextJs, TailwindCss, and Next UI. It allows administrators to manage products, orders, customers, staff, and provides a dashboard for business analytics. This project is part of the Sobee system, which includes the backend, customer frontend, recommendation system, and mobile app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Product Management**
+  - Add, edit, delete, and categorize products.
+  - Manage product details such as name, price, category, brand, and description.
+  - Upload and manage product images.
+- **Order Management**
 
-## Learn More
+  - View and manage all orders in the system.
+  - Update order status and details.
+  - Handle order cancellations and returns.
 
-To learn more about Next.js, take a look at the following resources:
+- **Customer Management**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  - View and manage customer information.
+  - Edit, block, or delete customer accounts.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Staff Management**
 
-## Deploy on Vercel
+  - Manage staff accounts and permissions.
+  - Add, edit, or remove staff members.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Category Management**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  - Create, edit, and delete product categories.
+  - Organize products into categories for better navigation.
+
+- **Recommendation System**
+  - Integrate with the recommendation system to provide personalized product recommendations based on user behavior and purchase history.
+- **Analytics and Reporting**
+  - View sales and performance statistics.
+  - Generate reports on sales, inventory, and customer behavior.
+
+### Work Assignment
+
+| Team Member    | Work Assignment                                                                                                                                                                                    |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trần Tuấn Kiệt | Developed product management, integrated recommendation system, Handled staff management, Worked on category management, assisted in UX/UI design and frontend development                         |
+| Lê Văn Duy     | Implemented order and customer management, created analytics dashboard , Worked on category management, assisted in UX/UI design and frontend development, set up project infrastructure and CI/CD |
+
+### Installation
+
+1. **Clone the repository**
+
+   ```sh
+   git clone https://github.com/Sobee-Project/sobee-management.git
+   cd sobee-management
+   ```
+
+2. **Install dependencies**
+
+   ```sh
+   npm install
+   ```
+
+3. **Setup environment variables**
+
+   - Create a `.env` file in the root directory.
+   - Add the necessary environment variables as specified in `.env.example`.
+
+4. **Start the development server**
+   ```sh
+   npm run dev
+   ```
+
+### Usage
+
+1. **Access the application**
+
+   - Open your browser and navigate to `http://localhost:3000`.
+
+2. **Login as admin**
+
+   - Use the admin credentials to log in and access the admin dashboard.
+
+3. **Manage the platform**
+   - Utilize the various management features to handle products, orders, customers, and staff.
+
+### Contributing
+
+1. **Fork the repository**
+
+   - Create your own fork of the repository by clicking the "Fork" button on GitHub.
+
+2. **Create a new branch**
+
+   - Create a new branch for your feature or bug fix.
+     ```sh
+     git checkout -b feature/your-feature-name
+     ```
+
+3. **Commit your changes**
+
+   - Commit your changes with a meaningful commit message.
+     ```sh
+     git commit -m "Add feature: your feature description"
+     ```
+
+4. **Push to the branch**
+
+   - Push your changes to your fork.
+     ```sh
+     git push origin feature/your-feature-name
+     ```
+
+5. **Create a Pull Request**
+   - Open a pull request to the main repository.
+
+### License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
