@@ -1,1 +1,0 @@
-export * from "./shippingColumns.mock"

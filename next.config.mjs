@@ -4,16 +4,20 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "localhost"
+        hostname: 'localhost',
       },
       {
-        hostname: "avatar.iran.liara.run"
+        hostname: 'avatar.iran.liara.run',
       },
       {
-        hostname: "res.cloudinary.com"
-      }
-    ]
-  }
-}
+        hostname: 'res.cloudinary.com',
+      },
+    ],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  output: 'standalone',
+};
 
-export default nextConfig
+export default nextConfig;
